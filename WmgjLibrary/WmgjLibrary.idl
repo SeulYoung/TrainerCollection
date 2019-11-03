@@ -1,0 +1,10 @@
+﻿// WmgjLibrary.idl: WmgjLibrary.dll 的类型库源
+// 此文件将由 MIDL 编译器处理以产生
+// 类型库(WmgjLibrary.tlb)。
+
+[ uuid(28892970-c545-4adc-8d93-0d19668bd6f1), version(1.0) ]
+library WmgjLibrary
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+};
