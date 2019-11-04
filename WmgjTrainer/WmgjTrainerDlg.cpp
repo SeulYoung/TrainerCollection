@@ -63,6 +63,17 @@ void CWmgjTrainerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LST_GameProcInfo, gameProcInfo);
 }
 
+BEGIN_MESSAGE_MAP(CWmgjTrainerDlg, CDialogEx)
+	ON_WM_SYSCOMMAND()
+	ON_WM_PAINT()
+	ON_WM_QUERYDRAGICON()
+	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BTN_RunTrainer, &CWmgjTrainerDlg::OnBnClickedBtnRunTrainer)
+	ON_BN_CLICKED(IDC_BTN_ExitTrainer, &CWmgjTrainerDlg::OnBnClickedBtnExitTrainer)
+	ON_MESSAGE(MSG_ICON_NOTIFY, &CWmgjTrainerDlg::OnMsgIconNotify)
+END_MESSAGE_MAP()
+
+
 CString CWmgjTrainerDlg::getAppPath()
 {
 	WCHAR path[MAX_PATH];
@@ -184,16 +195,6 @@ void CWmgjTrainerDlg::getTrainerWndList(std::vector<TrainerWndInfo>& trainerWndI
 		hWnd = ::GetNextWindow(hWnd, GW_HWNDNEXT);
 	}
 }
-
-BEGIN_MESSAGE_MAP(CWmgjTrainerDlg, CDialogEx)
-	ON_WM_SYSCOMMAND()
-	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
-	ON_WM_TIMER()
-	ON_BN_CLICKED(IDC_BTN_RunTrainer, &CWmgjTrainerDlg::OnBnClickedBtnRunTrainer)
-	ON_BN_CLICKED(IDC_BTN_ExitTrainer, &CWmgjTrainerDlg::OnBnClickedBtnExitTrainer)
-	ON_MESSAGE(MSG_ICON_NOTIFY, &CWmgjTrainerDlg::OnMsgIconNotify)
-END_MESSAGE_MAP()
 
 
 // CWmgjTrainerDlg 消息处理程序

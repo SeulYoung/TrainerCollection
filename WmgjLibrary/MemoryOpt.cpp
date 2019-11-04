@@ -19,19 +19,19 @@ bool MemoryOpt::readMemory(PVOID buf, int size)
 	return ReadProcessMemory(hProcess, base, buf, size, &temp);
 }
 
-bool MemoryOpt::readOffsetMemory(int offset[], int size, PVOID buf, int count)
+bool MemoryOpt::readOffsetMemory(int offset[], int count, PVOID buf, int size)
 {
 	PVOID baseAddr = base;
 	DWORD addr;
 	DWORD temp;
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < count; i++)
 	{
 		if (!ReadProcessMemory(hProcess, baseAddr, &addr, 4, &temp))
 			return false;
 		baseAddr = (PVOID)(addr + offset[i]);
 	}
-	return ReadProcessMemory(hProcess, baseAddr, buf, count, &temp);
+	return ReadProcessMemory(hProcess, baseAddr, buf, size, &temp);
 }
 
 bool MemoryOpt::writeMemory(PVOID buf, int size)
@@ -40,17 +40,17 @@ bool MemoryOpt::writeMemory(PVOID buf, int size)
 	return WriteProcessMemory(hProcess, base, buf, size, &temp);
 }
 
-bool MemoryOpt::writeOffsetMemory(int offset[], int size, PVOID buf, int count)
+bool MemoryOpt::writeOffsetMemory(int offset[], int count, PVOID buf, int size)
 {
 	PVOID baseAddr = base;
 	DWORD addr;
 	DWORD temp;
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < count; i++)
 	{
 		if (!ReadProcessMemory(hProcess, baseAddr, &addr, 4, &temp))
 			return false;
 		baseAddr = (PVOID)(addr + offset[i]);
 	}
-	return WriteProcessMemory(hProcess, baseAddr, buf, count, &temp);
+	return WriteProcessMemory(hProcess, baseAddr, buf, size, &temp);
 }

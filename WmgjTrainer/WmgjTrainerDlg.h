@@ -27,7 +27,11 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
+
+	DECLARE_MESSAGE_MAP()
+
 	// 自定义函数
+public:
 	CString getAppPath();
 	void getProcessIdList(CString name, std::vector<DWORD>& procIdList);
 	bool injectModle(HANDLE hProcess, CString dllName, bool isInject);
@@ -44,7 +48,6 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
-	DECLARE_MESSAGE_MAP()
 	virtual void OnOK();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedBtnRunTrainer();

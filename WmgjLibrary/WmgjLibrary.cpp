@@ -47,6 +47,7 @@ CWmgjLibraryApp::CWmgjLibraryApp()
 {
 	// TODO:  在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
+	hThread = NULL;
 }
 
 
@@ -72,7 +73,7 @@ BOOL CWmgjLibraryApp::InitInstance()
 {
 	CWinApp::InitInstance();
 
-	::CreateThread(NULL, 0, ShowMainDlg, NULL, 0, NULL);
+	hThread = ::CreateThread(NULL, 0, ShowMainDlg, NULL, 0, NULL);
 
 	// 将所有 OLE 服务器(工厂)注册为运行。  这将使
 	//  OLE 库得以从其他应用程序创建对象。
@@ -84,6 +85,9 @@ BOOL CWmgjLibraryApp::InitInstance()
 int CWmgjLibraryApp::ExitInstance()
 {
 	MessageBox(NULL, _T("辅助模块卸载成功"), NULL, 0);
+	SendMessage(GlobalInfo::getGlobalInfoInstance()->getHWndDllMain(), WM_CLOSE, 0, 0);
+	//WaitForSingleObject(hThread, INFINITE);
+
 	return 0;
 }
 

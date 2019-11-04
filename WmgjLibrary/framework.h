@@ -33,3 +33,4 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include "DataDef.h"
+#include "GlobalInfo.h"
