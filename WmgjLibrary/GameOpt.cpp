@@ -2,10 +2,7 @@
 #include "GameOpt.h"
 #include "MemoryOpt.h"
 
-GameOpt::GameOpt()
-{
-	gameOptInstance = NULL;
-}
+GameOpt* GameOpt::gameOptInstance = NULL;
 
 GameOpt::~GameOpt()
 {
@@ -24,7 +21,8 @@ void GameOpt::getRole(RoleInfo& info)
 {
 	ZeroMemory(&info, sizeof(RoleInfo));
 
-	int offset[OFFSET];
-	for (int i = 0; i < OFFSET; i++)
-		offset[i] = BASE_OFFSET1;
+	int offset[OFFSET] = { BASE_OFFSET1, BASE_OFFSET2, BASE_OFFSET3, BASE_OFFSET4, BASE_OFFSET5 };
+
+
+
 }

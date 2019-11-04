@@ -20,7 +20,6 @@ class GameOpt
 private:
 	static GameOpt* gameOptInstance;
 
-	GameOpt();
 	~GameOpt();
 
 public:
