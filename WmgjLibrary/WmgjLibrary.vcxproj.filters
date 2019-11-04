@@ -24,6 +24,12 @@
     <ClCompile Include="DllMainDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GameOpt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryOpt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="WmgjLibrary.def">
@@ -50,6 +56,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DllMainDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOpt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryOpt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DataDef.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

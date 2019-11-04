@@ -1,0 +1,13 @@
+#pragma once
+
+constexpr auto BASE_ADDRESS = 0x0F037C4;
+
+enum
+{
+	OFFSET = 5,
+	BASE_OFFSET1 = 0x1C,
+	BASE_OFFSET2 = 0x1C,
+	BASE_OFFSET3 = 0x1C,
+	BASE_OFFSET4 = 0x8,
+	BASE_OFFSET5 = 0x34
+};
