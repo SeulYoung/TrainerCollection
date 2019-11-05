@@ -84,9 +84,10 @@ BOOL CWmgjLibraryApp::InitInstance()
 
 int CWmgjLibraryApp::ExitInstance()
 {
-	MessageBox(NULL, _T("辅助模块卸载成功"), NULL, 0);
 	SendMessage(GlobalInfo::getGlobalInfoInstance()->getHWndDllMain(), WM_CLOSE, 0, 0);
-	//WaitForSingleObject(hThread, INFINITE);
+	TerminateThread(hThread, 0);
+	WaitForSingleObject(hThread, INFINITE);
+	MessageBox(NULL, _T("辅助模块卸载成功"), NULL, 0);
 
 	return 0;
 }

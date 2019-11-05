@@ -28,6 +28,7 @@ void DllMainDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(DllMainDlg, CDialogEx)
+	ON_MESSAGE(WM_MY_EVENT_NOTIFY, &DllMainDlg::OnMyEventNotify)
 END_MESSAGE_MAP()
 
 
@@ -39,9 +40,14 @@ BOOL DllMainDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
-	
 	GlobalInfo::getGlobalInfoInstance()->setHWndDllMain(this->GetSafeHwnd());
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
+}
+
+LRESULT DllMainDlg::OnMyEventNotify(WPARAM wParam, LPARAM lParam)
+{
+
+	return 0;
 }
