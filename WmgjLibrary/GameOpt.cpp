@@ -22,14 +22,14 @@ void GameOpt::getRole(RoleInfo& info)
 	ZeroMemory(&info, sizeof(RoleInfo));
 	int offset[] = { BASE_OFFSET1, BASE_OFFSET2, BASE_OFFSET3, BASE_OFFSET4, BASE_OFFSET5 };
 
-	MemoryOpt memOpt(GlobalInfo::getGlobalInfoInstance()->getProcessHandle(), BASE_ADDRESS, offset, OFFSET);
+	MemoryOpt memOpt(GlobalInfo::getGlobalInfoInstance()->getProcessHandle(), BASE_ADDRESS, offset, COUNT);
 	int roleOffset[2];
 
 	roleOffset[0] = NAME_OFFSET;
 	roleOffset[1] = 0;
-	char buf[32] = { 0 };
-	memOpt.readOffsetMemory(roleOffset, 2, buf, sizeof(buf));
-	WideCharToMultiByte(CP_ACP, 0, (LPCWCH)buf, -1, info.name, sizeof(buf), NULL, NULL);
+	char nameBuf[32] = { 0 };
+	memOpt.readOffsetMemory(roleOffset, 2, nameBuf, sizeof(nameBuf));
+	WideCharToMultiByte(CP_ACP, 0, (LPCWCH)nameBuf, -1, info.name, sizeof(nameBuf), NULL, NULL);
 
 	roleOffset[0] = LEVEL_OFFSET;
 	memOpt.readOffsetMemory(roleOffset, 1, &info.level, sizeof(info.level));
@@ -60,5 +60,49 @@ void GameOpt::getRole(RoleInfo& info)
 
 	roleOffset[0] = POS_Z_OFFSET;
 	memOpt.readOffsetMemory(roleOffset, 1, &info.posZ, sizeof(info.posZ));
+
+}
+
+void GameOpt::getSkills(VEC_SKILL& skills)
+{
+	skills.clear();
+	int offset[] = { 0x1C, 0x34, 0x00, 0x00 };
+	MemoryOpt memOpt(GlobalInfo::getGlobalInfoInstance()->getProcessHandle(), BASE_ADDRESS, offset, 4);
+
+	int count;
+	offset[2] = SKILL_OFFSET + 0x4;
+	memOpt.readOffsetMemory(offset, 3, &count, sizeof(count));
+	offset[2] = SKILL_OFFSET;
+	for (int i = 0; i < count; i++)
+	{
+		DWORD addr = 0;
+		offset[3] = i * 0x4;
+		memOpt.readOffsetMemory(offset, 4, &addr, sizeof(addr));
+		if (addr == 0)
+			continue;
+
+		SkillInfo skill;
+		MemoryOpt memInfo(GlobalInfo::getGlobalInfoInstance()->getProcessHandle(), BASE_ADDRESS, offset, 4);
+		int infoOffset[4] = { 0 };
+
+		infoOffset[0] = ID_OFFSET;
+		memInfo.readOffsetMemory(infoOffset, 1, &skill.id, sizeof(skill.id));
+
+		infoOffset[0] = NAME_OFFSET1;
+		infoOffset[1] = NAME_OFFSET2;
+		infoOffset[2] = NAME_OFFSET3;
+		infoOffset[3] = 0x0;
+		char nameBuf[32] = { 0 };
+		memInfo.readOffsetMemory(infoOffset, 4, nameBuf, sizeof(nameBuf));
+		WideCharToMultiByte(CP_ACP, 0, (LPCWCH)nameBuf, -1, skill.name, sizeof(nameBuf), NULL, NULL);
+
+		infoOffset[0] = CD_OFFSET;
+		memInfo.readOffsetMemory(infoOffset, 1, &skill.cd, sizeof(skill.cd));
+
+		infoOffset[0] = AVAILABLE_OFFSET;
+		memInfo.readOffsetMemory(infoOffset, 1, &skill.available, sizeof(skill.available));
+
+		skills.push_back(skill);
+	}
 
 }

@@ -15,6 +15,16 @@ typedef struct
 	int money;
 }RoleInfo;
 
+typedef struct
+{
+	int id;
+	char name[32];
+	int cd;
+	int available;		// 0表示技能可用
+}SkillInfo;
+
+typedef std::vector<SkillInfo> VEC_SKILL;
+
 class GameOpt
 {
 private:
@@ -25,5 +35,5 @@ private:
 public:
 	static GameOpt* getGameOptInstance();
 	void getRole(RoleInfo& info);
-
+	void getSkills(VEC_SKILL& skills);
 };
