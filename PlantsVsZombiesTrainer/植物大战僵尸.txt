@@ -1,0 +1,33 @@
+0044BA42 | 8B7E 04                  | MOV EDI,DWORD PTR DS:[ESI+4]                   | ESI:2C46B800 EDI:1FD44540
+0044BA45 | 0187 78550000            | ADD DWORD PTR DS:[EDI+5578],EAX                | 修改阳光
+0044BA4B | 8B87 78550000            | MOV EAX,DWORD PTR DS:[EDI+5578]                |
+
+种植1
+//00426389 - 8B 46 28  - mov eax,[esi+28]
+
+种植2
+004265BB - 8B 50 28  - mov edx,[eax+28]
+004265BE | 8B4424 14                | MOV EAX,DWORD PTR SS:[ESP+14]                  | 1（Y轴）
+004265C2 | 51                       | PUSH ECX                                       | -1
+004265C3 | 52                       | PUSH EDX                                       | 0（种类）
+{
+    0：豌豆射手
+    1：向日葵
+    2：樱桃炸弹
+    3：土豆墙
+}
+004265C4 | 53                       | PUSH EBX                                       | 2（X轴）
+004265C5 | 57                       | PUSH EDI                                       | [007794F8]+868
+004265C6 | E8 45C0FFFF              | CALL <plantsvszombies.sub_422610>              | 00422610
+
+00475373 | 8BBE 68080000            | MOV EDI,DWORD PTR DS:[ESI+868]                 | edi:"0Zr"==&"p贏", [esi+868]:"0Zr"==&"p贏"
+
+
+种植3
+00427F0A - 89 41 28  - mov [ecx+28],eax
+
+种植4
+004265F0 - 8B 41 24  - mov eax,[ecx+24]
+
+种植5
+00427F1C - 89 41 24  - mov [ecx+24],eax

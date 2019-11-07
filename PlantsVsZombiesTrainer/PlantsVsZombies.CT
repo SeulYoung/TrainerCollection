@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"植物call基址1"</Description>
+      <LastState Value="0263B2B8" RealAddress="007794F8"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+3794F8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"植物call基址2"</Description>
+      <LastState Value="0263B2B8" RealAddress="0077959C"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+37959C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"植物call基址3"</Description>
+      <LastState Value="0263B2B8" RealAddress="00779618"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+379618</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"植物call基址4"</Description>
+      <LastState Value="0263B2B8" RealAddress="00779670"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>PlantsVsZombies.exe+379670</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"3倍阳光"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : PlantsVsZombies.exe
+  Version: 
+  Date   : 2019-10-29
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(INJECT,PlantsVsZombies.exe,04 01 87 78 55 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+  cmp eax,0
+  jle code
+  imul eax,eax,3
+
+code:
+  add [edi+00005578],eax
+  jmp return
+
+INJECT+01:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT+01:
+  db 01 87 78 55 00 00
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "PlantsVsZombies.exe"+4BA45
+
+"PlantsVsZombies.exe"+4BA2B: 75 07                          -  jne PlantsVsZombies.exe+4BA34
+"PlantsVsZombies.exe"+4BA2D: B8 0F 00 00 00                 -  mov eax,0000000F
+"PlantsVsZombies.exe"+4BA32: EB 0E                          -  jmp PlantsVsZombies.exe+4BA42
+"PlantsVsZombies.exe"+4BA34: 33 C9                          -  xor ecx,ecx
+"PlantsVsZombies.exe"+4BA36: 83 F8 06                       -  cmp eax,06
+"PlantsVsZombies.exe"+4BA39: 0F 95 C1                       -  setne cl
+"PlantsVsZombies.exe"+4BA3C: 49                             -  dec ecx
+"PlantsVsZombies.exe"+4BA3D: 83 E1 32                       -  and ecx,32
+"PlantsVsZombies.exe"+4BA40: 8B C1                          -  mov eax,ecx
+"PlantsVsZombies.exe"+4BA42: 8B 7E 04                       -  mov edi,[esi+04]
+// ---------- INJECTING HERE ----------
+"PlantsVsZombies.exe"+4BA45: 01 87 78 55 00 00              -  add [edi+00005578],eax
+// ---------- DONE INJECTING  ----------
+"PlantsVsZombies.exe"+4BA4B: 8B 87 78 55 00 00              -  mov eax,[edi+00005578]
+"PlantsVsZombies.exe"+4BA51: 3D 06 27 00 00                 -  cmp eax,00002706
+"PlantsVsZombies.exe"+4BA56: 7E 0A                          -  jle PlantsVsZombies.exe+4BA62
+"PlantsVsZombies.exe"+4BA58: C7 87 78 55 00 00 06 27 00 00  -  mov [edi+00005578],00002706
+"PlantsVsZombies.exe"+4BA62: 81 BF 78 55 00 00 40 1F 00 00  -  cmp [edi+00005578],00001F40
+"PlantsVsZombies.exe"+4BA6C: 0F 8C A0 00 00 00              -  jl PlantsVsZombies.exe+4BB12
+"PlantsVsZombies.exe"+4BA72: 6A 0C                          -  push 0C
+"PlantsVsZombies.exe"+4BA74: E9 94 00 00 00                 -  jmp PlantsVsZombies.exe+4BB0D
+"PlantsVsZombies.exe"+4BA79: 83 F8 01                       -  cmp eax,01
+"PlantsVsZombies.exe"+4BA7C: 74 13                          -  je PlantsVsZombies.exe+4BA91
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"阳光指针"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : PlantsVsZombies.exe
+  Version: 
+  Date   : 2019-10-29
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(INJECT,PlantsVsZombies.exe,04 01 87 78 55 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+  mov [0083AFF0],edi
+
+code:
+  add [edi+00005578],eax
+  jmp return
+
+INJECT+01:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT+01:
+  db 01 87 78 55 00 00
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "PlantsVsZombies.exe"+4BA45
+
+"PlantsVsZombies.exe"+4BA2B: 75 07                          -  jne PlantsVsZombies.exe+4BA34
+"PlantsVsZombies.exe"+4BA2D: B8 0F 00 00 00                 -  mov eax,0000000F
+"PlantsVsZombies.exe"+4BA32: EB 0E                          -  jmp PlantsVsZombies.exe+4BA42
+"PlantsVsZombies.exe"+4BA34: 33 C9                          -  xor ecx,ecx
+"PlantsVsZombies.exe"+4BA36: 83 F8 06                       -  cmp eax,06
+"PlantsVsZombies.exe"+4BA39: 0F 95 C1                       -  setne cl
+"PlantsVsZombies.exe"+4BA3C: 49                             -  dec ecx
+"PlantsVsZombies.exe"+4BA3D: 83 E1 32                       -  and ecx,32
+"PlantsVsZombies.exe"+4BA40: 8B C1                          -  mov eax,ecx
+"PlantsVsZombies.exe"+4BA42: 8B 7E 04                       -  mov edi,[esi+04]
+// ---------- INJECTING HERE ----------
+"PlantsVsZombies.exe"+4BA45: 01 87 78 55 00 00              -  add [edi+00005578],eax
+// ---------- DONE INJECTING  ----------
+"PlantsVsZombies.exe"+4BA4B: 8B 87 78 55 00 00              -  mov eax,[edi+00005578]
+"PlantsVsZombies.exe"+4BA51: 3D 06 27 00 00                 -  cmp eax,00002706
+"PlantsVsZombies.exe"+4BA56: 7E 0A                          -  jle PlantsVsZombies.exe+4BA62
+"PlantsVsZombies.exe"+4BA58: C7 87 78 55 00 00 06 27 00 00  -  mov [edi+00005578],00002706
+"PlantsVsZombies.exe"+4BA62: 81 BF 78 55 00 00 40 1F 00 00  -  cmp [edi+00005578],00001F40
+"PlantsVsZombies.exe"+4BA6C: 0F 8C A0 00 00 00              -  jl PlantsVsZombies.exe+4BB12
+"PlantsVsZombies.exe"+4BA72: 6A 0C                          -  push 0C
+"PlantsVsZombies.exe"+4BA74: E9 94 00 00 00                 -  jmp PlantsVsZombies.exe+4BB0D
+"PlantsVsZombies.exe"+4BA79: 83 F8 01                       -  cmp eax,01
+"PlantsVsZombies.exe"+4BA7C: 74 13                          -  je PlantsVsZombies.exe+4BA91
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>7</ID>
+          <Description>"阳光"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>0083AFF0</Address>
+          <Offsets>
+            <Offset>5578</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"种植无CD"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : PlantsVsZombies.exe
+  Version: 
+  Date   : 2019-10-29
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(INJECT,PlantsVsZombies.exe,7E 12 8B C7 89 5F 24) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov eax,edi
+  mov [edi+24],ebx
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 2
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT:
+  db 7E 12 8B C7 89 5F 24
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "PlantsVsZombies.exe"+B2FF3
+
+"PlantsVsZombies.exe"+B2FD3: 39 99 80 55 00 00     -  cmp [ecx+00005580],ebx
+"PlantsVsZombies.exe"+B2FD9: 75 05                 -  jne PlantsVsZombies.exe+B2FE0
+"PlantsVsZombies.exe"+B2FDB: E8 C0 FE FF FF        -  call PlantsVsZombies.exe+B2EA0
+"PlantsVsZombies.exe"+B2FE0: 38 5F 48              -  cmp [edi+48],bl
+"PlantsVsZombies.exe"+B2FE3: 75 22                 -  jne PlantsVsZombies.exe+B3007
+"PlantsVsZombies.exe"+B2FE5: 38 5F 49              -  cmp [edi+49],bl
+"PlantsVsZombies.exe"+B2FE8: 74 1D                 -  je PlantsVsZombies.exe+B3007
+"PlantsVsZombies.exe"+B2FEA: FF 47 24              -  inc [edi+24]
+"PlantsVsZombies.exe"+B2FED: 8B 47 24              -  mov eax,[edi+24]
+"PlantsVsZombies.exe"+B2FF0: 3B 47 28              -  cmp eax,[edi+28]
+// ---------- INJECTING HERE ----------
+"PlantsVsZombies.exe"+B2FF3: 7E 12                 -  jle PlantsVsZombies.exe+B3007
+"PlantsVsZombies.exe"+B2FF5: 8B C7                 -  mov eax,edi
+"PlantsVsZombies.exe"+B2FF7: 89 5F 24              -  mov [edi+24],ebx
+// ---------- DONE INJECTING  ----------
+"PlantsVsZombies.exe"+B2FFA: 88 5F 49              -  mov [edi+49],bl
+"PlantsVsZombies.exe"+B2FFD: E8 EE 1C 00 00        -  call PlantsVsZombies.exe+B4CF0
+"PlantsVsZombies.exe"+B3002: E8 99 FE FF FF        -  call PlantsVsZombies.exe+B2EA0
+"PlantsVsZombies.exe"+B3007: 8B 47 3C              -  mov eax,[edi+3C]
+"PlantsVsZombies.exe"+B300A: 3B C3                 -  cmp eax,ebx
+"PlantsVsZombies.exe"+B300C: 0F 8E 92 00 00 00     -  jng PlantsVsZombies.exe+B30A4
+"PlantsVsZombies.exe"+B3012: D9 05 44 62 74 00     -  fld dword ptr [PlantsVsZombies.exe+346244]
+"PlantsVsZombies.exe"+B3018: 6A 01                 -  push 01
+"PlantsVsZombies.exe"+B301A: 83 EC 08              -  sub esp,08
+"PlantsVsZombies.exe"+B301D: D9 5C 24 04           -  fstp dword ptr [esp+04]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"种植植物"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+globalalloc(mythread_create,$1000)
+
+mythread_create:
+  pushad
+  push -1
+  push 0
+  push 0
+  mov eax,[0083AFF0]
+  test eax,eax
+  db 75 01
+  ret
+  push eax
+  mov eax,1
+  call 00422610
+  popad
+  ret
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+createthread(mythread_create)
+
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>替换了 cmp dword ptr [eax+30],08</Description>
+      <AddressString>PlantsVsZombies.exe+27CA9</AddressString>
+      <Before>
+        <Byte>86</Byte>
+        <Byte>50</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>83</Byte>
+        <Byte>78</Byte>
+        <Byte>30</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>75</Byte>
+        <Byte>4D</Byte>
+        <Byte>8B</Byte>
+        <Byte>4D</Byte>
+        <Byte>0C</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>替换了 cmp dword ptr [esi+30],01</Description>
+      <AddressString>PlantsVsZombies.exe+26375</AddressString>
+      <Before>
+        <Byte>B7</Byte>
+        <Byte>50</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>83</Byte>
+        <Byte>7E</Byte>
+        <Byte>30</Byte>
+        <Byte>01</Byte>
+      </Actual>
+      <After>
+        <Byte>75</Byte>
+        <Byte>29</Byte>
+        <Byte>8B</Byte>
+        <Byte>C7</Byte>
+        <Byte>E8</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>替换了 mov ecx,[eax+30]</Description>
+      <AddressString>PlantsVsZombies.exe+2650C</AddressString>
+      <Before>
+        <Byte>87</Byte>
+        <Byte>50</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>48</Byte>
+        <Byte>30</Byte>
+      </Actual>
+      <After>
+        <Byte>83</Byte>
+        <Byte>F9</Byte>
+        <Byte>03</Byte>
+        <Byte>75</Byte>
+        <Byte>32</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>替换了 mov [edx+30],ebx</Description>
+      <AddressString>PlantsVsZombies.exe+27F13</AddressString>
+      <Before>
+        <Byte>97</Byte>
+        <Byte>50</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>5A</Byte>
+        <Byte>30</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>8F</Byte>
+        <Byte>50</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>mythread_create</Name>
+      <Address>00880000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+</CheatTable>
