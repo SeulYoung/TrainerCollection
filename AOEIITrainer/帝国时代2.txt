@@ -1,0 +1,103 @@
+00555470 - D9 18                 - fstp dword ptr [eax] 建筑读取资源
+00457E9F - D9 19                 - fstp dword ptr [ecx] 训练消耗资源
+005CE61E - D9 56 30              - fst dword ptr [esi+30] 修改单位生命值
+0045189D - 89 96 8C080000        - mov [esi+0000088C],edx 扫描鼠标所选单位
+
+00437948  age2_x1.exe                          已禁用       call dword ptr ds:[eax+AC]                          0     5个参数-3
+00451880  age2_x1.exe                          已禁用       mov dword ptr ds:[esi+868],eax                      0     修改鼠标所选单位ID
+00456A61  age2_x1.exe                          已禁用       call <age2_x1.sub_556910>                           0     5个参数-2
+004632CF  age2_x1.exe                          已禁用       call <age2_x1.sub_4C0820>                           0     6个参数1
+004C0907  age2_x1.exe                          已禁用       call <age2_x1.sub_4C0C30>                           0     5个参数2
+004C0C6D  age2_x1.exe                          已禁用       call <age2_x1.sub_5CD990>                           0     5个参数3
+00556937  age2_x1.exe                          已禁用       call dword ptr ds:[edx+1C]                          0     4个参数-1
+00570273  age2_x1.exe                          已禁用       call <age2_x1.sub_5ED3B0>                           0     5个参数6
+005CD9EB  age2_x1.exe                          已禁用       call <age2_x1.sub_5FEB30>                           0     5个参数4
+005ED3CE  age2_x1.exe                          已禁用       call <age2_x1.sub_4CE4D0>                           0     5个参数7，参数变化暂时放弃
+005FEB4E  age2_x1.exe                          已禁用       call <age2_x1.sub_570250>                           0     5个参数5
+00617DA3  age2_x1.exe                          已禁用       mov ecx,dword ptr ss:[ebp-C]                        0     难以确认eax参数
+
+金币寻址：
+0051B9DF | 8B0D A0127900            | mov ecx,dword ptr ds:[7912A0]           | 007912A0:&"Plc"
+005E7560 | 8B81 24040000            | mov eax,dword ptr ds:[ecx+424]          | eax:"Dzc"==&"PGE"
+005E7585 | 8B50 4C                  | mov edx,dword ptr ds:[eax+4C]           | edx:&" |c"
+005E758B | 8B048A                   | mov eax,dword ptr ds:[edx+ecx*4]        | ecx=1
+00555460 | 8B81 A8000000            | mov eax,dword ptr ds:[ecx+A8]           |
+0055546D | 8D0490                   | lea eax,dword ptr ds:[eax+edx*4]        | edx=3
+[[[[[[7912A0]+424]+4C]+4]+A8]+C]
+
+鼠标所选单位ID寻址：
+基址1：[7861C8]=ebx
+基址2：[6B7190]=ebx
+0051E1D3 | 8B5C24 10                | mov ebx,dword ptr ss:[esp+10]           | [6B7190]=ebx
+0051E1D7 | 3BAB 7C100000            | cmp ebp,dword ptr ds:[ebx+107C]         | [ebx+107C]:"huc"
+[[6B7190]+107C]
+00451880 | 8986 68080000            | mov dword ptr ds:[esi+868],eax          | [[6B7190]+107C]=esi
+[[[6B7190]+107C]+868]
+
+单位列表寻址：
+00557EEB | 8B79 74                  | mov edi,dword ptr ds:[ecx+74]           |
+00557EEE | 8B3487                   | mov esi,dword ptr ds:[edi+eax*4]        | eax=239 edi=0FD18AC0 或许是列表头？
+
+
+产生单位触发：
+005ED3B0 | 8B4424 14                | mov eax,dword ptr ss:[esp+14]           | 0
+005ED3B4 | 8B5424 0C                | mov edx,dword ptr ss:[esp+C]            | 426E0000
+005ED3B8 | 56                       | push esi                                | 02ED4A40
+005ED3B9 | 8BF1                     | mov esi,ecx                             | 02ED4A40
+005ED3BB | 8B4C24 14                | mov ecx,dword ptr ss:[esp+14]           | 42850000
+005ED3BF | 50                       | push eax                                | 0
+005ED3C0 | 8B4424 10                | mov eax,dword ptr ss:[esp+10]           | 0FBCDE60
+005ED3C4 | 51                       | push ecx                                | 42850000 42870000 42890000　生成在同一个位置时固定？或许是位置？
+005ED3C5 | 8B4C24 10                | mov ecx,dword ptr ss:[esp+10]           | 16948E30
+005ED3C9 | 52                       | push edx                                | 426E0000　固定不变？
+005ED3CA | 50                       | push eax                                | 0FBBFF10　玩家地址
+005ED3CB | 51                       | push ecx                                | 16540D10 171A77A0 169438C0 单位ID地址
+005ED3CC | 8BCE                     | mov ecx,esi                             | 02CEF180 02ED6720 02ED06C0 变化的值
+005ED3CE | E8 FD10EEFF              | call <age2_x1.sub_4CE4D0>               | 5个参数7
+
+004632BE | 6A 01                    | push 1                                  | 1
+004632C0 | 51                       | push ecx                                | 0
+004632C1 | 8B4C24 24                | mov ecx,dword ptr ss:[esp+24]           | 
+004632C5 | 52                       | push edx                                | 42850000 生成在同一个位置时固定？或许是位置？
+004632C6 | 8B5424 24                | mov edx,dword ptr ss:[esp+24]           |
+004632CA | 51                       | push ecx                                | 426E0000 固定不变？
+004632CB | 52                       | push edx                                | 0FBBFF10 玩家地址
+004632CC | 56                       | push esi                                | 16540D10 单位ID地址
+004632CD | 8BC8                     | mov ecx,eax                             | 162414D0 02CEF820？
+004632CF | E8 4CD50500              | call <age2_x1.sub_4C0820>               | 6个参数1
+
+寻址eax：
+00617D82 | 894D F4                  | mov dword ptr ss:[ebp-C],ecx            | [ebp-C]:0FCA5D6C 02E1D9EC 02E1DBF0
+00617DA3 | 8B4D F4                  | mov ecx,dword ptr ss:[ebp-C]            | ecx=0257133C
+00617DA6 | 8B54F9 04                | mov edx,dword ptr ds:[ecx+edi*8+4]      | edx=16246E1C, [ecx+edi*8+4]=02E1D9EC edi=24
+00617EE7 | 03D1                     | add edx,ecx                             | ecx=40
+00617F1F | 8D42 04                  | lea eax,dword ptr ds:[edx+4]            |
+难以定位基址？？？
+
+终于找到了调用触发产生单位：
+00437939 | 8B4C24 18                | mov ecx,dword ptr ss:[esp+18]           | 0FBBFF10
+0043793D | 8B57 24                  | mov edx,dword ptr ds:[edi+24]           | 00000239
+00437940 | 6A 01                    | push 1                                  | 1
+00437942 | 53                       | push ebx                                | 0
+00437943 | 8B01                     | mov eax,dword ptr ds:[ecx]              | 00637A44
+00437945 | 56                       | push esi                                | 42850000 横位置？
+00437946 | 55                       | push ebp                                | 426E0000 纵坐标？
+00437947 | 52                       | push edx                                | 00000239 圣殿骑士的列表偏移
+00437948 | FF90 AC000000            | call dword ptr ds:[eax+AC]              | 5个参数-3
+
+生产单位（参数难以理解先放弃）：
+004B12F7 | 8B7F 08                  | mov edi,dword ptr ds:[edi+8]            | edi=164898E0 马厩ID？
+004B12FA | 8B4C24 08                | mov ecx,dword ptr ss:[esp+8]            | ecx=42906667
+004B12FE | 8B16                     | mov edx,dword ptr ds:[esi]              | edx=00638294
+004B1300 | 8B47 40                  | mov eax,dword ptr ds:[edi+40]           | eax=3F800000
+004B1303 | 50                       | push eax                                |
+004B1304 | 8B4424 10                | mov eax,dword ptr ss:[esp+10]           | [esp+10]:"飓c"
+004B1308 | 51                       | push ecx                                | ecx:"攤c"
+004B1309 | 8B4F 0C                  | mov ecx,dword ptr ds:[edi+C]            | ecx:"攤c", [edi+C]:"Dzc"==&"PGE"
+004B130C | 50                       | push eax                                |
+004B130D | 51                       | push ecx                                | ecx:"攤c"
+004B130E | 8BCE                     | mov ecx,esi                             | ecx:"攤c", esi:"攤c"
+004B1310 | FF52 1C                  | call dword ptr ds:[edx+1C]              | 4个参数训练单位-1
+
+
+
