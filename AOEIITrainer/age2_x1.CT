@@ -99,33 +99,77 @@
         <Offset>4C</Offset>
         <Offset>424</Offset>
       </Offsets>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>20</ID>
+          <Description>"圣殿骑士ID"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>4 Bytes</VariableType>
+          <Address>7912A0</Address>
+          <Offsets>
+            <Offset>239*4</Offset>
+            <Offset>74</Offset>
+            <Offset>4</Offset>
+            <Offset>4C</Offset>
+            <Offset>424</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"勇者剑士ID"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>4 Bytes</VariableType>
+          <Address>7912A0</Address>
+          <Offsets>
+            <Offset>237*4</Offset>
+            <Offset>74</Offset>
+            <Offset>4</Offset>
+            <Offset>4C</Offset>
+            <Offset>424</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>20</ID>
-      <Description>"圣殿骑士ID"</Description>
-      <ShowAsHex>1</ShowAsHex>
-      <VariableType>4 Bytes</VariableType>
+      <ID>719</ID>
+      <Description>"当前窗口显示地图的中心横坐标"</Description>
+      <VariableType>Float</VariableType>
       <Address>7912A0</Address>
       <Offsets>
-        <Offset>239*4</Offset>
-        <Offset>74</Offset>
+        <Offset>178</Offset>
         <Offset>4</Offset>
         <Offset>4C</Offset>
         <Offset>424</Offset>
       </Offsets>
     </CheatEntry>
     <CheatEntry>
-      <ID>21</ID>
-      <Description>"勇者剑士ID"</Description>
-      <ShowAsHex>1</ShowAsHex>
-      <VariableType>4 Bytes</VariableType>
+      <ID>720</ID>
+      <Description>"当前窗口显示地图的中心纵坐标"</Description>
+      <VariableType>Float</VariableType>
       <Address>7912A0</Address>
       <Offsets>
-        <Offset>237*4</Offset>
-        <Offset>74</Offset>
+        <Offset>174</Offset>
         <Offset>4</Offset>
         <Offset>4C</Offset>
         <Offset>424</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>700</ID>
+      <Description>"鼠标在窗口的横坐标"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>6B7190</Address>
+      <Offsets>
+        <Offset>12F4</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>701</ID>
+      <Description>"鼠标在窗口的纵坐标"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>7861C8</Address>
+      <Offsets>
+        <Offset>12F8</Offset>
       </Offsets>
     </CheatEntry>
   </CheatEntries>

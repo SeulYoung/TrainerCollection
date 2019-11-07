@@ -38,7 +38,6 @@
 00557EEB | 8B79 74                  | mov edi,dword ptr ds:[ecx+74]           |
 00557EEE | 8B3487                   | mov esi,dword ptr ds:[edi+eax*4]        | eax=239 edi=0FD18AC0 或许是列表头？
 
-
 产生单位触发：
 005ED3B0 | 8B4424 14                | mov eax,dword ptr ss:[esp+14]           | 0
 005ED3B4 | 8B5424 0C                | mov edx,dword ptr ss:[esp+C]            | 426E0000
@@ -76,33 +75,6 @@
 00617F1F | 8D42 04                  | lea eax,dword ptr ds:[edx+4]            |
 难以定位基址？？？
 
-终于定位调用触发产生单位：
-00437939 | 8B4C24 18                | mov ecx,dword ptr ss:[esp+18]           | 0FBBFF10
-0043793D | 8B57 24                  | mov edx,dword ptr ds:[edi+24]           | 00000239
-00437940 | 6A 01                    | push 1                                  | 1
-00437942 | 53                       | push ebx                                | 0
-00437943 | 8B01                     | mov eax,dword ptr ds:[ecx]              | 00637A44
-00437945 | 56                       | push esi                                | 42850000 横位置？
-00437946 | 55                       | push ebp                                | 426E0000 纵坐标？
-00437947 | 52                       | push edx                                | 00000239 圣殿骑士的列表偏移
-00437948 | FF90 AC000000            | call dword ptr ds:[eax+AC]              | 5个参数-3
-
-注入器可用刷圣殿骑士代码：
-{
-    mov ecx,[0x7912A0]
-    mov ecx,[ecx+0x424]
-    mov ecx,[ecx+0x4C]
-    mov ecx,[ecx+0x4]
-    mov edx,0x239
-    push 1
-    push 0
-    mov eax,[ecx]
-    push 0x42850000
-    push 0x424E0000
-    push edx
-    call [eax+0xAC]
-}
-
 马厩生产单位：
 004B12F7 | 8B7F 08                  | mov edi,dword ptr ds:[edi+8]            | edi=164898E0 马厩ID？
 004B12FA | 8B4C24 08                | mov ecx,dword ptr ss:[esp+8]            | ecx=42906667
@@ -118,4 +90,52 @@
 004B1310 | FF52 1C                  | call dword ptr ds:[edx+1C]              | 4个参数训练单位-1
 参数难以理解，放弃
 
+终于定位调用触发产生单位：
+00437939 | 8B4C24 18                | mov ecx,dword ptr ss:[esp+18]           | 0FBBFF10
+0043793D | 8B57 24                  | mov edx,dword ptr ds:[edi+24]           | 00000239
+00437940 | 6A 01                    | push 1                                  | 1
+00437942 | 53                       | push ebx                                | 0
+00437943 | 8B01                     | mov eax,dword ptr ds:[ecx]              | 00637A44
+00437945 | 56                       | push esi                                | 42850000 横位置？
+00437946 | 55                       | push ebp                                | 426E0000 纵坐标？
+00437947 | 52                       | push edx                                | 00000239 圣殿骑士的列表偏移
+00437948 | FF90 AC000000            | call dword ptr ds:[eax+AC]              | 5个参数-3
 
+注入器可用在地图中心刷圣殿骑士代码：
+{
+    mov ecx,[0x7912A0]
+    mov ecx,[ecx+0x424]
+    mov ecx,[ecx+0x4C]
+    mov ecx,[ecx+0x4]
+    mov edx,0x239
+    push 1
+    push 0
+    mov eax,[ecx]
+    push [ecx+0x178]
+    push [ecx+0x174]
+    push edx
+    call [eax+0xAC]
+}
+
+分析单位坐标换算：
+0019CD44           59.5   2.9408e-025            66             0  
+0019D0E0           59.5纵坐标？   2.9408e-025            67横坐标？             0  
+
+或许是判断上下左右边界？
+00420035 | 3BC1                     | cmp eax,ecx                             |
+00420037 | 8BF2                     | mov esi,edx                             |
+00420039 | 7C 22                    | jl age2_x1.42005D                       |
+0042003B | 3B87 98000000            | cmp eax,dword ptr ds:[edi+98]           |
+00420041 | 7F 1A                    | jg age2_x1.42005D                       |
+00420043 | 3BB7 94000000            | cmp esi,dword ptr ds:[edi+94]           |
+00420049 | 7C 12                    | jl age2_x1.42005D                       |
+0042004B | 3BB7 9C000000            | cmp esi,dword ptr ds:[edi+9C]           |
+00420051 | 7F 0A                    | jg age2_x1.42005D                       |
+
+鼠标相对窗口位置：
+00522A27 | 89BE F4120000            | mov dword ptr ds:[esi+12F4],edi         | 横坐标
+00522A2D | 898E F8120000            | mov dword ptr ds:[esi+12F8],ecx         | 纵坐标
+基址1：[6B7190]=esi
+基址2：[7861C8]=esi
+[[7861C8]+12F4]
+鼠标相对地图位置过于难找，暂时放弃，改为在窗口地图中心生成单位
