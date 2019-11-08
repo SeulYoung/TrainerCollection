@@ -1,0 +1,1194 @@
+﻿单位id列表-按建筑区分+英雄+大地之母, 附死尸/飞行道具对照  
+
+军营单位  
+
+12 BRKS 军营  
+498 BRKS2 军营 (封建时代)  
+132 BRKS3 军营 (城堡时代)  
+20 BRKS4 军营 (帝王时代)  
+
+74 SPRMN 民兵  
+152 SPRMN_D 民兵 (死亡)  
+
+75 SWDMN 装甲步兵  
+154 SWDMN_D 装甲步兵 (死亡)  
+
+77 THSWD 长剑兵  
+180 THSWD_D 长剑兵 (死亡)  
+
+473 HTHSW 双手剑兵  
+500 HTHSW_D 双手剑兵 (死亡)  
+
+567 HEROI 剑兵勇士  
+568 HEROI_D 剑兵勇士 (死亡)  
+
+93 PKEMN 长枪兵  
+140 PKEMN_D 长枪兵 (死亡)  
+
+358 ISPKM 重装长枪兵  
+501 ISPKM_D 重装长枪兵 (死亡)  
+
+359 HLBDM 戟兵  
+502 HLBDM_D 戟兵 (死亡)  
+
+751 EAGLE 鹰勇士  
+754 EAGLE_D 鹰勇士 (死亡)  
+
+752 EAGLEX 精锐鹰勇士  
+754 EAGLE_D 精锐鹰勇士 (死亡)  
+
+759 BHUSK 哥德卫队 (军营)  
+62 GBRSK_D 哥德卫队 (军营) (死亡)  
+
+761 BHUSKX 精锐哥德卫队 (军营)  
+62 GBRSK_D 精锐哥德卫队 (军营) (死亡)  
+
+马厩单位  
+
+101 STBL 马厩  
+86 STBL3 马厩 (城堡时代)  
+153 STBL4 马厩 (帝王时代)  
+
+448 SCOUT 斥候骑兵  
+449 SCOUT_D 斥候骑兵 (死亡)  
+
+546 LTCAV 轻骑兵  
+547 LTCAV_D 轻骑兵 (死亡)  
+
+441 HUSSAR 匈牙利轻骑兵  
+480 HUSSAR_D 匈牙利轻骑兵 (死亡)  
+
+38 KNGHT 骑士  
+111 KNGHT_D 骑士 (死亡)  
+
+283 PALDN 骑兵  
+139 PALDN_D 骑兵 (死亡)  
+
+569 HEROC 游侠  
+570 HEROC_D 游侠 (死亡)  
+
+329 CVLRY 骆驼骑兵  
+494 CVLRY_D 骆驼骑兵 (死亡)  
+
+330 HCLRY 重装骆驼骑兵  
+495 HCLRY_D 重装骆驼骑兵 (死亡)  
+
+射箭场单位  
+
+87 ARRG 射箭场  
+10 ARRG3 射箭场 (城堡时代)  
+14 ARRG4 射箭场 (帝王时代)  
+
+4 ARCHR 弓兵  
+3 ARCHR_D 弓兵 (死亡)  
+363 MRARC 箭 (弓兵)  
+466 MFARC 箭 (化学) (弓兵)  
+
+24 CARCH 弩兵  
+26 CARCH_D 弩兵 (死亡)  
+364 MRCOM 箭 (弩兵)  
+375 MFCOM 箭 (化学) (弩兵)  
+
+492 ACOAR 强弩兵  
+496 ACOAR_D 强弩兵 (死亡)  
+507 MRACA 箭 (强弩兵)  
+519 MFACA 箭 (化学) (强弩兵)  
+
+7 XBOWM 矛兵  
+238 XBOWM_D 矛兵 (死亡)  
+365 MRCRS 矛 (矛兵)  
+376 MFCRS 矛 (化学) (矛兵)  
+
+6 HXBOW 战矛兵  
+100 HXBOW_D 战矛兵 (死亡)  
+366 MRHCS 矛 (战矛兵)  
+377 MFHCS 矛 (化学) (战矛兵)  
+
+39 CVRCH 马骑弓兵  
+34 CVRCH_D 马骑弓兵 (死亡)  
+477 MRHAR 箭 (马骑弓兵)  
+475 MFHAR 箭 (化学) (马骑弓兵)  
+
+474 HCVAR 重装马骑弓兵  
+631 HCVAR_D 重装马骑弓兵 (死亡)  
+478 MRHHA 箭 (重装马骑弓兵)  
+476 MFHHA 箭 (化学) (重装马骑弓兵)  
+
+5 HCANR 火枪兵  
+98 HCANR_D 火枪兵 (死亡)  
+380 MRHCN 子弹 (火枪兵)  
+
+码头单位  
+
+45 DOCK 码头  
+133 DOCK2 码头 (封建时代)  
+47 DOCK3 码头 (城堡时代)  
+51 DOCK4 码头 (帝王时代)  
+
+805 SDOC 码头  
+806 SDOC2 码头  
+807 SDOC3 码头  
+808 SDOC4 码头  
+
+13 FSHSP 渔船  
+55 FSHSP_D 渔船 (死亡)  
+
+545 XPORT 运输船  
+
+17 COGXX 贸易商旅  
+29 COGXX_D 贸易商旅 (死亡)  
+
+539 SGALY 战船  
+540 MRSGY 箭 (战船)  
+541 MFSGY 箭 (化学) (战船)  
+
+21 GALLY 弩炮战船  
+61 GALLY_D 弩炮战船 (死亡)  
+372 MRGAL 弩箭 (弩炮战船)  
+470 MFGAL 弩箭 (化学) (弩炮战船)  
+
+442 WARGA 重型弩炮战船  
+443 WARGA_D 重型弩炮战船 (死亡)  
+373 MRWGL 弩箭 (重型弩炮战船)  
+471 MFWGL 弩箭 (化学) (重型弩炮战船)  
+
+529 FRGAL 火战船  
+676 MFFFG 火战船攻势  
+677 S_FIRE 火战船攻势  
+
+532 HFGAL 重型火战船  
+676 MFFFG 重型火战船攻势  
+677 S_FIRE 重型火战船攻势  
+
+527 RMSHP 神风船  
+
+528 CRMSH 重型神风船  
+
+420 CANGA 火炮战船  
+421 CANGA_D 火炮战船 (死亡)  
+374 MRCGL 炮弹 (火炮战船)  
+
+691 CNGAU 精锐火炮战船  
+374 MRCGL 炮弹 (精锐火炮战船)
+
+
+ 
+7 [转帖]单位id列表-按建筑区分+英雄+大地之母, 附死屍/飞行道具对照  
+  
+250 LNGBT 维京大战船  
+114 LNGBT_D 维京大战船 (死亡)  
+512 MRLBT 箭 (维京大战船)  
+524 MFLBT 箭 (化学) (维京大战船)  
+
+533 ULNGB 精锐维京大战船  
+512 MRLBT 箭 (精锐维京大战船)  
+524 MFLBT 箭 (化学) (精锐维京大战船)  
+
+831 TURTL 龟甲船  
+767 MRCGX 炮弹 (龟甲船)  
+
+832 UTURT 精锐龟甲船  
+767 MRCGX 炮弹 (精锐龟甲船)  
+
+攻城器制造所单位  
+
+49 SIWS 攻城器制造所  
+150 SIWS4 攻城器制造所 (帝王时代)  
+
+35 BTRAM 轻型冲撞车  
+23 BTRAM_D 轻型冲撞车 (死亡)  
+
+422 CBATR 装甲冲撞车  
+423 CBATR_D 装甲冲撞车 (死亡)  
+
+548 SGRAM 重型冲撞车  
+549 SGRAM_D 重型冲撞车 (死亡)  
+
+280 MANGO 轻型投石车  
+121 MANGO_D 轻型投石车 (死亡)  
+479 PMANG 轻型投石车 (组装)  
+
+550 ONGAR 中型投石车  
+675 ONGAR_D 中型投石车 (死亡)  
+
+588 SNARG 重型投石车  
+589 SNAGR_D 重型投石车 (死亡)  
+
+369 MRMAN 投石 (轻型投石车)  
+656 MRMNB 投石 (轻型投石车)  
+513 MRMSU 投石 (重型投石车)  
+551 MRONG 投石 (中型投石车)  
+
+468 MFMAN 投石 (化学) (轻型投石车)  
+658 MFMNB 投石 (化学) (轻型投石车)  
+526 MFMSU 火球 (化学) (重型投石车)  
+552 MFONG 火球 (化学) (中型投石车)  
+
+279 SCBAL 弩炮  
+149 SCBAL_D 弩炮 (死亡)  
+367 MRSBL 弩箭 (弩炮)  
+378 MFSBL 弩箭 (化学) (弩炮)  
+
+542 HWBAL 重型弩炮  
+543 HWBAL_D 重型弩炮 (死亡)  
+627 MRHSB 弩箭 (重型弩炮)  
+628 MFHSB 弩箭 (化学) (重型弩炮)  
+
+36 BCANN 火炮  
+16 BCANN 火炮 (死亡)  
+368 MRBCN 炮弹 (火炮)  
+
+修道院单位  
+
+104 CRCH 修道院  
+30 CRCH2 修道院 (封建时代)  
+31 CRCH3 修道院 (城堡时代)  
+32 CRCH4 修道院 (帝王时代)  
+
+125 MONKX 僧侣  
+134 MONKX_D 僧侣 (死亡)  
+
+286 RMONK 拿著遗迹的僧侣  
+309 RMNK0 拿著土耳其遗迹的僧侣  
+300 RMNK1 拿著英格兰遗迹的僧侣  
+301 RMNK2 拿著拜占庭遗迹的僧侣  
+302 RMNK3 拿著中国遗迹的僧侣  
+303 RMNK4 拿著法兰克遗迹的僧侣  
+304 RMNK5 拿著哥德遗迹的僧侣  
+305 RMNK6 拿著日本遗迹的僧侣  
+306 RMNK7 拿著波斯遗迹的僧侣  
+307 RMNK8 拿著阿拉伯遗迹的僧侣  
+308 RMNK9 拿著日尔曼遗迹的僧侣  
+
+775 MONKY 传教士  
+776 MONKY_D 传教士 (死亡)  
+
+城镇中心单位  
+
+109 RTWC 城镇中心  
+618 RTWC1A 城镇中心 (主楼)  
+619 RTWC1B 城镇中心 (楼柱)  
+620 RTWC1C 城镇中心 (屋檐)  
+621 RTWC1X 城镇中心  
+
+71 RTWC2 城镇中心 (封建时代)  
+614 RTWC2A 城镇中心 (主楼) (封建时代)  
+615 RTWC2B 城镇中心 (楼柱) (封建时代)  
+616 RTWC2C 城镇中心 (屋檐) (封建时代)  
+617 RTWC2X 城镇中心 (封建时代)  
+
+141 RTWC3 城镇中心 (城堡时代)  
+481 RTWC3A 城镇中心 (主楼) (城堡时代)  
+482 RTWC3B 城镇中心 (楼柱) (城堡时代)  
+483 RTWC3C 城镇中心 (屋檐) (城堡时代)  
+484 RTWC3X 城镇中心 (城堡时代)  
+
+142 RTWC4 城镇中心 (帝王时代)  
+611 RTWC4A 城镇中心 (主楼) (帝王时代)  
+612 RTWC4B 城镇中心 (楼柱) (帝王时代)  
+613 RTWC4C 城镇中心 (屋檐) (帝王时代)  
+597 RTWC4X 城镇中心 (帝王时代)  
+
+293 VFBAS 村民 (女)  
+211 VFBAS_D 村民 (女) (死亡)  
+
+212 VFBLD 建筑工人 (女)  
+213 VFBLD_D 建筑工人 (女) (死亡)  
+
+214 VFFAR 农夫 (女)  
+215 VFFAR_D 农夫 (女) (死亡)  
+
+57 VFFIS 渔民 (女)  
+60 VFFIS_D 渔民 (女) (死亡)  
+
+354 VFFOR 抢粮员 (女)  
+355 VFFOR_D 抢粮员 (女) (死亡)  
+
+581 VFGLD 金矿矿工 (女)  
+582 VFGLD_D 金矿矿工 (女) (死亡)  
+
+216 VFHUN 猎人 (女)  
+217 VFHUN_D 猎人 (女) (死亡)  
+
+
+
+ 
+  
+8 [转帖]单位id列表-按建筑区分+英雄+大地之母, 附死屍/飞行道具对照  
+ 219 VFLUM_D 伐木工人 (女) (死亡)  
+
+220 VFMIN 石矿矿工 (女)  
+221 VFMIN_D 石矿矿工 (女) (死亡)  
+
+222 VFREP 维修工人 (女)  
+223 VFREP_D 维修工人 (女) (死亡)  
+
+590 VFSHE 牧羊人 (女)  
+591 VFSHE_D 牧羊人 (女) (死亡)  
+
+83 VMBAS 村民 (男)  
+224 VMBAS_D 村民 (男) (死亡)  
+
+118 VMBLD 建筑工人 (男)  
+225 VMBLD_D 建筑工人 (男) (死亡)  
+
+259 VMFAR 农夫 (男)  
+226 VMFAR_D 农夫 (男) (死亡)  
+
+56 VMFIS 渔民 (男)  
+58 VMFIS_D 渔民 (男) (死亡)  
+
+120 VMFOR 抢粮员 (男)  
+353 VMFOR_D 抢粮员 (男) (死亡)  
+
+579 VMGLD 金矿矿工 (男)  
+580 VMGLD_D 金矿矿工 (男) (死亡)  
+
+122 VMHUN 猎人 (男)  
+227 VMHUN_D 猎人 (男) (死亡)  
+509 MRVIL 箭 (猎人 (男))  
+521 MFVIL 箭 (化学) (猎人 (男))  
+
+123 VMLUM 伐木工人 (男)  
+228 VMLUM_D 伐木工人 (男) (死亡)  
+
+124 VMMIN 石矿矿工 (男)  
+229 VMMIN_D 石矿矿工 (男) (死亡)  
+
+156 VMREP 维修工人 (男)  
+230 VMREP_D 维修工人 (男) (死亡)  
+
+592 VMSHE 牧羊人 (男)  
+593 VMSHE_D 牧羊人 (男) (死亡)  
+
+206 VMDL 村民模型 (男)  
+207 VMDL_D 村民模型 (男) (死亡)  
+
+748 COBRA 眼镜蛇车  
+749 COBRA_D 眼镜蛇车 (死亡)  
+
+706 HDSQD 破坏者  
+
+860 mkyby 狂猴  
+861 mkyby_D 狂猴 (死亡)  
+
+市集单位  
+
+84 MRKT 市集  
+116 MRKT3 市集 (城堡时代)  
+137 MRKT4 市集 (帝王时代)  
+
+128 TCART 贸易车队 (空)  
+178 TCART_D 贸易车队 (空) (死亡)  
+
+204 TCARTF 贸易车队 (满)  
+205 TCARTF_D 贸易车队 (满) (死亡)  
+
+城堡单位  
+
+82 CSTL 城堡  
+33 CSTL4 城堡 (帝王时代)  
+
+331 PTREB 巨型投石机 (组装)  
+735 PTREB_D 巨型投石机 (组装) (死亡)  
+
+42 TREBU 巨型投石机  
+194 TREBU_D 巨型投石机 (死亡)  
+371 MRTRB 巨投石 (巨型投石机)  
+469 MFTRB 巨投石 (化学) (巨型投石机)  
+
+434 KINGX 国王  
+435 KINGX_D 国王 (死亡)  
+
+440 PETARD 炸药筒  
+
+40 CATAP 拜占庭圣骑兵  
+27 CATAP_D 拜占庭圣骑兵 (死亡)  
+
+553 UCATA 精锐拜占庭圣骑兵  
+27 CATAP_D 精锐拜占庭圣骑兵 (死亡)  
+
+73 CHUKN 中国连弩兵  
+28 CHUKN_D 中国连弩兵 (死亡)  
+510 MRCKN 箭 (中国连弩兵)  
+522 MFCKN 箭 (化学) (中国连弩兵)  
+
+559 UCHUK 精锐中国连弩兵  
+28 CHUKN_D 精锐中国连弩兵 (死亡)  
+510 MRCKN 箭 (精锐中国连弩兵)  
+522 MFCKN 箭 (化学) (精锐中国连弩兵)  
+
+771 CONQI 西班牙征服者  
+772 CONQI_D 西班牙征服者 (死亡)  
+380 MRHCN 子弹 (西班牙征服者)  
+
+773 UCONQ 精锐西班牙征服者  
+772 CONQI_D 精锐西班牙征服者 (死亡)  
+380 MRHCN 子弹 (精锐西班牙征服者)  
+
+282 DERVI 阿拉伯奴隶兵  
+44 DERVI_D 阿拉伯奴隶兵 (死亡)  
+736 MRMLK 飞刀 (阿拉伯奴隶兵)  
+
+556 UDERV 精锐阿拉伯奴隶兵  
+44 DERVI_D 精锐阿拉伯奴隶兵 (死亡)  
+736 MRMLK 飞刀 (精锐阿拉伯奴隶兵)  
+
+41 GBRSK 哥德卫队  
+62 GBRSK_D 哥德卫队 (死亡)  
+
+555 UGBRS 精锐哥德卫队  
+62 GBRSK_D 精锐哥德卫队 (死亡)  
+
+725 JAGUAR 豹勇士  
+750 JAGUAR_D 豹勇士 (死亡)  
+
+726 JAGUARX 精锐豹勇士  
+750 JAGUAR_D 精锐豹勇士 (死亡)  
+
+46 JANNI 土耳其火枪兵  
+107 JANNI_D 土耳其火枪兵 (死亡)  
+380 MRHCN 子弹 (土耳其火枪兵)  
+
+557 UJANI 精锐土耳其火枪兵  
+107 JANNI_D 精锐土耳其火枪兵 (死亡)  
+380 MRHCN 子弹 (精锐土耳其火枪兵)  
+
+8 LNGBW 长弓兵  
+115 LNGBW_D 长弓兵 (死亡)  
+511 MRLBM 箭 (长弓兵)  
+523 MFLBM 箭 (化学) (长弓兵)  
+
+530 ULGBW 精锐长弓兵  
+115 LNGBW_D 精锐长弓兵 (死亡)  
+511 MRLBM 箭 (精锐长弓兵)  
+523 MFLBM 箭 (化学) (精锐长弓兵)  
+
+11 MOSUN 蒙古突骑  
+135 MOSUN_D 蒙古突骑 (死亡)  
+477 MRHAR 箭 (蒙古突骑)  
+475 MFHAR 箭 (化学) (蒙古突骑)  
+
+561 UMOSU 精锐蒙古突骑  
+135 MOSUN_D 精锐蒙古突骑 (死亡)  
+477 MRHAR 箭 (精锐蒙古突骑)  
+475 MFHAR 箭 (化学) (精锐蒙古突骑)  
+
+239 MPCAV 战象  
+136 MPCAV_D 战象 (死亡)  
+
+558 UMPCAV 精锐战象  
+136 MPCAV_D 精锐战象 (死亡)  
+
+763 PLUME 羽毛箭射手  
+764 PLUME_D 羽毛箭射手 (死亡)  
+511 MRLBM 箭 (羽毛箭射手)  
+523 MFLBM 箭 (化学) (羽毛箭射手)  
+
+765 UPLUM 精锐羽毛箭射手  
+764 PLUME_D 精锐羽毛箭射手 (死亡)  
+511 MRLBM 箭 (精锐羽毛箭射手)  
+523 MFLBM 箭 (化学) (精锐羽毛箭射手)  
+
+291 SMURI 日本武士  
+151 SMURI_D 日本武士 (死亡)  
+
+560 USMUR 精锐日本武士  
+151 SMURI_D 精锐日本武士 (死亡)  
+
+755 TARKAN 鞑靼骑兵  
+756 TARKAN_D 鞑靼骑兵 (死亡)  
+
+757 UTARK 精锐鞑靼骑兵  
+756 TARKAN_D 精锐鞑靼骑兵 (死亡)  
+
+281 TAXEM 掷斧兵  
+157 TAXEM_D 掷斧兵 (死亡)  
+515 MRTAX 掷斧 (掷斧兵)  
+
+531 UTAXE 精锐掷斧兵  
+157 TAXEM_D 精锐掷斧兵 (死亡)  
+515 MRTAX 掷斧 (精锐掷斧兵)  
+
+25 TKNIT 条顿武士  
+181 TKNIT_D 条顿武士 (死亡)  
+
+554 UTKNI 精锐条顿武士  
+181 TKNIT_D 精锐条顿武士 (死亡)  
+
+692 VBRSK 狂战士  
+693 VBRSK_D 狂战士 (死亡)  
+
+694 UVBRK 精锐狂战士  
+695 UVBRK_D 精锐狂战士 (死亡)  
+
+827 WAGON 马战车  
+828 WAGON_D 马战车 (死亡)  
+373 MRWGL 弩箭 (马战车)  
+471 MFWGL 弩箭 (化学) (马战车)  
+
+829 UWAGO 精锐马战车  
+828 WAGON_D 精锐马战车 (死亡)  
+
+232 WBRSK 菘蓝武士  
+233 WBRSK_D 菘蓝武士 (死亡)  
+
+534 UWBRS 精锐菘蓝武士  
+233 WBRSK_D 精锐菘蓝武士 (死亡)
+
+
+9 对照2  
+ 英雄单位  
+
+169 HAETH 艾息尔弗力夫  
+233 WBRSK_D 艾息尔弗力夫 (死亡)  
+
+638 HALEN 诺曼地公爵  
+633 HEROF_D 诺曼地公爵 (死亡)  
+
+840 HALFON 阿方索国王  
+435 KINGX_D 阿方索国王 (死亡)  
+
+686 HAOE 神弓手  
+687 HAOE_D 神弓手 (死亡)  
+507 MRACA 箭 (神弓手)  
+519 MFACA 箭 (化学) (神弓手)  
+
+177 HARCH 大主教  
+134 MONKX_D 大主教 (死亡)  
+
+777 HATTILA 阿提拉 (匈奴人)  
+27 CATAP_D 阿提拉 (匈奴人) (死亡)  
+
+167 HBELIS 贝利沙鲁斯  
+27 CATAP_D 贝利沙鲁斯 (死亡)  
+
+636 HBERT 贝查德斯欧力  
+111 KNGHT_D 贝查德斯欧力 (死亡)  
+
+161 HBLACK 黑亲王  
+139 PALDN_D 黑亲王 (死亡)  
+
+779 HBLEDA 贝里达 (匈奴人)  
+135 MOSUN_D 贝里达 (匈奴人) (死亡)  
+
+682 HBNB 坏邻居  
+194 TREBU_D 坏邻居 (死亡)  
+
+730 HBNBP 坏邻居 (组装)  
+735 PTREB_D 坏邻居 (组装) (死亡)  
+
+650 HBURE 约翰不荷  
+16 BCANN 约翰不荷 (死亡)  
+368 MRBCN 炮弹 (约翰不荷)  
+
+165 HCHARL 查理曼  
+157 TAXEM_D 查理曼 (死亡)  
+515 MRTAX 掷斧 (查理曼)  
+
+424 HCMAR 铁鎚查理斯  
+157 TAXEM_D 铁鎚查理斯 (死亡)  
+515 MRTAX 掷斧 (铁鎚查理斯)  
+
+198 HELCID 艾西特  
+568 HEROI_D 艾西特 (死亡)  
+
+824 HELCIDC 席德‧坎培多尔  
+633 HEROF_D 席德‧坎培多尔 (死亡)  
+
+847 HENRY 亨利五世  
+570 HEROC_D 亨利五世 (死亡)  
+
+171 HERIK 红衣艾立克  
+693 VBRSK_D 红衣艾立克 (死亡)  
+
+632 HEROF 法国游侠  
+633 HEROF_D 法国游侠 (死亡)  
+
+652 HFALS 约翰霍士道夫爵士  
+633 HEROF_D 约翰霍士道夫爵士 (死亡)  
+
+163 HFRIAR 法莱尔塔克  
+134 MONKX_D 法莱尔塔克 (死亡)  
+
+175 HGAWA 格华恩  
+139 PALDN_D 格华恩 (死亡)  
+
+683 HGOS 神之弓  
+194 TREBU_D 神之弓 (死亡)  
+
+729 HGOSP 神之弓 (组装)  
+735 PTREB_D 神之弓 (组装) (死亡)  
+
+642 HGRAV 格拉维尔领主  
+496 ACOAR_D 格拉维尔领主 (死亡)  
+507 MRACA 箭 (格拉维尔领主)  
+519 MFACA 箭 (化学) (格拉维尔领主)  
+
+426 HHAHA 哈罗德哈佐德  
+693 VBRSK_D 哈罗德哈佐德 (死亡)  
+515 MRTAX 掷斧 (哈罗德哈佐德)  
+
+640 HHIRE 拉海尔  
+568 HEROI_D 拉海尔 (死亡)  
+
+428 HHRTG 首领荷夫  
+695 UVBRK_D 首领荷夫 (死亡)  
+
+842 HIMAM 伊满  
+134 MONKX_D 伊满 (死亡)  
+
+430 HJODA 农家女贞德  
+431 HJODA_D 农家女贞德 (死亡)  
+
+629 HJOKT 圣女贞德  
+630 HJOKT_D 圣女贞德 (死亡)  
+
+648 HJOSS 盖佐斯尔立  
+570 HEROC_D 盖佐斯尔立 (死亡)  
+
+173 HKARTH 亚瑟王  
+568 HEROI_D 亚瑟王 (死亡)  
+
+731 HKHAN 成吉思汗  
+135 MOSUN_D 成吉思汗 (死亡)  
+477 MRHAR 箭 (成吉思汗)  
+475 MFHAR 箭 (化学) (成吉思汗)  
+
+195 HKITA 基特巴狄克  
+151 SMURI_D 基特巴狄克 (死亡)  
+
+702 HKUSH 阔实鲁  
+139 PALDN_D 阔实鲁 (死亡)  
+
+174 HLANCE 兰斯洛特  
+570 HEROC_D 兰斯洛特 (死亡)  
+
+644 HLORR 洛林的约翰  
+16 BCANN 洛林的约翰 (死亡)  
+368 MRBCN 炮弹 (洛林的约翰)  
+
+634 HMETZ 梅兹的斯欧力  
+111 KNGHT_D 梅兹的斯欧力 (死亡)  
+
+196 HMINA 源氏  
+151 SMURI_D 源氏 (死亡)  
+
+176 HMORD 莫特列德  
+570 HEROC_D 莫特列德 (死亡)  
+
+680 HMOT 神庙住持  
+633 HEROF_D 神庙住持 (死亡)  
+
+845 HNOB 织田信长  
+151 SMURI_D 织田信长 (死亡)  
+
+707 HORNL 灰狼柯鲁  
+708 HORNL_D 灰狼柯鲁 (死亡)  
+
+733 HPIKL 装在桶里的皇帝  
+205 TCARTF_D 装在桶里的皇帝 (死亡)  
+
+781 HPOPE 教皇李奥一世  
+134 MONKX_D 教皇李奥一世 (死亡)  
+
+678 HREY 沙底隆的雷诺  
+633 HEROF_D 沙底隆的雷诺 (死亡)  
+
+646 HRICH 康斯塔伯理察蒙  
+633 HEROF_D 康斯塔伯理察蒙 (死亡)
+
+
+
+10 对照2  
+  
+160 HRLION 狮心王理查  
+570 HEROC_D 狮心王理查 (死亡)  
+
+200 HROBN 罗宾胡德  
+115 LNGBW_D 罗宾胡德 (死亡)  
+511 MRLBM 箭 (罗宾胡德)  
+523 MFLBM 箭 (化学) (罗宾胡德)  
+
+166 HROLAN 罗兰  
+111 KNGHT_D 罗兰 (死亡)  
+
+838 HSANC 桑乔国王  
+435 KINGX_D 桑乔国王 (死亡)  
+
+852 HSCOUT 西徐亚的斥候  
+547 LTCAV_D 西徐亚的斥候 (死亡)  
+
+704 HSHAH 绍德  
+435 KINGX_D 绍德 (死亡)  
+
+164 HSHERN 诺丁安的郡长  
+180 THSWD_D 诺丁安的郡长 (死亡)  
+
+170 HSIEG 齐格菲  
+568 HEROI_D 齐格菲 (死亡)  
+
+698 HSUBO 书部台  
+631 HCVAR_D 书部台 (死亡)  
+478 MRHHA 箭 (书部台)  
+476 MFHHA 箭 (化学) (书部台)  
+
+172 HTAME 帖木儿  
+135 MOSUN_D 帖木儿 (死亡)  
+477 MRHAR 箭 (帖木儿)  
+475 MFHAR 箭 (化学) (帖木儿)  
+
+168 HTHEOD 哥德人狄奥多利克  
+62 GBRSK_D 哥德人狄奥多利克 (死亡)  
+
+849 HWIL 征服者威廉  
+633 HEROF_D 征服者威廉 (死亡)  
+
+197 HWILL 亚历山大列夫斯基  
+139 PALDN_D 亚历山大列夫斯基 (死亡)  
+
+783 HWITCH 西徐亚的野女人  
+431 HJODA_D 西徐亚的野女人 (死亡)  
+
+432 HWIWA 威廉华勒斯  
+433 HWIWA_D 威廉华勒斯 (死亡)  
+
+700 HWOLF 猎狼  
+237 WOLFX_D 猎狼 (死亡)  
+
+844 HYI 李舜臣将军  
+767 MRCGX 炮弹 (李舜臣将军)  
+
+299 INFIL 间谍  
+152 SPRMN_D 间谍 (死亡)  
+
+大地之母单位  
+
+59 FORAG 果树丛  
+262 PFOOD 一堆食物  
+
+69 FISHS 沿海鱼群  
+
+455 FISH1 鱼 (剑鱼)  
+456 FISH2 鱼 (鲑鱼)  
+457 FISH3 鱼 (鲔鱼)  
+458 FISH4 鱼 (金线鱼)  
+459 FISH5 鱼 (隐形鱼)  
+53 FISHX 鱼 (鲈鱼)  
+
+450 DOLP1 大鱼 (马林鱼)  
+451 DOLP2 大鱼 (马林鱼)  
+452 DOLP3 大鱼 (隐形鱼)  
+453 DOLP4 大鱼 (隐形鱼)  
+454 DOLP5 大鱼 (隐形鱼)  
+
+460 WHAL1 大鱼 (隐形鱼)  
+461 WHAL2 大鱼 (隐形鱼)  
+
+348 FBAM 竹林  
+737 STUMB 竹桩  
+
+414 FJUN 丛林树木  
+349 FOAK 橡树林  
+411 FORTR 树林  
+351 FPAL 棕榈树林  
+350 FPIN 松树林  
+413 FSNO 雪地松树木  
+399 TREEA 树 A  
+400 TREEB 树 B  
+401 TREEC 树 C  
+402 TREED 树 D  
+403 TREEE 树 E  
+404 TREEF 树 F  
+405 TREEG 树 G  
+406 TREEH 树 H  
+407 TREEI 树 I  
+408 TREEJ 树 J  
+409 TREEK 树 K  
+410 TREEL 树 L  
+284 TREETD 树 TD  
+253 PWOOD 一堆木材  
+415 STUMP 树桩  
+809 STUMP2 树桩  
+
+102 STONM 石矿  
+248 PSTON 一堆石材  
+
+66 GOLDM 金矿  
+252 PGOLD 一堆黄金  
+
+285 RELIC 遗迹  
+688 HPTC 十字架的碎片  
+298 RLIC0 土耳其遗迹  
+287 RLIC1 英格兰遗迹  
+288 RLIC2 拜占庭遗迹  
+289 RLIC3 中国遗迹  
+290 RLIC4 法国遗迹  
+292 RLIC5 哥德遗迹  
+294 RLIC6 日本遗迹  
+295 RLIC7 波斯遗迹  
+296 RLIC8 阿拉伯遗迹  
+297 RLIC9 日尔曼遗迹  
+
+352 OREMN 铁矿  
+249 POREX 一堆资源  
+
+310 MNTN1 山脉 1  
+311 MNTN2 山脉 2  
+744 MNTN3 山脉 3  
+745 MNTN4 山脉 4  
+
+858 BCART 损坏的马车  
+
+863 RUBL1V 碎石堆 1 x 1  
+864 RUB2V 碎石堆 2 x 2  
+865 RUBL3V 碎石堆 3 x 3  
+
+711 RUGS 毛毯  
+
+857 HSTAC 乾草堆  
+
+723 CRATR 弹坑  
+
+820 GRAVES 墓地  
+
+856 RUINS 罗马遗址  
+
+389 TERRA 海岩 1  
+396 TERRJ 海岩 2  
+
+241 TERRG 岩缝  
+
+334 TERRM 花朵 1  
+335 TERRN 花朵 2  
+336 TERRO 花朵 3  
+337 TERRP 花朵 4  
+
+859 FLWRB 花坛  
+
+339 TERRR 路径 1  
+340 TERRS 路径 2  
+341 TERRT 路径 3  
+338 TERRQ 路径 4  
+
+623 ROCKX 岩石  
+
+817 STATUE 地位  
+
+855 SHEAD 古石头像  
+
+821 HEADS 头  
+
+709 FCAC 仙人掌  
+
+818 PLANTS 植物  
+
+819 SIGN 签名  
+
+721 SPWK1 船只遗骸 1  
+722 SPWK2 船只遗骸 2  
+
+447 SHALW 浅滩  
+
+728 ICE 冰块  
+
+264 CLF01 峭壁  
+265 CLF02 峭壁  
+266 CLF03 峭壁  
+267 CLF04 峭壁  
+268 CLF05 峭壁  
+269 CLF06 峭壁  
+270 CLF07 峭壁  
+271 CLF08 峭壁  
+272 CLF09 峭壁  
+273 CLF10 峭壁  
+
+野生动物单位  
+
+158 OUTLW 盗贼  
+138 OUTLW_D 盗贼 (死亡)  
+9 ARROW 箭 (盗贼)  
+
+96 HAWKX 鹰  
+
+816 MACAW 鹦鹉  
+
+862 storm 暴风犬  
+544 FLDOG 飞天犬  
+
+860 mkyby 狂猴  
+861 mkyby_D 狂猴 (死亡)  
+
+822 BOARJ 狼 (野猪)  
+356 BOARX_D 狼 (野猪) (死亡)  
+
+48 BOARX 野猪  
+356 BOARX_D 野猪 (死亡)  
+
+810 HEROBOAR 铁野猪  
+356 BOARX_D 铁野猪 (死亡)  
+
+835 HORSW 野马  
+815 HORSE_D 野马 (死亡)  
+
+65 DEERI 鹿  
+43 DEERX_D 鹿 (死亡)  
+
+333 DEERX_MEAT 鹿 (隐藏兵种)  
+
+126 WOLFX 狼  
+237 WOLFX_D 狼 (死亡)  
+
+202 WOLF2 恶狼  
+237 WOLFX_D 恶狼 (死亡)  
+
+89 DWOLF 豺狼戴尔  
+237 WOLFX_D 豺狼戴尔 (死亡)  
+
+707 HORNL 灰狼柯鲁  
+708 HORNL_D 灰狼柯鲁 (死亡)  
+
+812 GJAGR 美洲豹  
+813 GJAGR_D 美洲豹 (死亡)  
+
+594 SHEEPG 绵羊  
+595 SHEEP_D 绵羊 (死亡)  
+
+833 TURKYG 火鸡  
+834 TURKY_D 火鸡 (死亡)
+
+
+ 
+
+11 对照3  
+ 建筑物单位  
+
+109 RTWC 城镇中心  
+618 RTWC1A 城镇中心 (主楼)  
+619 RTWC1B 城镇中心 (楼柱)  
+620 RTWC1C 城镇中心 (屋檐)  
+621 RTWC1X 城镇中心  
+
+71 RTWC2 城镇中心 (封建时代)  
+614 RTWC2A 城镇中心 (主楼) (封建时代)  
+615 RTWC2B 城镇中心 (楼柱) (封建时代)  
+616 RTWC2C 城镇中心 (屋檐) (封建时代)  
+617 RTWC2X 城镇中心 (封建时代)  
+
+141 RTWC3 城镇中心 (城堡时代)  
+481 RTWC3A 城镇中心 (主楼) (城堡时代)  
+482 RTWC3B 城镇中心 (楼柱) (城堡时代)  
+483 RTWC3C 城镇中心 (屋檐) (城堡时代)  
+484 RTWC3X 城镇中心 (城堡时代)  
+
+142 RTWC4 城镇中心 (帝王时代)  
+611 RTWC4A 城镇中心 (主楼) (帝王时代)  
+612 RTWC4B 城镇中心 (楼柱) (帝王时代)  
+613 RTWC4C 城镇中心 (屋檐) (帝王时代)  
+597 RTWC4X 城镇中心 (帝王时代)  
+
+444 PTWC 城镇中心 (组装)  
+
+70 HOUS 居住房舍  
+463 HOUS2 居住房舍 (封建时代)  
+464 HOUS3 居住房舍 (城堡时代)  
+465 HOUS4 居住房舍 (帝王时代)  
+
+68 MILL 磨坊  
+129 MILL2 磨坊 (封建时代)  
+130 MILL3 磨坊 (城堡时代)  
+131 MILL4 磨坊 (帝王时代)  
+
+50 FARM 农田  
+357 FARM_D 荒芜农田  
+
+562 SMIL 伐木厂  
+563 SMIL2 伐木厂 (封建时代)  
+564 SMIL3 伐木厂 (城堡时代)  
+565 SMIL4 伐木厂 (帝王时代)  
+
+584 MINE 采矿营地  
+585 MINE2 采矿营地 (封建时代)  
+586 MINE3 采矿营地 (城堡时代)  
+587 MINE4 采矿营地 (帝王时代)  
+
+12 BRKS 军营  
+498 BRKS2 军营 (封建时代)  
+132 BRKS3 军营 (城堡时代)  
+20 BRKS4 军营 (帝王时代)  
+
+45 DOCK 码头  
+133 DOCK2 码头 (封建时代)  
+47 DOCK3 码头 (城堡时代)  
+51 DOCK4 码头 (帝王时代)  
+
+805 SDOC 码头  
+806 SDOC2 码头  
+807 SDOC3 码头  
+808 SDOC4 码头  
+
+199 FTRAP 渔网  
+278 FTRAP_D 废弃渔网  
+
+598 WCTWX 哨站  
+
+103 BLAC 兵工厂  
+105 BLAC2 兵工厂 (封建时代)  
+18 BLAC3 兵工厂 (城堡时代)  
+19 BLAC4 兵工厂 (帝王时代)  
+
+84 MRKT 市集  
+116 MRKT3 市集 (城堡时代)  
+137 MRKT4 市集 (帝王时代)  
+
+87 ARRG 射箭场  
+10 ARRG3 射箭场 (城堡时代)  
+14 ARRG4 射箭场 (帝王时代)  
+
+101 STBL 马厩  
+86 STBL3 马厩 (城堡时代)  
+153 STBL4 马厩 (帝王时代)  
+
+64 GTAA2 城门 (/) (关闭)  
+63 GTAA3 强化城门 (/) (关闭)  
+78 GTAB2 城门 (/) (开启)  
+67 GTAB3 强化城门 (/) (开启)  
+81 GTAC2 城门 (石墙)  
+80 GTAC3 强化城门 (垛墙)  
+487 GTAX2 城门 (/) (关闭)  
+488 GTAX3 强化城门 (/) (关闭)  
+
+88 GTBA2 城门 (\) (关闭)  
+85 GTBA3 强化城门 (\) (关闭)  
+91 GTBB2 城门 (\) (开启)  
+90 GTBB3 强化城门 (\) (开启)  
+95 GTBC2 城门 (石墙)  
+92 GTBC3 强化城门 (垛墙)  
+490 GTBX2 城门 (\) (关闭)  
+491 GTBX3 强化城门 (\) (关闭)  
+
+659 GTCA2 城门 (-) (关闭)  
+660 GTCA3 强化城门 (-) (关闭)  
+661 GTCB2 城门 (-) (开启)  
+662 GTCB3 强化城门 (-) (开启)  
+663 GTCC2 城门 (石墙)  
+664 GTCC3 强化城门 (垛墙)  
+665 GTCX2 城门 (-) (关闭)  
+666 GTCX3 强化城门 (-) (关闭)  
+
+667 GTDA2 城门 (|) (关闭)  
+668 GTDA3 强化城门 (|) (关闭)  
+669 GTDB2 城门 (|) (开启)  
+670 GTDB3 强化城门 (|) (开启)  
+671 GTDC2 城门 (石墙)  
+672 GTDC3 强化城门 (垛墙)  
+673 GTDX2 城门 (|) (关闭)  
+674 GTDX3 强化城门 (|) (关闭)  
+
+208 TWAL 塔墙  
+72 WALL 木墙  
+117 WALL2 石墙  
+155 WALL3 垛墙  
+
+82 CSTL 城堡  
+33 CSTL4 城堡 (帝王时代)  
+
+104 CRCH 修道院  
+30 CRCH2 修道院 (封建时代)  
+31 CRCH3 修道院 (城堡时代)  
+32 CRCH4 修道院 (帝王时代)  
+
+110 TDWS 贸易工厂  
+179 TDWS4 贸易工厂 (帝王时代)  
+
+209 UNIV 学院  
+210 UNIV4 学院 (帝王时代)  
+
+49 SIWS 攻城器制造所  
+150 SIWS4 攻城器制造所 (帝王时代)  
+
+566 WCTWR 了望台  
+79 WCTW 了望台  
+234 WCTW2 防御箭塔  
+235 WCTW3 大型箭塔  
+
+236 WCTW4 火炮塔  
+
+446 PORT 港口  
+
+605 BGAA 桥 A--顶端  
+606 BGAB 桥 A--中段  
+607 BGAC 桥 A--尾端  
+738 BGAD 桥 A--炸毁  
+739 BGAE 桥 A--顶端损毁  
+740 BGAF 桥 A--尾端损毁  
+
+608 BGBA 桥 B--顶端  
+609 BGBB 桥 B--中段  
+610 BGBC 桥 B--尾端  
+741 BGBD 桥 B--炸毁  
+742 BGBE 桥 B--顶端损毁  
+743 BGBF 桥 B--尾端损毁  
+
+276 WNDR 世界奇观  
+
+826 KOH-FLAG 纪念物  
+
+655 MSQUE 清真寺  
+
+690 HDOR 圆石  
+
+689 HPYR 金字塔  
+696 HGPR 大金字塔  
+
+684 HTAT 诅咒之塔  
+685 HTOF 腐败之塔  
+
+345 TERRX 废墟  
+
+712 YERTA 蒙古包 1  
+713 YERTB 蒙古包 2  
+714 YERTC 蒙古包 3  
+715 YERTD 蒙古包 4  
+716 YERTE 蒙古包 5  
+717 YERTF 蒙古包 6  
+718 YERTG 蒙古包 7  
+719 YERTH 蒙古包 8  
+
+624 PAV1 帐蓬 1  
+626 PAV2 帐蓬 2  
+625 PAV3 帐蓬 3  
+
+599 SPECR 大教堂  
+445 CATH 大教堂 4  
+
+143 RUBL1 碎石堆 1 x 1  
+144 RUBL2 碎石堆 2 x 2  
+145 RUBL3 碎石堆 3 x 3  
+146 RUBL4 碎石堆 4 x 4  
+147 RUBL6 碎石堆 6 x 6  
+148 RUBL8 碎石堆 8 x 8  
+
+785 STWR 海塔  
+
+788 SWAL 海墙  
+
+789 SGAA 海闸 (/) (关闭)  
+790 SGAB 海闸 (/) (开启)  
+791 SGAC 海闸 (强化海墙)  
+792 SGAX 海闸 (/) (关闭)  
+
+793 SGBA 海闸 (\) (关闭)  
+794 SGBB 海闸 (\) (开启)  
+795 SGBC 海闸 (强化海墙)  
+796 SGBX 海闸 (\) (关闭)  
+
+797 SGCA 海闸 (-) (关闭)  
+798 SGCB 海闸 (-) (开启)  
+799 SGCC 海闸 (强化海墙)  
+800 SGCX 海闸 (-) (关闭)  
+
+801 SGDA 海闸 (|) (关闭)  
+802 SGDB 海闸 (|) (开启)  
+803 SGDC 海闸 (强化海墙)  
+804 SGDX 海闸 (|) (关闭)

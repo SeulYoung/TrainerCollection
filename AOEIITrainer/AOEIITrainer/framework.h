@@ -30,6 +30,7 @@
 
 
 // 自定义添加
+#include <exception>
 #include "DataDef.h"
 
 

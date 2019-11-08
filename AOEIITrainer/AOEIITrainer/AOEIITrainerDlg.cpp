@@ -7,8 +7,6 @@
 #include "AOEIITrainer.h"
 #include "AOEIITrainerDlg.h"
 #include "afxdialogex.h"
-#include <TlHelp32.h>
-#include <exception>
 #include "MemoryOpt.h"
 
 #ifdef _DEBUG
@@ -51,8 +49,6 @@ END_MESSAGE_MAP()
 
 // CAOEIITrainerDlg 对话框
 
-
-
 CAOEIITrainerDlg::CAOEIITrainerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_AOEIITRAINER_DIALOG, pParent)
 	, unitHp(0)
@@ -66,35 +62,42 @@ void CAOEIITrainerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDT_UnitHp, unitHp);
 }
 
-DWORD CAOEIITrainerDlg::getProcId(CString gameProcName)
+DWORD __stdcall CAOEIITrainerDlg::createUnit(LPVOID unitId)
 {
-	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	PROCESSENTRY32 pe32;
-	pe32.dwSize = sizeof(PROCESSENTRY32);
-
-	DWORD procId = 0;
-	bool ret = Process32First(hSnapShot, &pe32);
-	while (ret)
+	__asm
 	{
-		CString procName = pe32.szExeFile;
-		//procName.MakeLower();
-		if (gameProcName == procName)
-		{
-			procId = pe32.th32ProcessID;
-			break;
-		}
-		ret = Process32Next(hSnapShot, &pe32);
+		pushad
+		mov ecx, dword ptr ds : [0x7912A0]
+		mov ecx, dword ptr ds : [ecx + 0x424]
+		mov ecx, dword ptr ds : [ecx + 0x4C]
+		mov ecx, dword ptr ds : [ecx + 0x4]
+		mov edx, unitId
+		push 1
+		push 0
+		mov eax, [ecx]
+		push dword ptr ds : [ecx + 0x178]
+		push dword ptr ds : [ecx + 0x174]
+		push edx
+		call dword ptr ds : [eax + 0xAC]
+		popad
 	}
-	CloseHandle(hSnapShot);
+	return 0;
+}
 
-	return procId;
+void CAOEIITrainerDlg::modifyResource()
+{
+}
+
+void CAOEIITrainerDlg::modifyPopulation()
+{
 }
 
 BEGIN_MESSAGE_MAP(CAOEIITrainerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_WM_SHOWWINDOW()
+	ON_WM_HOTKEY()
+	ON_WM_SETFOCUS()
 	ON_BN_CLICKED(IDC_BTN_ModifyHp, &CAOEIITrainerDlg::OnBnClickedModifyHp)
 END_MESSAGE_MAP()
 
@@ -131,7 +134,12 @@ BOOL CAOEIITrainerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	SetTimer(1, 1000, NULL);
+	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD1);
+	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD2);
+	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD3);
+	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD4);
+	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD5);
+	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD6);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -185,18 +193,65 @@ HCURSOR CAOEIITrainerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
+{
+	CDialogEx::OnHotKey(nHotKeyId, nKey1, nKey2);
+
+	try
+	{
+		MemoryOpt memOpt;
+		DWORD unitId;
+		switch (nKey2)
+		{
+		case VK_NUMPAD1:
+			unitId = HEROC;
+			memOpt.initHandle();
+			memOpt.runRemoteThread(createUnit, &unitId, sizeof(unitId));
+			break;
+		case VK_NUMPAD2:
+			unitId = HEROI;
+			memOpt.initHandle();
+			memOpt.runRemoteThread(createUnit, &unitId, sizeof(unitId));
+			break;
+		case VK_NUMPAD3:
+			unitId = UMOSU;
+			memOpt.initHandle();
+			memOpt.runRemoteThread(createUnit, &unitId, sizeof(unitId));
+			break;
+		case VK_NUMPAD4:
+			unitId = ULGBW;
+			memOpt.initHandle();
+			memOpt.runRemoteThread(createUnit, &unitId, sizeof(unitId));
+			break;
+		case VK_NUMPAD5:
+			modifyResource();
+			break;
+		case VK_NUMPAD6:
+			modifyPopulation();
+			break;
+		}
+	}
+	catch (const std::exception & e)
+	{
+		CString error;
+		error = e.what();
+		MessageBox(error);
+	}
+
+}
+
 void CAOEIITrainerDlg::OnBnClickedModifyHp()
 {
 	UpdateData(TRUE);
 
-	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, getProcId(GAME_PROC_NAME));
-	int unitOffset[] = { UNIT_OFFSET1 };
-	MemoryOpt memOpt(hProc, UNIT_BASE, unitOffset, 1);
 	try
 	{
+		int unitOffset[] = { UNIT_OFFSET1 };
+		MemoryOpt memOpt;
+		memOpt.initPara(UNIT_BASE, unitOffset, 1);
+
 		unitOffset[0] = HP_OFFSET;
-		if (!memOpt.writeOffsetMemory(unitOffset, 1, (PVOID)unitHp, sizeof(unitHp)))
-			throw text_exception("修改单位生命值失败");
+		memOpt.writeOffsetMemory(unitOffset, 1, &unitHp, sizeof(unitHp));
 	}
 	catch (const std::exception & e)
 	{
@@ -204,22 +259,20 @@ void CAOEIITrainerDlg::OnBnClickedModifyHp()
 		error = e.what();
 		MessageBox(error);
 	}
-	if (hProc != NULL)
-		CloseHandle(hProc);
 }
 
-void CAOEIITrainerDlg::OnShowWindow(BOOL bShow, UINT nStatus)
+void CAOEIITrainerDlg::OnSetFocus(CWnd* pOldWnd)
 {
-	CDialogEx::OnShowWindow(bShow, nStatus);
+	CDialogEx::OnSetFocus(pOldWnd);
 
-	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, getProcId(GAME_PROC_NAME));
 	int unitOffset[] = { UNIT_OFFSET1 };
-	MemoryOpt memOpt(hProc, UNIT_BASE, unitOffset, 1);
 	try
 	{
+		MemoryOpt memOpt;
+		memOpt.initPara(UNIT_BASE, unitOffset, 1);
+
 		unitOffset[0] = HP_OFFSET;
-		if (!memOpt.readOffsetMemory(unitOffset, 1, (PVOID)unitHp, sizeof(unitHp)))
-			throw text_exception("读取单位生命值失败");
+		memOpt.readOffsetMemory(unitOffset, 1, &unitHp, sizeof(unitHp));
 	}
 	catch (const std::exception & e)
 	{
@@ -227,8 +280,6 @@ void CAOEIITrainerDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		error = e.what();
 		MessageBox(error);
 	}
-	if (hProc != NULL)
-		CloseHandle(hProc);
 
 	UpdateData(FALSE);
 }
