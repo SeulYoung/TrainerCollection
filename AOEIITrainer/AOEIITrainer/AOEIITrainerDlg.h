@@ -21,7 +21,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	static DWORD __stdcall createUnit(LPVOID unitId);
+	static DWORD __stdcall createUnit(LPVOID unitIdAddr);
 	void modifyResource();
 	void modifyPopulation();
 

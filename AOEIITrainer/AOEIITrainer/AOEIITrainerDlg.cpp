@@ -62,11 +62,12 @@ void CAOEIITrainerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDT_UnitHp, unitHp);
 }
 
-DWORD __stdcall CAOEIITrainerDlg::createUnit(LPVOID unitId)
+DWORD __stdcall CAOEIITrainerDlg::createUnit(LPVOID unitIdAddr)
 {
+	int* pUnitId = (int*)unitIdAddr;
+	int unitId = *pUnitId;
 	__asm
 	{
-		pushad
 		mov ecx, dword ptr ds : [0x7912A0]
 		mov ecx, dword ptr ds : [ecx + 0x424]
 		mov ecx, dword ptr ds : [ecx + 0x4C]
@@ -79,17 +80,57 @@ DWORD __stdcall CAOEIITrainerDlg::createUnit(LPVOID unitId)
 		push dword ptr ds : [ecx + 0x174]
 		push edx
 		call dword ptr ds : [eax + 0xAC]
-		popad
 	}
 	return 0;
 }
 
 void CAOEIITrainerDlg::modifyResource()
 {
+	try
+	{
+		int resoOffset[] = { RESO_OFFSET1, RESO_OFFSET2, RESO_OFFSET3, RESO_OFFSET4 };
+		MemoryOpt memOpt;
+		memOpt.initPara(RESO_BASE, resoOffset, sizeof(resoOffset) / sizeof(int));
+
+		float reso = 9999;
+		resoOffset[0] = FOOD_OFFSET;
+		memOpt.writeOffsetMemory(resoOffset, 1, &reso, sizeof(reso));
+
+		resoOffset[0] = WOOD_OFFSET;
+		memOpt.writeOffsetMemory(resoOffset, 1, &reso, sizeof(reso));
+
+		resoOffset[0] = STONE_OFFSET;
+		memOpt.writeOffsetMemory(resoOffset, 1, &reso, sizeof(reso));
+
+		resoOffset[0] = GOOD_OFFSET;
+		memOpt.writeOffsetMemory(resoOffset, 1, &reso, sizeof(reso));
+	}
+	catch (const std::exception & e)
+	{
+		CString error;
+		error = e.what();
+		MessageBox(error);
+	}
 }
 
 void CAOEIITrainerDlg::modifyPopulation()
 {
+	try
+	{
+		int resoOffset[] = { RESO_OFFSET1, RESO_OFFSET2, RESO_OFFSET3, RESO_OFFSET4 };
+		MemoryOpt memOpt;
+		memOpt.initPara(RESO_BASE, resoOffset, sizeof(resoOffset) / sizeof(int));
+
+		float popu = 0;
+		resoOffset[0] = POPULATION_OFFSET;
+		memOpt.writeOffsetMemory(resoOffset, 1, &popu, sizeof(popu));
+	}
+	catch (const std::exception & e)
+	{
+		CString error;
+		error = e.what();
+		MessageBox(error);
+	}
 }
 
 BEGIN_MESSAGE_MAP(CAOEIITrainerDlg, CDialogEx)
@@ -200,7 +241,7 @@ void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 	try
 	{
 		MemoryOpt memOpt;
-		DWORD unitId;
+		int unitId;
 		switch (nKey2)
 		{
 		case VK_NUMPAD1:
@@ -248,7 +289,7 @@ void CAOEIITrainerDlg::OnBnClickedModifyHp()
 	{
 		int unitOffset[] = { UNIT_OFFSET1 };
 		MemoryOpt memOpt;
-		memOpt.initPara(UNIT_BASE, unitOffset, 1);
+		memOpt.initPara(UNIT_BASE, unitOffset, sizeof(unitOffset) / sizeof(int));
 
 		unitOffset[0] = HP_OFFSET;
 		memOpt.writeOffsetMemory(unitOffset, 1, &unitHp, sizeof(unitHp));
@@ -269,7 +310,7 @@ void CAOEIITrainerDlg::OnSetFocus(CWnd* pOldWnd)
 	try
 	{
 		MemoryOpt memOpt;
-		memOpt.initPara(UNIT_BASE, unitOffset, 1);
+		memOpt.initPara(UNIT_BASE, unitOffset, sizeof(unitOffset) / sizeof(int));
 
 		unitOffset[0] = HP_OFFSET;
 		memOpt.readOffsetMemory(unitOffset, 1, &unitHp, sizeof(unitHp));

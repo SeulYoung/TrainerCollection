@@ -4,11 +4,10 @@
 
 MemoryOpt::MemoryOpt()
 {
+	PVOID paraAddr = NULL;
+	PVOID threadAddr = NULL;
 	HANDLE hProc = NULL;
 	HANDLE hThread = NULL;
-	PVOID base = NULL;
-	PVOID threadAddr = NULL;
-	PVOID paraAddr = NULL;
 }
 
 MemoryOpt::~MemoryOpt()
@@ -17,7 +16,6 @@ MemoryOpt::~MemoryOpt()
 		VirtualFreeEx(hProc, paraAddr, 0, MEM_RELEASE);
 	if (threadAddr != NULL)
 		VirtualFreeEx(hProc, threadAddr, 0, MEM_RELEASE);
-
 	if (hThread != NULL)
 		CloseHandle(hThread);
 	if (hProc != NULL)
@@ -141,9 +139,13 @@ void MemoryOpt::runRemoteThread(PVOID func, PVOID buf, int size)
 		VirtualFreeEx(hProc, paraAddr, 0, MEM_RELEASE);
 	if (threadAddr != NULL)
 		VirtualFreeEx(hProc, threadAddr, 0, MEM_RELEASE);
-
 	if (hThread != NULL)
 		CloseHandle(hThread);
 	if (hProc != NULL)
 		CloseHandle(hProc);
+
+	PVOID paraAddr = NULL;
+	PVOID threadAddr = NULL;
+	HANDLE hProc = NULL;
+	HANDLE hThread = NULL;
 }
