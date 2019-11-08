@@ -33,6 +33,12 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryOpt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DataDef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AOEIITrainer.cpp">
@@ -42,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryOpt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

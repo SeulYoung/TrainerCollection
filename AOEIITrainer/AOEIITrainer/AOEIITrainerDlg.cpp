@@ -7,6 +7,9 @@
 #include "AOEIITrainer.h"
 #include "AOEIITrainerDlg.h"
 #include "afxdialogex.h"
+#include <TlHelp32.h>
+#include <exception>
+#include "MemoryOpt.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -20,12 +23,12 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// 对话框数据
+	// 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 // 实现
@@ -52,6 +55,7 @@ END_MESSAGE_MAP()
 
 CAOEIITrainerDlg::CAOEIITrainerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_AOEIITRAINER_DIALOG, pParent)
+	, unitHp(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -59,12 +63,39 @@ CAOEIITrainerDlg::CAOEIITrainerDlg(CWnd* pParent /*=nullptr*/)
 void CAOEIITrainerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDT_UnitHp, unitHp);
+}
+
+DWORD CAOEIITrainerDlg::getProcId(CString gameProcName)
+{
+	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	PROCESSENTRY32 pe32;
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+
+	DWORD procId = 0;
+	bool ret = Process32First(hSnapShot, &pe32);
+	while (ret)
+	{
+		CString procName = pe32.szExeFile;
+		//procName.MakeLower();
+		if (gameProcName == procName)
+		{
+			procId = pe32.th32ProcessID;
+			break;
+		}
+		ret = Process32Next(hSnapShot, &pe32);
+	}
+	CloseHandle(hSnapShot);
+
+	return procId;
 }
 
 BEGIN_MESSAGE_MAP(CAOEIITrainerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_WM_SHOWWINDOW()
+	ON_BN_CLICKED(IDC_BTN_ModifyHp, &CAOEIITrainerDlg::OnBnClickedModifyHp)
 END_MESSAGE_MAP()
 
 
@@ -100,6 +131,7 @@ BOOL CAOEIITrainerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	SetTimer(1, 1000, NULL);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -153,3 +185,50 @@ HCURSOR CAOEIITrainerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CAOEIITrainerDlg::OnBnClickedModifyHp()
+{
+	UpdateData(TRUE);
+
+	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, getProcId(GAME_PROC_NAME));
+	int unitOffset[] = { UNIT_OFFSET1 };
+	MemoryOpt memOpt(hProc, UNIT_BASE, unitOffset, 1);
+	try
+	{
+		unitOffset[0] = HP_OFFSET;
+		if (!memOpt.writeOffsetMemory(unitOffset, 1, (PVOID)unitHp, sizeof(unitHp)))
+			throw text_exception("修改单位生命值失败");
+	}
+	catch (const std::exception & e)
+	{
+		CString error;
+		error = e.what();
+		MessageBox(error);
+	}
+	if (hProc != NULL)
+		CloseHandle(hProc);
+}
+
+void CAOEIITrainerDlg::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CDialogEx::OnShowWindow(bShow, nStatus);
+
+	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, getProcId(GAME_PROC_NAME));
+	int unitOffset[] = { UNIT_OFFSET1 };
+	MemoryOpt memOpt(hProc, UNIT_BASE, unitOffset, 1);
+	try
+	{
+		unitOffset[0] = HP_OFFSET;
+		if (!memOpt.readOffsetMemory(unitOffset, 1, (PVOID)unitHp, sizeof(unitHp)))
+			throw text_exception("读取单位生命值失败");
+	}
+	catch (const std::exception & e)
+	{
+		CString error;
+		error = e.what();
+		MessageBox(error);
+	}
+	if (hProc != NULL)
+		CloseHandle(hProc);
+
+	UpdateData(FALSE);
+}

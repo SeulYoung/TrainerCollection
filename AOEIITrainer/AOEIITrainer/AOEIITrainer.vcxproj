@@ -189,7 +189,9 @@
   <ItemGroup>
     <ClInclude Include="AOEIITrainer.h" />
     <ClInclude Include="AOEIITrainerDlg.h" />
+    <ClInclude Include="DataDef.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MemoryOpt.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -197,6 +199,7 @@
   <ItemGroup>
     <ClCompile Include="AOEIITrainer.cpp" />
     <ClCompile Include="AOEIITrainerDlg.cpp" />
+    <ClCompile Include="MemoryOpt.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

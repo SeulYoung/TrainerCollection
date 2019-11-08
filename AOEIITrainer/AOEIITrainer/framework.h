@@ -29,8 +29,8 @@
 #include <afxcontrolbars.h>     // MFC 支持功能区和控制条
 
 
-
-
+// 自定义添加
+#include "DataDef.h"
 
 
 
