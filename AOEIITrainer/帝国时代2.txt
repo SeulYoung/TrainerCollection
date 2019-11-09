@@ -102,19 +102,26 @@
 00437948 | FF90 AC000000            | call dword ptr ds:[eax+AC]              | 5个参数-3
 
 注入器可用在地图中心刷圣殿骑士代码：
+__declspec(naked) void testCall()
 {
-    mov ecx,[0x7912A0]
-    mov ecx,[ecx+0x424]
-    mov ecx,[ecx+0x4C]
-    mov ecx,[ecx+0x4]
-    mov edx,0x239
-    push 1
-    push 0
-    mov eax,[ecx]
-    push [ecx+0x178]
-    push [ecx+0x174]
-    push edx
-    call [eax+0xAC]
+	__asm
+	{
+		pushad
+		mov ecx, dword ptr ds : [0x7912A0]
+		mov ecx, dword ptr ds : [ecx + 0x424]
+		mov ecx, dword ptr ds : [ecx + 0x4C]
+		mov ecx, dword ptr ds : [ecx + 0x4]
+		mov edx, 0x239
+		push 1
+		push 0
+		mov eax, dword ptr ds : [ecx]
+		push dword ptr ds : [ecx + 0x178]
+		push dword ptr ds : [ecx + 0x174]
+		push edx
+		call dword ptr ds : [eax + 0xAC]
+		popad
+		ret
+	}
 }
 
 分析单位坐标换算：

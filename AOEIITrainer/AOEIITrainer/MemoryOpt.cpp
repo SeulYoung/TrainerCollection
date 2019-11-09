@@ -6,8 +6,8 @@ MemoryOpt::MemoryOpt()
 {
 	PVOID paraAddr = NULL;
 	PVOID threadAddr = NULL;
-	HANDLE hProc = NULL;
 	HANDLE hThread = NULL;
+	HANDLE hProc = NULL;
 }
 
 MemoryOpt::~MemoryOpt()
@@ -120,12 +120,15 @@ void MemoryOpt::runRemoteThread(PVOID func, PVOID buf, int size)
 	if (!WriteProcessMemory(hProc, threadAddr, func, 4096, &writeSize))
 		throw std::exception("线程函数写入游戏内存失败");
 
-	paraAddr = VirtualAllocEx(hProc, NULL, size, MEM_COMMIT, PAGE_READWRITE);
-	if (paraAddr == NULL)
-		throw std::exception("分配参数内存失败");
+	if (size > 0)
+	{
+		paraAddr = VirtualAllocEx(hProc, NULL, size, MEM_COMMIT, PAGE_READWRITE);
+		if (paraAddr == NULL)
+			throw std::exception("分配参数内存失败");
 
-	if (!WriteProcessMemory(hProc, paraAddr, buf, size, &writeSize))
-		throw std::exception("参数写入游戏内存失败");
+		if (!WriteProcessMemory(hProc, paraAddr, buf, size, &writeSize))
+			throw std::exception("参数写入游戏内存失败");
+	}
 
 	hThread = CreateRemoteThread(hProc, NULL, NULL, (LPTHREAD_START_ROUTINE)threadAddr, buf, NULL, NULL);
 	if (hThread == NULL)
@@ -136,16 +139,18 @@ void MemoryOpt::runRemoteThread(PVOID func, PVOID buf, int size)
 		throw std::exception("线程执行等待超时");
 
 	if (paraAddr != NULL)
+	{
 		VirtualFreeEx(hProc, paraAddr, 0, MEM_RELEASE);
+		PVOID paraAddr = NULL;
+	}
 	if (threadAddr != NULL)
+	{
 		VirtualFreeEx(hProc, threadAddr, 0, MEM_RELEASE);
+		PVOID threadAddr = NULL;
+	}
 	if (hThread != NULL)
+	{
 		CloseHandle(hThread);
-	if (hProc != NULL)
-		CloseHandle(hProc);
-
-	PVOID paraAddr = NULL;
-	PVOID threadAddr = NULL;
-	HANDLE hProc = NULL;
-	HANDLE hThread = NULL;
+		HANDLE hThread = NULL;
+	}
 }

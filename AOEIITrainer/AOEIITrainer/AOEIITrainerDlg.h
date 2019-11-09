@@ -21,7 +21,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	static DWORD __stdcall createUnit(LPVOID unitIdAddr);
+	static void __stdcall createUnit(LPVOID unitIdAddr);
 	void modifyResource();
 	void modifyPopulation();
 
@@ -37,5 +37,4 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2);
 	afx_msg void OnBnClickedModifyHp();
-	afx_msg void OnSetFocus(CWnd* pOldWnd);
 };
