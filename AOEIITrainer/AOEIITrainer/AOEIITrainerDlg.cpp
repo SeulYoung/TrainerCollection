@@ -234,7 +234,7 @@ HCURSOR CAOEIITrainerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-__declspec(naked) void testCall1()
+__declspec(naked) void testCall()
 {
 	__asm
 	{
@@ -243,73 +243,7 @@ __declspec(naked) void testCall1()
 		mov ecx, dword ptr ds : [ecx + 0x424]
 		mov ecx, dword ptr ds : [ecx + 0x4C]
 		mov ecx, dword ptr ds : [ecx + 0x4]
-		mov edx, HEROC
-		push 1
-		push 0
-		mov eax, dword ptr ds : [ecx]
-		push dword ptr ds : [ecx + 0x178]
-		push dword ptr ds : [ecx + 0x174]
-		push edx
-		call dword ptr ds : [eax + 0xAC]
-		popad
-		ret
-	}
-}
-
-__declspec(naked) void testCall2()
-{
-	__asm
-	{
-		pushad
-		mov ecx, dword ptr ds : [0x7912A0]
-		mov ecx, dword ptr ds : [ecx + 0x424]
-		mov ecx, dword ptr ds : [ecx + 0x4C]
-		mov ecx, dword ptr ds : [ecx + 0x4]
-		mov edx, HEROI
-		push 1
-		push 0
-		mov eax, dword ptr ds : [ecx]
-		push dword ptr ds : [ecx + 0x178]
-		push dword ptr ds : [ecx + 0x174]
-		push edx
-		call dword ptr ds : [eax + 0xAC]
-		popad
-		ret
-	}
-}
-
-__declspec(naked) void testCall3()
-{
-	__asm
-	{
-		pushad
-		mov ecx, dword ptr ds : [0x7912A0]
-		mov ecx, dword ptr ds : [ecx + 0x424]
-		mov ecx, dword ptr ds : [ecx + 0x4C]
-		mov ecx, dword ptr ds : [ecx + 0x4]
-		mov edx, UMOSU
-		push 1
-		push 0
-		mov eax, dword ptr ds : [ecx]
-		push dword ptr ds : [ecx + 0x178]
-		push dword ptr ds : [ecx + 0x174]
-		push edx
-		call dword ptr ds : [eax + 0xAC]
-		popad
-		ret
-	}
-}
-
-__declspec(naked) void testCall4()
-{
-	__asm
-	{
-		pushad
-		mov ecx, dword ptr ds : [0x7912A0]
-		mov ecx, dword ptr ds : [ecx + 0x424]
-		mov ecx, dword ptr ds : [ecx + 0x4C]
-		mov ecx, dword ptr ds : [ecx + 0x4]
-		mov edx, ULGBW
+		mov edx, dword ptr ds : [PARAM_ADDR]
 		push 1
 		push 0
 		mov eax, dword ptr ds : [ecx]
@@ -329,28 +263,29 @@ void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 	try
 	{
 		MemoryOpt memOpt;
+		memOpt.initPara(PARAM_ADDR, NULL, 0);
 		int unitId;
 		switch (nKey2)
 		{
 		case VK_NUMPAD1:
 			unitId = HEROC;
-			memOpt.initHandle();
-			memOpt.runRemoteThread(testCall1, NULL, 0);
+			memOpt.writeMemory(&unitId, sizeof(unitId));
+			memOpt.runRemoteThread(testCall, NULL, 0);
 			break;
 		case VK_NUMPAD2:
 			unitId = HEROI;
-			memOpt.initHandle();
-			memOpt.runRemoteThread(testCall2, NULL, 0);
+			memOpt.writeMemory(&unitId, sizeof(unitId));
+			memOpt.runRemoteThread(testCall, NULL, 0);
 			break;
 		case VK_NUMPAD3:
 			unitId = UMOSU;
-			memOpt.initHandle();
-			memOpt.runRemoteThread(testCall3, NULL, 0);
+			memOpt.writeMemory(&unitId, sizeof(unitId));
+			memOpt.runRemoteThread(testCall, NULL, 0);
 			break;
 		case VK_NUMPAD4:
 			unitId = ULGBW;
-			memOpt.initHandle();
-			memOpt.runRemoteThread(testCall4, NULL, 0);
+			memOpt.writeMemory(&unitId, sizeof(unitId));
+			memOpt.runRemoteThread(testCall, NULL, 0);
 			//memOpt.runRemoteThread(createUnit, &unitId, sizeof(unitId));
 			break;
 		case VK_NUMPAD5:
