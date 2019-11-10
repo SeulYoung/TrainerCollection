@@ -12,7 +12,7 @@ private:
 
 public:
 	static GlobalInfo* getGlobalInfoInstance();
-	HANDLE getProcessHandle() { return GetCurrentProcess(); };
-	HWND getHWndDllMain() { return hWndDllMain; };
-	void setHWndDllMain(HWND hWnd) { hWndDllMain = hWnd; };
+	HANDLE getProcessHandle() { return GetCurrentProcess(); }
+	HWND getHWndDllMain() const { return hWndDllMain; }
+	void setHWndDllMain(const HWND& hWnd) { hWndDllMain = hWnd; }
 };

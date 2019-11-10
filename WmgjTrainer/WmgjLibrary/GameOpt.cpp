@@ -106,3 +106,62 @@ void GameOpt::getSkills(VEC_SKILL& skills)
 	}
 
 }
+
+void GameOpt::getMonsters(VEC_MONSTER& monsters)
+{
+
+}
+
+void GameOpt::selectObjById(int objId)
+{
+	__asm
+	{
+		pushad
+		mov edi, objId
+		push edi
+		mov ecx, BASE_ADDRESS
+		mov ecx, [ecx]
+		mov ecx, [ecx + 0x20]
+		add ecx, 0x0F4
+		mov edx, SELECT_MONSTER
+		call edx
+		popad
+	}
+}
+
+void GameOpt::useSkillById(int skillId)
+{
+	__asm
+	{
+		pushad
+		push - 1
+		push 0
+		push 0
+		mov eax, skillId
+		push eax
+		mov eax, BASE_ADDRESS
+		mov eax, [eax]
+		mov eax, [eax + 0x1C]
+		mov ecx, [eax + 0x34]
+		mov edx, USE_SKILL
+		call edx
+		popad
+	}
+}
+
+void GameOpt::userSkillByName(CString name)
+{
+	VEC_SKILL skills;
+	getSkills(skills);
+	for (size_t i = 0; i < skills.size(); i++)
+	{
+		CString str;
+		str = skills[i].name;
+		if (str == name && skills[i].available == 0)
+		{
+			useSkillById(skills[i].id);
+			Sleep(500);
+			break;
+		}
+	}
+}

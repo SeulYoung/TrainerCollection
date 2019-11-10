@@ -36,3 +36,48 @@ enum SkillOffset
 	CD_OFFSET = 0x14,
 	AVAILABLE_OFFSET = 0x10		// 0代表技能可用
 };
+
+enum MonsterType
+{
+	ORDINARY = 6
+};
+
+enum callAddress
+{
+	SELECT_MONSTER = 0x86F2F0,
+	USE_SKILL = 0x4BCB10
+};
+
+typedef struct
+{
+	char name[32];
+	int level;
+	float posX;
+	float posY;
+	float posZ;
+	int hp;
+	int hpMax;
+	int mp;
+	int mpMax;
+	int exp;
+	int money;
+}RoleInfo;
+
+typedef struct
+{
+	int id;
+	char name[32];
+	int cd;
+	int available;		// 0表示技能可用
+}SkillInfo;
+
+typedef struct
+{
+	int id;
+	char name[32];
+	int hp;
+	int type;
+}MonsterInfo;
+
+typedef std::vector<SkillInfo> VEC_SKILL;
+typedef std::vector<MonsterInfo> VEC_MONSTER;
