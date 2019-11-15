@@ -6,6 +6,7 @@ enum UnitId
 {
 	HEROC = 0x239,			// 圣殿骑士
 	HEROI = 0x237,			// 勇者剑士
+	UTKNI = 0x22A,			// 条顿武士
 	UMOSU = 0x231,			// 精锐蒙古骑射手
 	ULGBW = 0x212,			// 精锐长弓兵
 	PARAM_ADDR = 0x795FF0	// 存放参数的地址

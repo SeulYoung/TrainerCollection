@@ -273,7 +273,7 @@ void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 			memOpt.runRemoteThread(testCall, NULL, 0);
 			break;
 		case VK_NUMPAD2:
-			unitId = HEROI;
+			unitId = UTKNI;
 			memOpt.writeMemory(&unitId, sizeof(unitId));
 			memOpt.runRemoteThread(testCall, NULL, 0);
 			break;
