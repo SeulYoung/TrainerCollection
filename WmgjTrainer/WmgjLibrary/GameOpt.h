@@ -15,5 +15,6 @@ public:
 	void getMonsters(VEC_MONSTER& monsters);
 	void selectObjById(int objId);
 	void useSkillById(int skillId);
-	void userSkillByName(CString name);
+	void useSkillByName(CString name);
+	bool isSkillUsed(CString name);
 };

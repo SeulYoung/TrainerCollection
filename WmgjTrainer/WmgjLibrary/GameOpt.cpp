@@ -61,6 +61,8 @@ void GameOpt::getRole(RoleInfo& info)
 	roleOffset[0] = POS_Z_OFFSET;
 	memOpt.readOffsetMemory(roleOffset, 1, &info.posZ, sizeof(info.posZ));
 
+	roleOffset[0] = SELECT_OBJ_OFFSET;
+	memOpt.readOffsetMemory(roleOffset, 1, &info.selectObjId, sizeof(info.selectObjId));
 }
 
 void GameOpt::getSkills(VEC_SKILL& skills)
@@ -149,7 +151,7 @@ void GameOpt::useSkillById(int skillId)
 	}
 }
 
-void GameOpt::userSkillByName(CString name)
+void GameOpt::useSkillByName(CString name)
 {
 	VEC_SKILL skills;
 	getSkills(skills);
@@ -164,4 +166,18 @@ void GameOpt::userSkillByName(CString name)
 			break;
 		}
 	}
+}
+
+bool GameOpt::isSkillUsed(CString name)
+{
+	VEC_SKILL skills;
+	getSkills(skills);
+	for (size_t i = 0; i < skills.size(); i++)
+	{
+		CString str;
+		str = skills[i].name;
+		if (str == name && skills[i].available != 0)
+			return true;
+	}
+	return false;
 }

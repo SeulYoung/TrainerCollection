@@ -24,7 +24,8 @@ enum RoleOffset
 	MP_MAX_OFFSET = 0x524,
 	EXP_OFFSET = 0x530,
 	MONEY_OFFSET = 0x5A8,
-	SKILL_OFFSET = 0x1578
+	SKILL_OFFSET = 0x1578,
+	SELECT_OBJ_OFFSET = 0x5A4
 };
 
 enum SkillOffset
@@ -61,6 +62,7 @@ typedef struct
 	int mpMax;
 	int exp;
 	int money;
+	int selectObjId;
 }RoleInfo;
 
 typedef struct
@@ -75,9 +77,34 @@ typedef struct
 {
 	int id;
 	char name[32];
+	float posX;
+	float posY;
+	float posZ;
 	int hp;
 	int type;
 }MonsterInfo;
+
+typedef std::vector<CString> VEC_STR;
+
+typedef struct
+{
+	bool firstOnce;
+	VEC_STR skills;
+}AttackSkills;
+
+typedef struct
+{
+	bool isAttackList;
+	VEC_STR monsters;
+
+	bool isInList(CString name)
+	{
+		for (size_t i = 0; i < monsters.size(); i++)
+			if (name == monsters[i])
+				return true;
+		return false;
+	}
+}AttackMonsters;
 
 typedef std::vector<SkillInfo> VEC_SKILL;
 typedef std::vector<MonsterInfo> VEC_MONSTER;

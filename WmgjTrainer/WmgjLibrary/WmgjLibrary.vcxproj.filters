@@ -36,6 +36,9 @@
     <ClCompile Include="ThreadOnHook.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ParamMgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="WmgjLibrary.def">
@@ -77,6 +80,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ThreadOnHook.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamMgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
