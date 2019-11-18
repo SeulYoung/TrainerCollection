@@ -1,11 +1,11 @@
 ﻿
-// AOEIITrainerDlg.cpp: 实现文件
+// AoEIIDETrainerDlg.cpp: 实现文件
 //
 
 #include "pch.h"
 #include "framework.h"
-#include "AOEIITrainer.h"
-#include "AOEIITrainerDlg.h"
+#include "AoEIIDETrainer.h"
+#include "AoEIIDETrainerDlg.h"
 #include "afxdialogex.h"
 #include "MemoryOpt.h"
 
@@ -47,51 +47,28 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CAOEIITrainerDlg 对话框
+// CAoEIIDETrainerDlg 对话框
 
-CAOEIITrainerDlg::CAOEIITrainerDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_AOEIITRAINER_DIALOG, pParent)
-	, unitHp(0)
+
+
+CAoEIIDETrainerDlg::CAoEIIDETrainerDlg(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_AOEIIDETRAINER_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-void CAOEIITrainerDlg::DoDataExchange(CDataExchange* pDX)
+void CAoEIIDETrainerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDT_UnitHp, unitHp);
 }
 
-void __stdcall CAOEIITrainerDlg::createUnit(LPVOID unitIdAddr)
-{
-	int* pUnitId = (int*)unitIdAddr;
-	int unitId = *pUnitId;
-	__asm
-	{
-		pushad
-		mov ecx, dword ptr ds : [0x7912A0]
-		mov ecx, dword ptr ds : [ecx + 0x424]
-		mov ecx, dword ptr ds : [ecx + 0x4C]
-		mov ecx, dword ptr ds : [ecx + 0x4]
-		mov edx, unitId
-		push 1
-		push 0
-		mov eax, dword ptr ds : [ecx]
-		push dword ptr ds : [ecx + 0x178]
-		push dword ptr ds : [ecx + 0x174]
-		push edx
-		call dword ptr ds : [eax + 0xAC]
-		popad
-	}
-}
-
-void CAOEIITrainerDlg::modifyResource()
+void CAoEIIDETrainerDlg::modifyResource()
 {
 	try
 	{
-		int resoOffset[] = { RESO_OFFSET1, RESO_OFFSET2, RESO_OFFSET3, RESO_OFFSET4 };
+		int resoOffset[] = { OFFSET1, OFFSET2, OFFSET3, OFFSET4, OFFSET5, OFFSET6, OFFSET7, RESO_OFFSET1 };
 		MemoryOpt memOpt;
-		memOpt.initPara(RESO_BASE, resoOffset, sizeof(resoOffset) / sizeof(int));
+		memOpt.initPara(BASE, resoOffset, sizeof(resoOffset) / sizeof(int));
 
 		float reso = 9999;
 		resoOffset[0] = FOOD_OFFSET;
@@ -114,38 +91,53 @@ void CAOEIITrainerDlg::modifyResource()
 	}
 }
 
-void CAOEIITrainerDlg::modifyPopulation()
+void CAoEIIDETrainerDlg::testCall()
 {
-	try
+	__asm
 	{
-		int resoOffset[] = { RESO_OFFSET1, RESO_OFFSET2, RESO_OFFSET3, RESO_OFFSET4 };
-		MemoryOpt memOpt;
-		memOpt.initPara(RESO_BASE, resoOffset, sizeof(resoOffset) / sizeof(int));
-
-		float popu = 0;
-		resoOffset[0] = POPULATION_OFFSET;
-		memOpt.writeOffsetMemory(resoOffset, 1, &popu, sizeof(popu));
-	}
-	catch (const std::exception & e)
-	{
-		CString error;
-		error = e.what();
-		MessageBox(error);
+		push rsp
+		push rbx
+		push rax
+		push rdx
+		push rcx
+		sub rsp, 0x40
+		mov rbx, qword ptr ds : [0x7FF69AC0F668]
+		mov rbx, qword ptr ds : [rbx + 0xB8]
+		mov rbx, qword ptr ds : [rbx + 0xBBF0]
+		mov rbx, qword ptr ds : [rbx + 0xD0]
+		mov rbx, qword ptr ds : [rbx + 0x8]
+		mov rbx, qword ptr ds : [rbx + 0x168]
+		mov rbx, qword ptr ds : [rbx + 0x118]
+		mov rbx, qword ptr ds : [rbx + 0x18]
+		mov rax, qword ptr ds : [rbx]
+		mov dword ptr ss : [rsp + 0x28] , 1
+		mov dword ptr ss : [rsp + 0x20] , 0
+		mov dword ptr ss : [rsp + 0x38] , 0x42620000
+		movss xmm3, dword ptr ss : [rsp + 0x38]
+		mov dword ptr ss : [rsp + 0x38] , 0x428F0000
+		movss xmm2, dword ptr ss : [rsp + 0x38]
+		mov edx, 0x231
+		mov rcx, rbx
+		call qword ptr ds : [rax + 0x150]
+		pop rcx
+		pop rdx
+		pop rax
+		pop rbx
+		pop rsp
 	}
 }
 
-BEGIN_MESSAGE_MAP(CAOEIITrainerDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CAoEIIDETrainerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_HOTKEY()
-	ON_BN_CLICKED(IDC_BTN_ModifyHp, &CAOEIITrainerDlg::OnBnClickedModifyHp)
 END_MESSAGE_MAP()
 
 
-// CAOEIITrainerDlg 消息处理程序
+// CAoEIIDETrainerDlg 消息处理程序
 
-BOOL CAOEIITrainerDlg::OnInitDialog()
+BOOL CAoEIIDETrainerDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
@@ -180,12 +172,11 @@ BOOL CAOEIITrainerDlg::OnInitDialog()
 	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD3);
 	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD4);
 	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD5);
-	RegisterHotKey(GetSafeHwnd(), WM_HOTKEY, NULL, VK_NUMPAD6);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
-void CAOEIITrainerDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CAoEIIDETrainerDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
@@ -202,7 +193,7 @@ void CAOEIITrainerDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  来绘制该图标。  对于使用文档/视图模型的 MFC 应用程序，
 //  这将由框架自动完成。
 
-void CAOEIITrainerDlg::OnPaint()
+void CAoEIIDETrainerDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -229,34 +220,12 @@ void CAOEIITrainerDlg::OnPaint()
 
 //当用户拖动最小化窗口时系统调用此函数取得光标
 //显示。
-HCURSOR CAOEIITrainerDlg::OnQueryDragIcon()
+HCURSOR CAoEIIDETrainerDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-__declspec(naked) void testCall()
-{
-	__asm
-	{
-		pushad
-		mov ecx, dword ptr ds : [0x7912A0]
-		mov ecx, dword ptr ds : [ecx + 0x424]
-		mov ecx, dword ptr ds : [ecx + 0x4C]
-		mov ecx, dword ptr ds : [ecx + 0x4]
-		mov edx, dword ptr ds : [PARAM_ADDR]
-		push 1
-		push 0
-		mov eax, dword ptr ds : [ecx]
-		push dword ptr ds : [ecx + 0x178]
-		push dword ptr ds : [ecx + 0x174]
-		push edx
-		call dword ptr ds : [eax + 0xAC]
-		popad
-		ret
-	}
-}
-
-void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
+void CAoEIIDETrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 {
 	CDialogEx::OnHotKey(nHotKeyId, nKey1, nKey2);
 
@@ -286,13 +255,9 @@ void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 			unitId = ULGBW;
 			memOpt.writeMemory(&unitId, sizeof(unitId));
 			memOpt.runRemoteThread(testCall, NULL, 0);
-			//memOpt.runRemoteThread(createUnit, &unitId, sizeof(unitId));
 			break;
 		case VK_NUMPAD5:
 			modifyResource();
-			break;
-		case VK_NUMPAD6:
-			modifyPopulation();
 			break;
 		}
 	}
@@ -303,47 +268,3 @@ void CAOEIITrainerDlg::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
 		MessageBox(error);
 	}
 }
-
-void CAOEIITrainerDlg::OnBnClickedModifyHp()
-{
-	UpdateData(TRUE);
-
-	try
-	{
-		int unitOffset[] = { UNIT_OFFSET1 };
-		MemoryOpt memOpt;
-		memOpt.initPara(UNIT_BASE, unitOffset, sizeof(unitOffset) / sizeof(int));
-
-		unitOffset[0] = HP_OFFSET;
-		memOpt.writeOffsetMemory(unitOffset, 1, &unitHp, sizeof(unitHp));
-	}
-	catch (const std::exception & e)
-	{
-		CString error;
-		error = e.what();
-		MessageBox(error);
-	}
-}
-
-//void CAOEIITrainerDlg::OnSetFocus(CWnd* pOldWnd)
-//{
-//	CDialogEx::OnSetFocus(pOldWnd);
-//
-//	int unitOffset[] = { UNIT_OFFSET1 };
-//	try
-//	{
-//		MemoryOpt memOpt;
-//		memOpt.initPara(UNIT_BASE, unitOffset, sizeof(unitOffset) / sizeof(int));
-//
-//		unitOffset[0] = HP_OFFSET;
-//		memOpt.readOffsetMemory(unitOffset, 1, &unitHp, sizeof(unitHp));
-//	}
-//	catch (const std::exception & e)
-//	{
-//		CString error;
-//		error = e.what();
-//		MessageBox(error);
-//	}
-//
-//	UpdateData(FALSE);
-//}

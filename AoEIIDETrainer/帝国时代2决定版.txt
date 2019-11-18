@@ -1,0 +1,86 @@
+64位下调用协议只有一种，协议如下:
+    前四个整型或指针类型参数由RCX,RDX,R8,R9依次传递，前四个浮点类型参数由XMM0,XMM1,XMM2,XMM3依次传递。
+    调用函数为前四个参数在调用栈上保留相应的空间，称作shadow space或spill slot。即使被调用方没有或小于4个参数，调用函数仍然保留那么多的栈空间，这有助于在某些特殊情况下简化调用约定。
+    除前四个参数以外的任何其他参数通过栈来传递，从右至左依次入栈。
+    由调用函数负责清理调用栈。
+    小于等于64位的整型或指针类型返回值由RAX传递。
+    浮点返回值由XMM0传递。
+    更大的返回值(比如结构体)，由调用方在栈上分配空间，并有RCX持有该空间的指针并传递给被调用函数，因此整型参数使用的寄存器依次右移一格，实际只可以利用3个寄存器，其余参数入栈。函数调用结束后，RAX返回该空间的指针。
+    除RCX,RDX,R8,R9以外，RAX、R10、R11、XMM4 和 XMM5也是易变化的(volatile)寄存器。
+    RBX, RBP, RDI, RSI, R12, R14, R14, and R15寄存器则必须在使用时进行保护。
+    在寄存器中，所有参数都是右对齐的。小于64位的参数并不进行高位零扩展，也就是高位是无法预测的垃圾数据。 
+
+食物寻址：
+00007FF698A4C17F | 48:8BD9                  | mov rbx,rcx                             |
+00007FF698A4C263 | 48:8B4B 68               | mov rcx,qword ptr ds:[rbx+68]           |
+00007FF698A4C287 | F3:0F110491              | movss dword ptr ds:[rcx+rdx*4],xmm0     | 修改食物
+[rcx+68]+0*4==1BCC717AC80
+
+00007FF698BF08BE | 48:8BF9                  | mov rdi,rcx                             |
+00007FF698BF098A | 48:8B4F 18               | mov rcx,qword ptr ds:[rdi+18]           |
+[[rcx+18]+68]+0*4==1BCC717AC80
+
+00007FF698B1FF2A | 48:8BC8                  | mov rcx,rax                             |
+[[rax+18]+68]+0*4==1BCC717AC80
+
+00007FF698A33CF4 | 4C:8B81 68010000         | mov r8,qword ptr ds:[rcx+168]           |
+00007FF698A33D03 | 49:8B04C0                | mov rax,qword ptr ds:[r8+rax*8]         |
+[[[[rcx+168]+23*8]+18]+68]+0*4==1BCC717AC80
+
+00007FF69853EA52 | 48:8BF9                  | mov rdi,rcx                             |
+00007FF69853EB00 | 48:8B87 C8000000         | mov rax,qword ptr ds:[rdi+C8]           |
+00007FF69853EB07 | 48:8B88 D0000000         | mov rcx,qword ptr ds:[rax+D0]           |
+00007FF69853EB0E | 48:8B49 08               | mov rcx,qword ptr ds:[rcx+8]            |
+[[[[[[[rcx+C8]+D0]+8]+168]+23*8]+18]+68]+0*4==1BCC717AC80
+
+00007FF698566174 | 48:8BD9                  | mov rbx,rcx                             |
+00007FF6985661EA | 48:8B8B B8000000         | mov rcx,qword ptr ds:[rbx+B8]           |
+00007FF6985661F1 | 48:81C1 28BB0000         | add rcx,BB28                            |
+[[[[[[[[rcx+B8]+BB28+C8]+D0]+8]+168]+23*8]+18]+68]+0*4==1BCC717AC80
+
+00007FF698564BCE | 48:8BF9                  | mov rdi,rcx                             |
+00007FF698564D6F | 48:8BCF                  | mov rcx,rdi                             |
+[[[[[[[[rcx+B8]+BB28+C8]+D0]+8]+168]+23*8]+18]+68]+0*4==1BCC717AC80
+
+00007FF6985766A8 | 48:8BCF                  | mov rcx,rdi                             |
+[[[[[[[[rdi+B8]+BB28+C8]+D0]+8]+168]+23*8]+18]+68]+0*4==1BCC717AC80
+
+CE搜索rdi得到三个基地址：
+7FF69AC0F668
+7FF69AC114D8
+7FF69AC12C60
+
+
+定位刷单位call：
+00007FF698B889D9 | 48:8B03                  | mov rax,qword ptr ds:[rbx]              | 000001BCFE52F130
+00007FF698B889DC | 41:BE 01000000           | mov r14d,1                              |
+00007FF698B889E2 | 44:897424 28             | mov dword ptr ss:[rsp+28],r14d          | 1
+00007FF698B889E7 | 0F57C0                   | xorps xmm0,xmm0                         |
+00007FF698B889EA | F3:0F114424 20           | movss dword ptr ss:[rsp+20],xmm0        | 0
+00007FF698B889F0 | 0F28DE                   | movaps xmm3,xmm6                        | 42620000
+00007FF698B889F3 | 0F28D7                   | movaps xmm2,xmm7                        | 428F0000
+00007FF698B889F6 | 8B56 28                  | mov edx,dword ptr ds:[rsi+28]           | 231
+00007FF698B889F9 | 48:8BCB                  | mov rcx,rbx                             |
+00007FF698B889FC | FF90 50010000            | call qword ptr ds:[rax+150]             |
+以上好像是帝国时代2原版刷单位代码
+
+[[[[[[[[7FF69AC0F668]+B8]+BBF0]+D0]+8]+168]+118]+18]=1BCFE52F130 代表玩家阵营
+
+sub rsp,0x40
+mov rbx,[0x7FF69AC0F668]
+mov rbx,[rbx+0xB8]
+mov rbx,[rbx+0xBBF0]
+mov rbx,[rbx+0xD0]
+mov rbx,[rbx+0x8]
+mov rbx,[rbx+0x168]
+mov rbx,[rbx+0x118]
+mov rbx,[rbx+0x18]
+mov rax,qword ptr ds:[rbx]
+mov dword ptr ss:[rsp+0x28],1
+mov dword ptr ss:[rsp+0x20],0
+movss xmm3,0x42620000
+movss xmm2,0x428F0000
+mov edx,0x231
+mov rcx,rbx
+call qword ptr ds:[rax+0x150]
+

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"基址1"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>8 Bytes</VariableType>
+      <Address>AoE2DE_s.exe+2BAF668</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"基址2"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>8 Bytes</VariableType>
+      <Address>AoE2DE_s.exe+2BB14D8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"基址3"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>8 Bytes</VariableType>
+      <Address>AoE2DE_s.exe+2BB2C60</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"食物"</Description>
+      <VariableType>Float</VariableType>
+      <Address>7FF69AC0F668</Address>
+      <Offsets>
+        <Offset>0*4</Offset>
+        <Offset>68</Offset>
+        <Offset>18</Offset>
+        <Offset>23*8</Offset>
+        <Offset>168</Offset>
+        <Offset>8</Offset>
+        <Offset>D0</Offset>
+        <Offset>BB28+C8</Offset>
+        <Offset>B8</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"木材"</Description>
+      <VariableType>Float</VariableType>
+      <Address>7FF69AC0F668</Address>
+      <Offsets>
+        <Offset>1*4</Offset>
+        <Offset>68</Offset>
+        <Offset>18</Offset>
+        <Offset>23*8</Offset>
+        <Offset>168</Offset>
+        <Offset>8</Offset>
+        <Offset>D0</Offset>
+        <Offset>BB28+C8</Offset>
+        <Offset>B8</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"石头"</Description>
+      <VariableType>Float</VariableType>
+      <Address>7FF69AC0F668</Address>
+      <Offsets>
+        <Offset>2*4</Offset>
+        <Offset>68</Offset>
+        <Offset>18</Offset>
+        <Offset>23*8</Offset>
+        <Offset>168</Offset>
+        <Offset>8</Offset>
+        <Offset>D0</Offset>
+        <Offset>BB28+C8</Offset>
+        <Offset>B8</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"黄金"</Description>
+      <VariableType>Float</VariableType>
+      <Address>7FF69AC0F668</Address>
+      <Offsets>
+        <Offset>3*4</Offset>
+        <Offset>68</Offset>
+        <Offset>18</Offset>
+        <Offset>23*8</Offset>
+        <Offset>168</Offset>
+        <Offset>8</Offset>
+        <Offset>D0</Offset>
+        <Offset>BB28+C8</Offset>
+        <Offset>B8</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>12</ID>
+      <Description>"当前人口"</Description>
+      <VariableType>Float</VariableType>
+      <Address>7FF69AC0F668</Address>
+      <Offsets>
+        <Offset>B*4</Offset>
+        <Offset>68</Offset>
+        <Offset>18</Offset>
+        <Offset>23*8</Offset>
+        <Offset>168</Offset>
+        <Offset>8</Offset>
+        <Offset>D0</Offset>
+        <Offset>BB28+C8</Offset>
+        <Offset>B8</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"尝试生成单位"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+alloc(mythread_create,$1000)
+
+mythread_create:
+  push rsp
+  push rbx
+  push rax
+  push rdx
+  push rcx
+  sub rsp,0x40
+  mov rbx,qword ptr ds:[0x7FF69AC0F668]
+  mov rbx,qword ptr ds:[rbx+0xB8]
+  mov rbx,qword ptr ds:[rbx+0xBBF0]
+  mov rbx,qword ptr ds:[rbx+0xD0]
+  mov rbx,qword ptr ds:[rbx+0x8]
+  mov rbx,qword ptr ds:[rbx+0x168]
+  mov rbx,qword ptr ds:[rbx+0x118]
+  mov rbx,qword ptr ds:[rbx+0x18]
+  mov rax,qword ptr ds:[rbx]
+  mov dword ptr ss:[rsp+0x28],1
+  mov dword ptr ss:[rsp+0x20],0
+  mov dword ptr ss:[rsp+0x38],0x42620000
+  movss xmm3,dword ptr ss:[rsp+0x38]
+  mov dword ptr ss:[rsp+0x38],0x428F0000
+  movss xmm2,dword ptr ss:[rsp+0x38]
+  mov edx,0x231
+  mov rcx,rbx
+  call qword ptr ds:[rax+0x150]
+  pop rcx
+  pop rdx
+  pop rax
+  pop rbx
+  pop rsp
+  ret
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+createthread(mythread_create)
+dealloc(mythread_create)
+
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>mythread_create</Name>
+      <Address>1BC20E60000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Comments>关于表格信息:
+</Comments>
+</CheatTable>
