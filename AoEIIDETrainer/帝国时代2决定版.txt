@@ -84,3 +84,110 @@ mov edx,0x231
 mov rcx,rbx
 call qword ptr ds:[rax+0x150]
 
+插入代码片段位置：
+00007FF66C2578F4 | 48:83C4 28               | add rsp,28                              |
+
+
+食物再寻址：
+
+00007FF66B767C58 | 48:8B41 68               | mov rax,qword ptr ds:[rcx+68]           |
+00007FF66B767C69 | F342:0F110480            | movss dword ptr ds:[rax+r8*4],xmm0      | 修改食物和人口
+[rcx+68]+0*4==2AE91C920C0
+
+00007FF66B751CFC | 48:8BD9                  | mov rbx,rcx                             |
+00007FF66B751EE5 | 48:8BCB                  | mov rcx,rbx                             |
+[rcx+68]+0*4==2AE91C920C0
+
+00007FF66B1B9A1B | 48:8B56 10               | mov rdx,qword ptr ds:[rsi+10]           |
+00007FF66B1A45CF | 48:8B4A 18               | mov rcx,qword ptr ds:[rdx+18]           |
+[[[rsi+10]+18]+68]+0*4==2AE91C920C0
+
+CE查询rsi：
+00007FF66B1A5A10 | 48:8B41 10               | mov rax,qword ptr ds:[rcx+10]           |
+00007FF66B1A5A19 | 48:8B00                  | mov rax,qword ptr ds:[rax]              | [rax]:sub_7FF66C963E80
+[[[[[rcx+10]]+10]+18]+68]+0*4==2AE91C920C0
+
+00007FF66B1AA039 | 48:8B8B 58020000         | mov rcx,qword ptr ds:[rbx+258]          |
+[[[[[[rbx+258]+10]]+10]+18]+68]+0*4==2AE91C920C0
+
+CE查询rbx：
+找到两个基址
+结论：新版游戏好像是每个民族对应一个基址？？？
+
+维京食物再寻址：
+00007FF66B767C58 | 48:8B41 68               | mov rax,qword ptr ds:[rcx+68]           |
+00007FF66B767C69 | F342:0F110480            | movss dword ptr ds:[rax+r8*4],xmm0      | 修改食物和人口
+[rcx+68]+0*4==1D4983FA560
+
+00007FF66B751CFC | 48:8BD9                  | mov rbx,rcx                             |
+00007FF66B751EE5 | 48:8BCB                  | mov rcx,rbx                             |
+[rcx+68]+0*4==1D4983FA560
+
+00007FF66B1A4599 | 48:8B57 10               | mov rdx,qword ptr ds:[rdi+10]           |
+00007FF66B1A45CF | 48:8B4A 18               | mov rcx,qword ptr ds:[rdx+18]           |
+[[rdx+18]+68]+0*4==1D4983FA560
+
+一个相当靠上的跳转
+00007FF66B1A3B9B | 48:8BF9                  | mov rdi,rcx                             |
+[[[rcx+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B8BE1FA | 48:8BD9                  | mov rbx,rcx                             |
+00007FF66B8BE2F0 | 48:8B4B 28               | mov rcx,qword ptr ds:[rbx+28]           |
+[[[[rcx+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B8EA894 | 48:8BD9                  | mov rbx,rcx                             |
+00007FF66B8EAA79 | 48:8BCB                  | mov rcx,rbx                             |
+[[[[rcx+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B1ABA88 | 48:8BF9                  | mov rdi,rcx                             |
+00007FF66B1ABB49 | 48:8BCF                  | mov rcx,rdi                             |
+[[[[rcx+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B349996 | 48:8BF9                  | mov rdi,rcx                             |
+00007FF66B349B5A | 48:8BCF                  | mov rcx,rdi                             |
+[[[[rcx+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B91640E | 48:8BD9                  | mov rbx,rcx                             |
+00007FF66B9166B4 | 48:8BCB                  | mov rcx,rbx                             |
+[[[[rcx+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B8EDB10 | 48:8B45 08               | mov rax,qword ptr ss:[rbp+8]            |
+00007FF66B8EDB14 | 48:8B3407                | mov rsi,qword ptr ds:[rdi+rax]          | [rdi+rax*1]:sub_7FF66B8F2C00
+00007FF66B8EDB18 | 48:8BCE                  | mov rcx,rsi                             |
+[[[[[20+[rbp+8]]+28]+10]+18]+68]+0*4==2AE91C90840
+
+CE搜索rbp：
+00007FF66B3E9DA4 | 48:8BE9                  | mov rbp,rcx                             |
+00007FF66B3EA948 | 48:8B45 58               | mov rax,qword ptr ss:[rbp+58]           |
+00007FF66B3EA956 | 48:8B48 28               | mov rcx,qword ptr ds:[rax+28]           |
+[[[[[20+[[[rcx+58]+28]+8]]+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B3E8ADC | 48:8BD9                  | mov rbx,rcx                             |
+00007FF66B3E8D2F | 48:8BCB                  | mov rcx,rbx                             |
+[[[[[20+[[[rcx+58]+28]+8]]+28]+10]+18]+68]+0*4==2AE91C90840
+
+跳转自 sub_7FF66B47BE90+A
+00007FF66B47BE90 | 48:8B89 28110000         | mov rcx,qword ptr ds:[rcx+1128]         |
+[[[[[20+[[[[rcx+1128]+58]+28]+8]]+28]+10]+18]+68]+0*4==2AE91C90840
+
+00007FF66B7052C9 | 48:8B0D 700A2302         | mov rcx,qword ptr ds:[7FF66D935D40]     |
+[[[[[20+[[[[[7FF66D935D40]+1128]+58]+28]+8]]+28]+10]+18]+68]+0*4==2AE91C90840
+
+
+
+00007FF799399A2C | 48:8B4A 18               | mov rcx,qword ptr ds:[rdx+18]           |
+
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable>
+  <CheatEntries>
+    <CheatEntry>
+      <ID>39</ID>
+      <Description>"鏃犳弿杩?</Description>
+      <LastState Value="73.55000305" RealAddress="7FF79BE15B04"/>
+      <VariableType>Float</VariableType>
+      <Address>AoE2DE_s.exe+2EC5B04</Address>
+    </CheatEntry>
+  </CheatEntries>
+</CheatTable>
+
+AoE2DE_s.exe=7FF7 98F5 0000‬
