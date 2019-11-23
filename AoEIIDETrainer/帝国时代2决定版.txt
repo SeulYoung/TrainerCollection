@@ -175,19 +175,56 @@ CE搜索rbp：
 
 
 
-00007FF799399A2C | 48:8B4A 18               | mov rcx,qword ptr ds:[rdx+18]           |
+Build 33059寻址：
+00007FF7B8868998 | 48:8B41 68               | mov rax,qword ptr ds:[rcx+68]           | rcx+68:L"退撈ǐ"
+00007FF7B88689A9 | F342:0F110480            | movss dword ptr ds:[rax+r8*4],xmm0      |
+[rcx+68]+0*4==1D064889000
 
-<?xml version="1.0" encoding="utf-8"?>
-<CheatTable>
-  <CheatEntries>
-    <CheatEntry>
-      <ID>39</ID>
-      <Description>"鏃犳弿杩?</Description>
-      <LastState Value="73.55000305" RealAddress="7FF79BE15B04"/>
-      <VariableType>Float</VariableType>
-      <Address>AoE2DE_s.exe+2EC5B04</Address>
-    </CheatEntry>
-  </CheatEntries>
-</CheatTable>
+00007FF7B8852A3C | 48:8BD9                  | mov rbx,rcx                             |
+00007FF7B8852C25 | 48:8BCB                  | mov rcx,rbx                             |
+[rcx+68]+0*4==1D064889000
 
-AoE2DE_s.exe=7FF7 98F5 0000‬
+00007FF7B82A4B69 | 48:8B57 10               | mov rdx,qword ptr ds:[rdi+10]           | rdi+10:L"籠一ǐ"
+00007FF65A354B9F | 48:8B4A 18               | mov rcx,qword ptr ds:[rdx+18]           |
+[[[rdi+10]+18]+68]+0*4==1D064889000
+
+00007FF7B82A416B | 48:8BF9                  | mov rdi,rcx                             | rcx:sub_7FF7B82A3E1D+797
+[[[rcx+10]+18]+68]+0*4==1D064889000
+
+00007FF7B82A6929 | 48:8BF9                  | mov rdi,rcx                             |
+00007FF7B82A6956 | 48:8B4F 10               | mov rcx,qword ptr ds:[rdi+10]           |
+00007FF7B82A698F | 48:8B09                  | mov rcx,qword ptr ds:[rcx]              | [rcx]:sub_7FF7B9A61A48
+[[[[[rcx+10]]+10]+18]+68]+0*4==1D064889000
+
+00007FF7B82AC058 | 48:8BF9                  | mov rdi,rcx                             |
+00007FF7B82AC2FF | 48:8B8F 58020000         | mov rcx,qword ptr ds:[rdi+258]          |
+[[[[[[rcx+258]+10]]+10]+18]+68]+0*4==1D064889000
+
+00007FF7B8449F66 | 48:8BF9                  | mov rdi,rcx                             |
+00007FF7B844A12A | 48:8BCF                  | mov rcx,rdi                             |
+[[[[[[rcx+258]+10]]+10]+18]+68]+0*4==1D064889000
+
+
+扫描代表的玩家地址：AoE2DE_s.exe+9DDA13
+AoE2DE_s.exe+9DDA0F - 89 7C 24 6C           - mov [rsp+6C],edi
+AoE2DE_s.exe+9DDA13 - 48 8B 01              - mov rax,[rcx]
+AoE2DE_s.exe+9DDA16 - 48 8D 54 24 6C        - lea rdx,[rsp+6C]
+AoE2DE_s.exe+9DDA1B - FF 90 80020000        - call qword ptr [rax+00000280]
+
+rcx+10 为1代表玩家
+
+插入刷单位代码处：
+00007FF61C309A24 | 48:83C4 28               | add rsp,28                              |
+
+刷单位代码：
+00007FF7E4669729 | 48:8B03                  | mov rax,qword ptr ds:[rbx]              | rax:sub_7FF7E585B059+3F, [rbx]:sub_7FF7E585B059+3F
+00007FF7E466972C | 41:BE 01000000           | mov r14d,1                              |
+00007FF7E4669732 | 44:897424 28             | mov dword ptr ss:[rsp+28],r14d          |
+00007FF7E4669737 | 0F57C0                   | xorps xmm0,xmm0                         |
+00007FF7E466973A | F3:0F114424 20           | movss dword ptr ss:[rsp+20],xmm0        |
+00007FF7E4669740 | 0F28DE                   | movaps xmm3,xmm6                        |
+00007FF7E4669743 | 0F28D7                   | movaps xmm2,xmm7                        |
+00007FF7E4669746 | 8B56 28                  | mov edx,dword ptr ds:[rsi+28]           |
+00007FF7E4669749 | 48:8BCB                  | mov rcx,rbx                             |
+00007FF7E466974C | FF90 50010000            | call qword ptr ds:[rax+150]             | 刷单位地方
+
