@@ -5,7 +5,7 @@
       <ID>44</ID>
       <Description>"初始化"</Description>
       <Options moManualExpandCollapse="1" moDeactivateChildrenAsWell="1"/>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -82,6 +82,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>45</ID>
           <Description>"玩家地址"</Description>
+          <LastState Value="000001DD28499050" RealAddress="7FF6576B8FE8"/>
           <ShowAsHex>1</ShowAsHex>
           <VariableType>8 Bytes</VariableType>
           <Address>AoE2DE_s.exe+3378FE8</Address>
@@ -89,6 +90,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>31</ID>
           <Description>"食物"</Description>
+          <LastState Value="15924.58301" RealAddress="1DD444E66F0"/>
           <VariableType>Float</VariableType>
           <Address>AoE2DE_s.exe+3378FE8</Address>
           <Offsets>
@@ -99,6 +101,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>37</ID>
           <Description>"木头"</Description>
+          <LastState Value="6617.789062" RealAddress="1DD444E66F4"/>
           <VariableType>Float</VariableType>
           <Address>AoE2DE_s.exe+3378FE8</Address>
           <Offsets>
@@ -109,6 +112,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>30</ID>
           <Description>"石头"</Description>
+          <LastState Value="33.32733536" RealAddress="1DD444E66F8"/>
           <VariableType>Float</VariableType>
           <Address>AoE2DE_s.exe+3378FE8</Address>
           <Offsets>
@@ -119,6 +123,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>46</ID>
           <Description>"黄金"</Description>
+          <LastState Value="4612.17334" RealAddress="1DD444E66FC"/>
           <VariableType>Float</VariableType>
           <Address>AoE2DE_s.exe+3378FE8</Address>
           <Offsets>
@@ -129,6 +134,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>47</ID>
           <Description>"人口"</Description>
+          <LastState Value="106" RealAddress="1DD444E671C"/>
           <VariableType>Float</VariableType>
           <Address>AoE2DE_s.exe+3378FE8</Address>
           <Offsets>
@@ -139,7 +145,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>14</ID>
           <Description>"初始化生成单位"</Description>
-          <LastState/>
+          <LastState Activated="1"/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -241,6 +247,7 @@ dealloc(newmem)
             <CheatEntry>
               <ID>16</ID>
               <Description>"单位种类"</Description>
+              <LastState Value="0000000000000215" RealAddress="7FF6576B8FF0"/>
               <ShowAsHex>1</ShowAsHex>
               <VariableType>8 Bytes</VariableType>
               <Address>AoE2DE_s.exe+3378FF0</Address>
@@ -250,7 +257,7 @@ dealloc(newmem)
                   <Keys>
                     <Key>97</Key>
                   </Keys>
-                  <Value>36E</Value>
+                  <Value>4D4</Value>
                   <ID>0</ID>
                 </Hotkey>
                 <Hotkey>
@@ -266,7 +273,7 @@ dealloc(newmem)
                   <Keys>
                     <Key>99</Key>
                   </Keys>
-                  <Value>4D1</Value>
+                  <Value>231</Value>
                   <ID>2</ID>
                 </Hotkey>
                 <Hotkey>
@@ -282,14 +289,31 @@ dealloc(newmem)
                   <Keys>
                     <Key>101</Key>
                   </Keys>
-                  <Value>215</Value>
+                  <Value>2D9</Value>
                   <ID>4</ID>
+                </Hotkey>
+                <Hotkey>
+                  <Action>Set Value</Action>
+                  <Keys>
+                    <Key>102</Key>
+                  </Keys>
+                  <Value>215</Value>
+                  <ID>5</ID>
+                </Hotkey>
+                <Hotkey>
+                  <Action>Set Value</Action>
+                  <Keys>
+                    <Key>103</Key>
+                  </Keys>
+                  <Value>7D</Value>
+                  <ID>6</ID>
                 </Hotkey>
               </Hotkeys>
             </CheatEntry>
             <CheatEntry>
               <ID>15</ID>
               <Description>"产生单位标志位"</Description>
+              <LastState Value="0000000000000000" RealAddress="7FF6576B8FF8"/>
               <ShowAsHex>1</ShowAsHex>
               <VariableType>8 Bytes</VariableType>
               <Address>AoE2DE_s.exe+3378FF8</Address>
@@ -333,6 +357,22 @@ dealloc(newmem)
                   </Keys>
                   <Value>1</Value>
                   <ID>4</ID>
+                </Hotkey>
+                <Hotkey>
+                  <Action>Set Value</Action>
+                  <Keys>
+                    <Key>102</Key>
+                  </Keys>
+                  <Value>1</Value>
+                  <ID>5</ID>
+                </Hotkey>
+                <Hotkey>
+                  <Action>Set Value</Action>
+                  <Keys>
+                    <Key>103</Key>
+                  </Keys>
+                  <Value>1</Value>
+                  <ID>6</ID>
                 </Hotkey>
               </Hotkeys>
             </CheatEntry>
