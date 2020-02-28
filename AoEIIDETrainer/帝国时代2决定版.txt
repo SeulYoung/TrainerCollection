@@ -228,3 +228,19 @@ rcx+10 为1代表玩家
 00007FF7E4669749 | 48:8BCB                  | mov rcx,rbx                             |
 00007FF7E466974C | FF90 50010000            | call qword ptr ds:[rax+150]             | 刷单位地方
 
+新版食物寻址：
+00007FF65524A498 | 48:8B41 70               | mov rax,qword ptr ds:[rcx+70]           |
+00007FF65524A4A9 | F342:0F110480            | movss dword ptr ds:[rax+r8*4],xmm0      |
+[rcx+70]+0*4	//倒数第二级偏移变为70
+
+新版刷单位地址
+00007FF65537BA0B | 48:8B03                  | mov rax,qword ptr ds:[rbx]              |
+00007FF65537BA0E | BE 01000000              | mov esi,1                               |
+00007FF65537BA13 | 897424 28                | mov dword ptr ss:[rsp+28],esi           |
+00007FF65537BA17 | 0F57C0                   | xorps xmm0,xmm0                         |
+00007FF65537BA1A | F3:0F114424 20           | movss dword ptr ss:[rsp+20],xmm0        |
+00007FF65537BA20 | 0F28DE                   | movaps xmm3,xmm6                        |
+00007FF65537BA23 | 0F28D7                   | movaps xmm2,xmm7                        |
+00007FF65537BA26 | 41:8B56 28               | mov edx,dword ptr ds:[r14+28]           |
+00007FF65537BA2A | 48:8BCB                  | mov rcx,rbx                             |
+00007FF65537BA2D | FF90 50010000            | call qword ptr ds:[rax+150]             | 刷单位地址
