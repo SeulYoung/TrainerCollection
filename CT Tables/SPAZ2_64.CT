@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"护盾初始化"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : SPAZ2_64.exe
+  Version: 
+  Date   : 2020-03-05
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscan(INJECT,F3 0F 10 40 58 F3 0F 5A C0 F2 0F 5A E8 F3 0F 11 6D D0) // should be unique
+alloc(newmem,$1000,424344C7)
+alloc(Shield,$8,2011913C)
+
+label(code)
+label(return)
+
+newmem:
+  mov [Shield],rax
+
+code:
+  movss xmm0,[rax+58]
+  jmp return
+
+INJECT:
+  jmp newmem
+return:
+registersymbol(INJECT)
+registersymbol(Shield)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT:
+  db F3 0F 10 40 58
+
+unregistersymbol(Shield)
+dealloc(Shield)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 424344C7
+
+424344A1: 41 FF D3                       -  call r11
+424344A4: 48 83 C4 20                    -  add rsp,20
+424344A8: 48 8B 46 60                    -  mov rax,[rsi+60]
+424344AC: 48 8B C8                       -  mov rcx,rax
+424344AF: 83 39 00                       -  cmp dword ptr [rcx],00
+424344B2: 48 8B 80 80 00 00 00           -  mov rax,[rax+00000080]
+424344B9: 48 89 45 C0                    -  mov [rbp-40],rax
+424344BD: 48 8B 46 38                    -  mov rax,[rsi+38]
+424344C1: 48 8B C8                       -  mov rcx,rax
+424344C4: 83 39 00                       -  cmp dword ptr [rcx],00
+// ---------- INJECTING HERE ----------
+424344C7: F3 0F 10 40 58                 -  movss xmm0,[rax+58]
+// ---------- DONE INJECTING  ----------
+424344CC: F3 0F 5A C0                    -  cvtss2sd xmm0,xmm0
+424344D0: F2 0F 5A E8                    -  cvtsd2ss xmm5,xmm0
+424344D4: F3 0F 11 6D D0                 -  movss [rbp-30],xmm5
+424344D9: F3 0F 10 45 D0                 -  movss xmm0,[rbp-30]
+424344DE: F3 0F 5A C0                    -  cvtss2sd xmm0,xmm0
+424344E2: F2 0F 5A C0                    -  cvtsd2ss xmm0,xmm0
+424344E6: 48 83 EC 20                    -  sub rsp,20
+424344EA: 49 BB 50 1E 1B 07 00 00 00 00  -  mov r11,00000000071B1E50
+424344F4: 41 FF D3                       -  call r11
+424344F7: 48 83 C4 20                    -  add rsp,20
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>5</ID>
+          <Description>"护盾值"</Description>
+          <VariableType>Float</VariableType>
+          <Address>Shield</Address>
+          <Offsets>
+            <Offset>58</Offset>
+          </Offsets>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Toggle Activation Allow Increase</Action>
+              <Keys>
+                <Key>112</Key>
+              </Keys>
+              <ID>0</ID>
+              <ActivateSound TTS="EN">On</ActivateSound>
+              <DeactivateSound TTS="EN">Off</DeactivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>113</Key>
+              </Keys>
+              <Value>100000</Value>
+              <ID>1</ID>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"资源初始化"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : SPAZ2_64.exe
+  Version: 
+  Date   : 2020-03-06
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscan(INJECT,88 00 00 00 48 8D 44 88 20 F3 0F 10 00 F3 0F 5A C0) // should be unique
+alloc(newmem,$1000,080F35F3)
+alloc(Rez,$8,080F35F3)
+
+label(code)
+label(return)
+
+newmem:
+  mov [Rez],rax
+
+code:
+  movss xmm0,[rax]
+  cvtss2sd xmm0,xmm0
+  jmp return
+
+INJECT+09:
+  jmp newmem
+  nop 3
+return:
+registersymbol(INJECT)
+registersymbol(Rez)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT+09:
+  db F3 0F 10 00 F3 0F 5A C0
+
+unregistersymbol(Rez)
+dealloc(Rez)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: 080F35F3
+
+080F35CE: 90                             -  nop 
+080F35CF: FF 90 60 01 00 00              -  call qword ptr [rax+00000160]
+080F35D5: 48 83 C4 20                    -  add rsp,20
+080F35D9: 83 38 00                       -  cmp dword ptr [rax],00
+080F35DC: 48 8B 40 18                    -  mov rax,[rax+18]
+080F35E0: 33 C9                          -  xor ecx,ecx
+080F35E2: 48 63 C9                       -  movsxd  rcx,ecx
+080F35E5: 39 48 18                       -  cmp [rax+18],ecx
+080F35E8: 0F 86 88 00 00 00              -  jbe 080F3676
+080F35EE: 48 8D 44 88 20                 -  lea rax,[rax+rcx*4+20]
+// ---------- INJECTING HERE ----------
+080F35F3: F3 0F 10 00                    -  movss xmm0,[rax]
+080F35F7: F3 0F 5A C0                    -  cvtss2sd xmm0,xmm0
+// ---------- DONE INJECTING  ----------
+080F35FB: F2 0F 5A E8                    -  cvtsd2ss xmm5,xmm0
+080F35FF: F3 0F 11 6D C4                 -  movss [rbp-3C],xmm5
+080F3604: F3 0F 10 45 C4                 -  movss xmm0,[rbp-3C]
+080F3609: F3 0F 5A C0                    -  cvtss2sd xmm0,xmm0
+080F360D: 66 0F 57 C9                    -  xorpd xmm1,xmm1
+080F3611: 48 33 C0                       -  xor rax,rax
+080F3614: 66 0F 2F C8                    -  comisd xmm1,xmm0
+080F3618: 7A 04                          -  jp 080F361E
+080F361A: 40 0F 92 C0                    -  setb al
+080F361E: 40 88 45 D7                    -  mov [rbp-29],al
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"Rez"</Description>
+          <VariableType>Float</VariableType>
+          <Address>Rez</Address>
+          <Offsets>
+            <Offset>0</Offset>
+          </Offsets>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Increase Value</Action>
+              <Keys>
+                <Key>114</Key>
+              </Keys>
+              <Value>1000</Value>
+              <ID>0</ID>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>11</ID>
+          <Description>"人口"</Description>
+          <VariableType>Float</VariableType>
+          <Address>Rez</Address>
+          <Offsets>
+            <Offset>4</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12</ID>
+          <Description>"经验值"</Description>
+          <VariableType>Float</VariableType>
+          <Address>Rez</Address>
+          <Offsets>
+            <Offset>8</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"？？？"</Description>
+          <VariableType>Float</VariableType>
+          <Address>Rez</Address>
+          <Offsets>
+            <Offset>C</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>13</ID>
+          <Description>"废料"</Description>
+          <VariableType>Float</VariableType>
+          <Address>Rez</Address>
+          <Offsets>
+            <Offset>10</Offset>
+          </Offsets>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Increase Value</Action>
+              <Keys>
+                <Key>115</Key>
+              </Keys>
+              <Value>100000</Value>
+              <ID>0</ID>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>

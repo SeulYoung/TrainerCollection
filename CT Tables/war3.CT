@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"金币"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>6F87C744</Address>
+      <Offsets>
+        <Offset>78</Offset>
+        <Offset>14</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"木材"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>6F87C744</Address>
+      <Offsets>
+        <Offset>F8</Offset>
+        <Offset>14</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"人口"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>6F87C744</Address>
+      <Offsets>
+        <Offset>278</Offset>
+        <Offset>14</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"自动汇编脚本"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : war3.exe
+  Version: 
+  Date   : 2020-03-08
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(INJECT,Game.dll,89 0D 20 FF 85 6F) // should be unique
+alloc(newmem,$1000)
+alloc(unitId,$30)
+
+label(code)
+label(return)
+
+newmem:
+  cmp [unitId],0
+  je code
+  pushad
+  call Game.dll+2DE620           // GetCameraTargetPositionLoc
+  mov [unitId+4],eax
+  push 0
+  call Game.dll+2CC9D0           // Player
+  mov [unitId+8],eax
+  push 100006
+  call Game.dll+2B9850           // GroupClear
+  mov [unitId+10],43870000
+  push unitId+10
+  push [unitId+4]
+  push 68666F6F
+  push [unitId+8]
+  call Game.dll+2BF0B0           // CreateUnitAtLoc
+  mov [unitId+C],eax
+  push [unitId+C]
+  push 100006
+  call Game.dll+2B9530           // GroupAddUnit
+  add esp,20
+  popad
+  mov [unitId],0
+
+code:
+  mov [Game.dll+85FF20],ecx
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+registersymbol(unitId)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT:
+  db 89 0D 20 FF 85 6F
+
+unregistersymbol(unitId)
+dealloc(unitId)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: Game.dll+4DD90
+
+"Game.dll"+4DD7D: 89 51 28              -  mov [ecx+28],edx
+"Game.dll"+4DD80: C3                    -  ret 
+"Game.dll"+4DD81: 81 E2 FF FF FD FF     -  and edx,FFFDFFFF
+"Game.dll"+4DD87: 89 51 28              -  mov [ecx+28],edx
+"Game.dll"+4DD8A: C3                    -  ret 
+"Game.dll"+4DD8B: 90                    -  nop 
+"Game.dll"+4DD8C: 90                    -  nop 
+"Game.dll"+4DD8D: 90                    -  nop 
+"Game.dll"+4DD8E: 90                    -  nop 
+"Game.dll"+4DD8F: 90                    -  nop 
+// ---------- INJECTING HERE ----------
+"Game.dll"+4DD90: 89 0D 20 FF 85 6F     -  mov [Game.dll+85FF20],ecx
+// ---------- DONE INJECTING  ----------
+"Game.dll"+4DD96: C3                    -  ret 
+"Game.dll"+4DD97: 90                    -  nop 
+"Game.dll"+4DD98: 90                    -  nop 
+"Game.dll"+4DD99: 90                    -  nop 
+"Game.dll"+4DD9A: 90                    -  nop 
+"Game.dll"+4DD9B: 90                    -  nop 
+"Game.dll"+4DD9C: 90                    -  nop 
+"Game.dll"+4DD9D: 90                    -  nop 
+"Game.dll"+4DD9E: 90                    -  nop 
+"Game.dll"+4DD9F: 90                    -  nop 
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>6</ID>
+          <Description>"无描述"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>unitId</Address>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>97</Key>
+              </Keys>
+              <Value>1</Value>
+              <ID>0</ID>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>关于表格信息:
+</Comments>
+</CheatTable>

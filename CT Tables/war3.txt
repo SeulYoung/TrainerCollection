@@ -1,0 +1,121 @@
+魔兽争霸3 1.20e逆向：
+
+金币寻址：
+6F088D98 | 8B35 44C7876F            | mov esi,dword ptr ds:[6F87C744]         |
+6F088DE0 | 8B56 0C                  | mov edx,dword ptr ds:[esi+C]            |
+6F088DE3 | 8B54C2 04                | mov edx,dword ptr ds:[edx+eax*8+4]      |
+6F088DF3 | 23C2                     | and eax,edx                             |
+6F088E00 | 8950 78                  | mov dword ptr ds:[eax+78],edx           | 修改金币
+[[[6F87C744]+C]+2*8+4]+78==12220190
+
+坐标参数赋值：
+GetCameraTargetPositionLoc 6F2DE620
+ret 001000C4 坐标
+
+新触发单位寻址：
+arg1 0  代表第一个玩家？
+Player 6F2CC9D0
+ret 玩家 00100008
+
+arg1 100006 组
+GroupClear 6F2B9850
+ret 6F7205A8    某个函数入口？没有用处
+
+arg1 玩家
+arg2 68666F6F 单位id
+arg3 001000C2 坐标
+arg3 堆栈地址esp+10 值：43870000 固定值？
+CreateUnitAtLoc 6F2BF0B0
+ret 001000C3 单位
+
+arg1 100006 组
+arg2 001000C3 单位
+GroupAddUnit 6F2B9530
+ret 1
+
+放弃的触发方式，过于复杂：
+CreateCameraSetup 6F2DD870
+ret 镜头地址 001000BC
+
+arg1 0  不同玩家的Camera？
+GetCameraField 6F2DE590
+ret 44CE4000
+
+arg1 镜头地址
+arg2 0
+arg3 堆栈地址esp+1C 值：44CE4000
+arg4 堆栈地址esp+20 值：0
+CameraSetupSetField 6F2DD930
+ret 0
+
+arg1 1
+GetCameraField 6F2DE590
+459C4000
+
+arg1 镜头地址
+arg2 1
+arg3 堆栈地址esp+1C 值：459C4000
+arg4 堆栈地址esp+20 值：0
+CameraSetupSetField 6F2DD930
+ret 0
+
+arg1 6
+GetCameraField 6F2DE590
+0
+
+arg1 镜头地址
+arg2 6
+arg3 堆栈地址esp+1C 值：0
+arg4 堆栈地址esp+20 值：0
+CameraSetupSetField 6F2DD930
+ret 0
+
+arg1 2
+GetCameraField 6F2DE590
+40A9C91F
+
+arg1 镜头地址
+arg2 2
+arg3 堆栈地址esp+1C 值：43980009
+arg4 堆栈地址esp+20 值：0
+CameraSetupSetField 6F2DD930
+ret 0
+
+GetCameraTargetPositionX 6F2DE5C0
+ret C5040000 X坐标
+
+GetCameraTargetPositionY 6F2DE5F0
+ret C457FFD0 Y坐标
+
+arg1 镜头地址
+arg2 X坐标
+arg3 Y坐标
+arg4 0
+CameraSetupSetDestPosition 6F2DDAF0
+ret 0
+
+arg1 镜头地址
+CameraSetupGetDestPositionLoc
+ret 001000BD ？？？
+
+arg1 100006 组
+GroupClear 6F2B9850
+ret 6F7205A8
+
+arg1 玩家
+arg2 68666F6F ？？？
+arg3 001000BD
+arg3 堆栈地址esp+1C 值：43870000
+CreateUnitAtLoc 6F2BF0B0
+ret 001000BE 单位
+
+arg1 100006 组
+arg2 1000BE 单位
+GroupAddUnit 6F2B9530
+ret 1
+
+
+
+
+
+
