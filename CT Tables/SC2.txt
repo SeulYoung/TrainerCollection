@@ -1,0 +1,12 @@
+WhoRunBartertown
+
+SC2定义native的基本结构（这里是C语法）
+struct native_def
+{
+    void *native_address    // 函数地址4字节
+    char *native_name       // 函数名称4字节
+    char native_sig[16]     // 16字节函数签名，包括参数、返回值等
+};  // sizeof = 24
+函数签名格式：第一个字节为参数个数（最多14），第二个字节为返回值
+
+

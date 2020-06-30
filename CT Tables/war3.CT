@@ -36,8 +36,8 @@
     </CheatEntry>
     <CheatEntry>
       <ID>5</ID>
-      <Description>"自动汇编脚本"</Description>
-      <LastState Activated="1"/>
+      <Description>"创建单位脚本"</Description>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : war3.exe
   Version: 
@@ -136,7 +136,7 @@ dealloc(newmem)
       <CheatEntries>
         <CheatEntry>
           <ID>6</ID>
-          <Description>"无描述"</Description>
+          <Description>"单位id"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>unitId</Address>
           <Hotkeys>

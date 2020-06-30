@@ -1,181 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="29">
+<CheatTable CheatEngineTableVersion="31">
   <CheatEntries>
     <CheatEntry>
       <ID>44</ID>
       <Description>"初始化"</Description>
       <Options moManualExpandCollapse="1" moDeactivateChildrenAsWell="1"/>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2019-11-21
+  Date   : 2020-06-28
   Author : 94817
 
   This script does blah blah blah
 }
 
 [ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 01 48 8D 54 24 6C) // should be unique
-alloc(newmem,$1000,AoE2DE_s.exe+9DDA13)
 
-define(BaseAddr,AoE2DE_s.exe+3378FE8)
+aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 01 89 7C 24 7C) // should be unique
+alloc(newmem,$1000,AoE2DE_s.exe+C643DF)
+alloc(BaseAddr,$20,AoE2DE_s.exe+C643DF)
 
+define(Pos1,AoE2DE_s.exe+2C85C04)
+define(Pos2,AoE2DE_s.exe+2C85C08)
+define(Param,BaseAddr+8)
+
+label(unit)
 label(code)
 label(return)
 
 newmem:
   cmp [rcx+10],1
-  jne code
+  jne unit
   mov [BaseAddr],rcx
 
-code:
-  mov rax,[rcx]
-  lea rdx,[rsp+6C]
-  jmp return
-
-INJECT:
-  jmp newmem
-  nop 3
-return:
-registersymbol(INJECT)
-
-[DISABLE]
-//code from here till the end of the code will be used to disable the cheat
-INJECT:
-  db 48 8B 01 48 8D 54 24 6C
-
-unregistersymbol(INJECT)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+9DDA13
-
-"AoE2DE_s.exe"+9DD9E9: 48 03 8E A0 02 00 00     -  add rcx,[rsi+000002A0]
-"AoE2DE_s.exe"+9DD9F0: 48 8D 54 24 68           -  lea rdx,[rsp+68]
-"AoE2DE_s.exe"+9DD9F5: 48 8B 09                 -  mov rcx,[rcx]
-"AoE2DE_s.exe"+9DD9F8: E8 93 E7 01 00           -  call AoE2DE_s.exe+9FC190
-"AoE2DE_s.exe"+9DD9FD: 84 C0                    -  test al,al
-"AoE2DE_s.exe"+9DD9FF: 74 27                    -  je AoE2DE_s.exe+9DDA28
-"AoE2DE_s.exe"+9DDA01: 4C 8B 86 A0 02 00 00     -  mov r8,[rsi+000002A0]
-"AoE2DE_s.exe"+9DDA08: 4D 03 F6                 -  add r14,r14
-"AoE2DE_s.exe"+9DDA0B: 4B 8B 0C F0              -  mov rcx,[r8+r14*8]
-"AoE2DE_s.exe"+9DDA0F: 89 7C 24 6C              -  mov [rsp+6C],edi
-// ---------- INJECTING HERE ----------
-"AoE2DE_s.exe"+9DDA13: 48 8B 01                 -  mov rax,[rcx]
-"AoE2DE_s.exe"+9DDA16: 48 8D 54 24 6C           -  lea rdx,[rsp+6C]
-// ---------- DONE INJECTING  ----------
-"AoE2DE_s.exe"+9DDA1B: FF 90 80 02 00 00        -  call qword ptr [rax+00000280]
-"AoE2DE_s.exe"+9DDA21: 41 C7 07 01 00 00 00     -  mov [r15],00000001
-"AoE2DE_s.exe"+9DDA28: FF C3                    -  inc ebx
-"AoE2DE_s.exe"+9DDA2A: 48 8B 8E A0 02 00 00     -  mov rcx,[rsi+000002A0]
-"AoE2DE_s.exe"+9DDA31: 4C 8B C1                 -  mov r8,rcx
-"AoE2DE_s.exe"+9DDA34: 48 8B 86 A8 02 00 00     -  mov rax,[rsi+000002A8]
-"AoE2DE_s.exe"+9DDA3B: 48 2B C1                 -  sub rax,rcx
-"AoE2DE_s.exe"+9DDA3E: 48 C1 F8 04              -  sar rax,04
-"AoE2DE_s.exe"+9DDA42: 3B D8                    -  cmp ebx,eax
-"AoE2DE_s.exe"+9DDA44: 0F 82 66 FF FF FF        -  jb AoE2DE_s.exe+9DD9B0
-}
-</AssemblerScript>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>45</ID>
-          <Description>"玩家地址"</Description>
-          <LastState Value="000001DD28499050" RealAddress="7FF6576B8FE8"/>
-          <ShowAsHex>1</ShowAsHex>
-          <VariableType>8 Bytes</VariableType>
-          <Address>AoE2DE_s.exe+3378FE8</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>31</ID>
-          <Description>"食物"</Description>
-          <LastState Value="15924.58301" RealAddress="1DD444E66F0"/>
-          <VariableType>Float</VariableType>
-          <Address>AoE2DE_s.exe+3378FE8</Address>
-          <Offsets>
-            <Offset>0</Offset>
-            <Offset>68</Offset>
-          </Offsets>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>37</ID>
-          <Description>"木头"</Description>
-          <LastState Value="6617.789062" RealAddress="1DD444E66F4"/>
-          <VariableType>Float</VariableType>
-          <Address>AoE2DE_s.exe+3378FE8</Address>
-          <Offsets>
-            <Offset>4</Offset>
-            <Offset>68</Offset>
-          </Offsets>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>30</ID>
-          <Description>"石头"</Description>
-          <LastState Value="33.32733536" RealAddress="1DD444E66F8"/>
-          <VariableType>Float</VariableType>
-          <Address>AoE2DE_s.exe+3378FE8</Address>
-          <Offsets>
-            <Offset>8</Offset>
-            <Offset>68</Offset>
-          </Offsets>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>46</ID>
-          <Description>"黄金"</Description>
-          <LastState Value="4612.17334" RealAddress="1DD444E66FC"/>
-          <VariableType>Float</VariableType>
-          <Address>AoE2DE_s.exe+3378FE8</Address>
-          <Offsets>
-            <Offset>C</Offset>
-            <Offset>68</Offset>
-          </Offsets>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>47</ID>
-          <Description>"人口"</Description>
-          <LastState Value="106" RealAddress="1DD444E671C"/>
-          <VariableType>Float</VariableType>
-          <Address>AoE2DE_s.exe+3378FE8</Address>
-          <Offsets>
-            <Offset>2C</Offset>
-            <Offset>68</Offset>
-          </Offsets>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>14</ID>
-          <Description>"初始化生成单位"</Description>
-          <LastState Activated="1"/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : AoE2DE_s.exe
-  Version:
-  Date   : 2019-11-21
-  Author : 94817
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-//code from here to '[DISABLE]' will be used to enable the cheat
-
-aobscanmodule(INJECT,AoE2DE_s.exe,48 83 C4 28 C3 CC 48 63) // should be unique
-alloc(newmem,$1000,AoE2DE_s.exe+14E9A24)
-
-define(BaseAddr,AoE2DE_s.exe+3378FE8)
-define(Pos1,AoE2DE_s.exe+2EC9CA4)
-define(Pos2,AoE2DE_s.exe+2EC9CA8)
-define(Param,AoE2DE_s.exe+3378FF0)
-define(IsCreate,AoE2DE_s.exe+3378FF8)
-
-label(code)
-label(return)
-
-newmem:
-  cmp qword ptr ds:[IsCreate],0
-  je code
+unit:
   cmp qword ptr ds:[Param],0
   je code
-  mov qword ptr ds:[IsCreate],0
   push rbx
   push rax
   push rdx
@@ -189,68 +50,202 @@ newmem:
   movss xmm3,dword ptr ds:[Pos2]
   mov edx,dword ptr ds:[Param]
   mov rcx,rbx
-  call qword ptr ds:[rax+150]
+  call qword ptr ds:[rax+158]
   add rsp,40
   pop rcx
   pop rdx
   pop rax
   pop rbx
+  mov qword ptr ds:[Param],0
 
 code:
-  add rsp,28
-  ret
+  mov rax,[rcx]
+  mov [rsp+7C],edi
   jmp return
 
 INJECT:
   jmp newmem
+  nop 2
+return:
+registersymbol(INJECT)
+registersymbol(BaseAddr)
+
+[DISABLE]
+
+INJECT:
+  db 48 8B 01 89 7C 24 7C
+
+unregistersymbol(BaseAddr)
+dealloc(BaseAddr)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "AoE2DE_s.exe"+C643DF
+
+"AoE2DE_s.exe"+C643B4: 48 8B 86 A8 02 00 00  -  mov rax,[rsi+000002A8]
+"AoE2DE_s.exe"+C643BB: 48 8B 0C C8           -  mov rcx,[rax+rcx*8]
+"AoE2DE_s.exe"+C643BF: 89 7C 24 64           -  mov [rsp+64],edi
+"AoE2DE_s.exe"+C643C3: 48 8D 54 24 64        -  lea rdx,[rsp+64]
+"AoE2DE_s.exe"+C643C8: E8 83 0B 02 00        -  call AoE2DE_s.exe+C84F50
+"AoE2DE_s.exe"+C643CD: 84 C0                 -  test al,al
+"AoE2DE_s.exe"+C643CF: 74 23                 -  je AoE2DE_s.exe+C643F4
+"AoE2DE_s.exe"+C643D1: 4D 03 F6              -  add r14,r14
+"AoE2DE_s.exe"+C643D4: 48 8B 86 A8 02 00 00  -  mov rax,[rsi+000002A8]
+"AoE2DE_s.exe"+C643DB: 4A 8B 0C F0           -  mov rcx,[rax+r14*8]
+// ---------- INJECTING HERE ----------
+"AoE2DE_s.exe"+C643DF: 48 8B 01              -  mov rax,[rcx]
+"AoE2DE_s.exe"+C643E2: 89 7C 24 7C           -  mov [rsp+7C],edi
+// ---------- DONE INJECTING  ----------
+"AoE2DE_s.exe"+C643E6: 48 8D 54 24 7C        -  lea rdx,[rsp+7C]
+"AoE2DE_s.exe"+C643EB: FF 90 98 02 00 00     -  call qword ptr [rax+00000298]
+"AoE2DE_s.exe"+C643F1: 45 89 2F              -  mov [r15],r13d
+"AoE2DE_s.exe"+C643F4: FF C3                 -  inc ebx
+"AoE2DE_s.exe"+C643F6: 48 8B 96 A8 02 00 00  -  mov rdx,[rsi+000002A8]
+"AoE2DE_s.exe"+C643FD: 48 8B CA              -  mov rcx,rdx
+"AoE2DE_s.exe"+C64400: 48 8B 86 B0 02 00 00  -  mov rax,[rsi+000002B0]
+"AoE2DE_s.exe"+C64407: 48 2B C2              -  sub rax,rdx
+"AoE2DE_s.exe"+C6440A: 48 C1 F8 04           -  sar rax,04
+"AoE2DE_s.exe"+C6440E: 3B D8                 -  cmp ebx,eax
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>45</ID>
+          <Description>"玩家地址"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>8 Bytes</VariableType>
+          <Address>BaseAddr</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>31</ID>
+          <Description>"食物"</Description>
+          <VariableType>Float</VariableType>
+          <Address>BaseAddr</Address>
+          <Offsets>
+            <Offset>0</Offset>
+            <Offset>70</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>37</ID>
+          <Description>"木头"</Description>
+          <VariableType>Float</VariableType>
+          <Address>BaseAddr</Address>
+          <Offsets>
+            <Offset>4</Offset>
+            <Offset>70</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>30</ID>
+          <Description>"石头"</Description>
+          <VariableType>Float</VariableType>
+          <Address>BaseAddr</Address>
+          <Offsets>
+            <Offset>8</Offset>
+            <Offset>70</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>46</ID>
+          <Description>"黄金"</Description>
+          <VariableType>Float</VariableType>
+          <Address>BaseAddr</Address>
+          <Offsets>
+            <Offset>C</Offset>
+            <Offset>70</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>47</ID>
+          <Description>"人口"</Description>
+          <VariableType>Float</VariableType>
+          <Address>BaseAddr</Address>
+          <Offsets>
+            <Offset>2C</Offset>
+            <Offset>70</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>50</ID>
+          <Description>"坐标初始化"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : AoE2DE_s.exe
+  Version: 
+  Date   : 2020-06-28
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,AoE2DE_s.exe,F3 0F 10 B0 78 01 00 00 F3) // should be unique
+alloc(newmem,$1000,AoE2DE_s.exe+DC74F5)
+
+define(Pos1,BaseAddr+8)
+define(Pos2,BaseAddr+10)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  movss xmm6,[rax+00000178]
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 3
 return:
 registersymbol(INJECT)
 
 [DISABLE]
-//code from here till the end of the code will be used to disable the cheat
+
 INJECT:
-  db 48 83 C4 28 C3
+  db F3 0F 10 B0 78 01 00 00
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+14E9A24
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+DC74F5
 
-"AoE2DE_s.exe"+14E9A02: CC                          -  int 3
-"AoE2DE_s.exe"+14E9A03: E3 81                       -  jecxz AoE2DE_s.exe+14E9986
-"AoE2DE_s.exe"+14E9A05: F9                          -  stc
-"AoE2DE_s.exe"+14E9A06: EA 04 00 00 40 55 48        -  jmp 4855:40000004
-"AoE2DE_s.exe"+14E9A0D: 83 EC 20                    -  sub esp,20
-"AoE2DE_s.exe"+14E9A10: 48 83 EC 28                 -  sub rsp,28
-"AoE2DE_s.exe"+14E9A14: 48 8B 41 F8                 -  mov rax,[rcx-08]
-"AoE2DE_s.exe"+14E9A18: 48 83 C1 F8                 -  add rcx,-08
-"AoE2DE_s.exe"+14E9A1C: FF 50 08                    -  call qword ptr [rax+08]
-"AoE2DE_s.exe"+14E9A1F: B8 01 00 00 00              -  mov eax,00000001
+"AoE2DE_s.exe"+DC74C0: 0F 84 F8 03 00 00        -  je AoE2DE_s.exe+DC78BE
+"AoE2DE_s.exe"+DC74C6: 0F 29 74 24 60           -  movaps [rsp+60],xmm6
+"AoE2DE_s.exe"+DC74CB: 0F 29 7C 24 50           -  movaps [rsp+50],xmm7
+"AoE2DE_s.exe"+DC74D0: 44 0F 29 44 24 40        -  movaps [rsp+40],xmm8
+"AoE2DE_s.exe"+DC74D6: E8 65 98 FF FF           -  call AoE2DE_s.exe+DC0D40
+"AoE2DE_s.exe"+DC74DB: 48 8B 0D EE C5 BB 01     -  mov rcx,[AoE2DE_s.exe+2983AD0]
+"AoE2DE_s.exe"+DC74E2: E8 09 B9 A0 FF           -  call AoE2DE_s.exe+7D2DF0
+"AoE2DE_s.exe"+DC74E7: 49 8B 86 18 02 00 00     -  mov rax,[r14+00000218]
+"AoE2DE_s.exe"+DC74EE: 48 8B CF                 -  mov rcx,rdi
+"AoE2DE_s.exe"+DC74F1: 44 0F 28 C0              -  movaps xmm8,xmm0
 // ---------- INJECTING HERE ----------
-"AoE2DE_s.exe"+14E9A24: 48 83 C4 28                 -  add rsp,28
-"AoE2DE_s.exe"+14E9A28: C3                          -  ret
+"AoE2DE_s.exe"+DC74F5: F3 0F 10 B0 78 01 00 00  -  movss xmm6,[rax+00000178]
 // ---------- DONE INJECTING  ----------
-"AoE2DE_s.exe"+14E9A29: CC                          -  int 3
-"AoE2DE_s.exe"+14E9A2A: 48 63 C0                    -  movsxd  rax,eax
-"AoE2DE_s.exe"+14E9A2D: 89 54 85 40                 -  mov [rbp+rax*4+40],edx
-"AoE2DE_s.exe"+14E9A31: 57                          -  push rdi
-"AoE2DE_s.exe"+14E9A32: 48 83 EC 30                 -  sub rsp,30
-"AoE2DE_s.exe"+14E9A36: 48 C7 44 24 20 FE FF FF FF  -  mov qword ptr [rsp+20],FFFFFFFFFFFFFFFE
-"AoE2DE_s.exe"+14E9A3F: 48 89 5C 24 50              -  mov [rsp+50],rbx
-"AoE2DE_s.exe"+14E9A44: 48 89 74 24 58              -  mov [rsp+58],rsi
-"AoE2DE_s.exe"+14E9A49: 48 8B 91 28 22 00 00        -  mov rdx,[rcx+00002228]
-"AoE2DE_s.exe"+14E9A50: 48 85 D2                    -  test rdx,rdx
+"AoE2DE_s.exe"+DC74FD: F3 0F 10 B8 7C 01 00 00  -  movss xmm7,[rax+0000017C]
+"AoE2DE_s.exe"+DC7505: F3 0F 11 35 F7 E6 EB 01  -  movss [AoE2DE_s.exe+2C85C04],xmm6
+"AoE2DE_s.exe"+DC750D: F3 0F 11 3D F3 E6 EB 01  -  movss [AoE2DE_s.exe+2C85C08],xmm7
+"AoE2DE_s.exe"+DC7515: 41 8B 86 5C 02 00 00     -  mov eax,[r14+0000025C]
+"AoE2DE_s.exe"+DC751C: 45 8B 8E 58 02 00 00     -  mov r9d,[r14+00000258]
+"AoE2DE_s.exe"+DC7523: 45 8B 86 4C 02 00 00     -  mov r8d,[r14+0000024C]
+"AoE2DE_s.exe"+DC752A: 41 8B 96 48 02 00 00     -  mov edx,[r14+00000248]
+"AoE2DE_s.exe"+DC7531: 89 44 24 20              -  mov [rsp+20],eax
+"AoE2DE_s.exe"+DC7535: E8 86 4F 76 FF           -  call AoE2DE_s.exe+52C4C0
+"AoE2DE_s.exe"+DC753A: 0F 57 C0                 -  xorps xmm0,xmm0
 }
 </AssemblerScript>
           <CheatEntries>
             <CheatEntry>
               <ID>16</ID>
               <Description>"单位种类"</Description>
-              <LastState Value="0000000000000215" RealAddress="7FF6576B8FF0"/>
               <ShowAsHex>1</ShowAsHex>
               <VariableType>8 Bytes</VariableType>
-              <Address>AoE2DE_s.exe+3378FF0</Address>
+              <Address>BaseAddr+8</Address>
               <Hotkeys>
                 <Hotkey>
                   <Action>Set Value</Action>
@@ -306,72 +301,6 @@ dealloc(newmem)
                     <Key>103</Key>
                   </Keys>
                   <Value>7D</Value>
-                  <ID>6</ID>
-                </Hotkey>
-              </Hotkeys>
-            </CheatEntry>
-            <CheatEntry>
-              <ID>15</ID>
-              <Description>"产生单位标志位"</Description>
-              <LastState Value="0000000000000000" RealAddress="7FF6576B8FF8"/>
-              <ShowAsHex>1</ShowAsHex>
-              <VariableType>8 Bytes</VariableType>
-              <Address>AoE2DE_s.exe+3378FF8</Address>
-              <Hotkeys>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>97</Key>
-                  </Keys>
-                  <Value>1</Value>
-                  <ID>0</ID>
-                </Hotkey>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>98</Key>
-                  </Keys>
-                  <Value>1</Value>
-                  <ID>1</ID>
-                </Hotkey>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>99</Key>
-                  </Keys>
-                  <Value>1</Value>
-                  <ID>2</ID>
-                </Hotkey>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>100</Key>
-                  </Keys>
-                  <Value>1</Value>
-                  <ID>3</ID>
-                </Hotkey>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>101</Key>
-                  </Keys>
-                  <Value>1</Value>
-                  <ID>4</ID>
-                </Hotkey>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>102</Key>
-                  </Keys>
-                  <Value>1</Value>
-                  <ID>5</ID>
-                </Hotkey>
-                <Hotkey>
-                  <Action>Set Value</Action>
-                  <Keys>
-                    <Key>103</Key>
-                  </Keys>
-                  <Value>1</Value>
                   <ID>6</ID>
                 </Hotkey>
               </Hotkeys>
