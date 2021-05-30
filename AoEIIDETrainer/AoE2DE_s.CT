@@ -5,11 +5,11 @@
       <ID>44</ID>
       <Description>"初始化"</Description>
       <Options moManualExpandCollapse="1" moDeactivateChildrenAsWell="1"/>
-      <LastState/>
+      <LastState Activated="1"/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2021-01-30
+  Date   : 2021-05-30
   Author : 94817
 
   This script does blah blah blah
@@ -22,8 +22,8 @@ alloc(newmem,$1000,INJECT)
 alloc(BaseAddr,$20,INJECT)
 
 define(Param,BaseAddr+8)
-define(Pos1,AoE2DE_s.exe+337FFF0)
-define(Pos2,AoE2DE_s.exe+337FFF4)
+define(Pos1,AoE2DE_s.exe+33B2D34)
+define(Pos2,AoE2DE_s.exe+33B2D38)
 
 label(unit)
 label(code)
@@ -81,31 +81,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 7FF78D78204E
+// ORIGINAL CODE - INJECTION POINT: 7FF61A646D9E
 
-7FF78D782025: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-7FF78D78202C: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
-7FF78D782030: 89 7D 80              - mov [rbp-80],edi
-7FF78D782033: 48 8D 55 80           - lea rdx,[rbp-80]
-7FF78D782037: E8 54 DB 02 00        - call 7FF78D7AFB90
-7FF78D78203C: 84 C0                 - test al,al
-7FF78D78203E: 74 21                 - je 7FF78D782061
-7FF78D782040: 4D 03 F6              - add r14,r14
-7FF78D782043: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-7FF78D78204A: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
+7FF61A646D75: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+7FF61A646D7C: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
+7FF61A646D80: 89 7D 80              - mov [rbp-80],edi
+7FF61A646D83: 48 8D 55 80           - lea rdx,[rbp-80]
+7FF61A646D87: E8 14 E3 02 00        - call 7FF61A6750A0
+7FF61A646D8C: 84 C0                 - test al,al
+7FF61A646D8E: 74 21                 - je 7FF61A646DB1
+7FF61A646D90: 4D 03 F6              - add r14,r14
+7FF61A646D93: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+7FF61A646D9A: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
 // ---------- INJECTING HERE ----------
-7FF78D78204E: 48 8B 01              - mov rax,[rcx]
+7FF61A646D9E: 48 8B 01              - mov rax,[rcx]
 // ---------- DONE INJECTING  ----------
-7FF78D782051: 89 7D 84              - mov [rbp-7C],edi
-7FF78D782054: 48 8D 55 84           - lea rdx,[rbp-7C]
-7FF78D782058: FF 90 B0 02 00 00     - call qword ptr [rax+000002B0]
-7FF78D78205E: 45 89 2F              - mov [r15],r13d
-7FF78D782061: FF C3                 - inc ebx
-7FF78D782063: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
-7FF78D78206A: 48 8B CA              - mov rcx,rdx
-7FF78D78206D: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
-7FF78D782074: 48 2B C2              - sub rax,rdx
-7FF78D782077: 48 C1 F8 04           - sar rax,04
+7FF61A646DA1: 89 7D 84              - mov [rbp-7C],edi
+7FF61A646DA4: 48 8D 55 84           - lea rdx,[rbp-7C]
+7FF61A646DA8: FF 90 B0 02 00 00     - call qword ptr [rax+000002B0]
+7FF61A646DAE: 45 89 2F              - mov [r15],r13d
+7FF61A646DB1: FF C3                 - inc ebx
+7FF61A646DB3: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
+7FF61A646DBA: 48 8B CA              - mov rcx,rdx
+7FF61A646DBD: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
+7FF61A646DC4: 48 2B C2              - sub rax,rdx
+7FF61A646DC7: 48 C1 F8 04           - sar rax,04
 }
 </AssemblerScript>
       <Hotkeys>
@@ -123,6 +123,7 @@ dealloc(newmem)
         <CheatEntry>
           <ID>45</ID>
           <Description>"玩家地址"</Description>
+          <LastState Value="0000023A357E9020" RealAddress="7FF6198F1000"/>
           <ShowAsHex>1</ShowAsHex>
           <VariableType>8 Bytes</VariableType>
           <Address>BaseAddr</Address>
@@ -271,6 +272,7 @@ dealloc(newmem)
             <CheatEntry>
               <ID>16</ID>
               <Description>"单位种类"</Description>
+              <LastState Value="0000000000000000" RealAddress="7FF6198F1008"/>
               <ShowAsHex>1</ShowAsHex>
               <VariableType>8 Bytes</VariableType>
               <Address>BaseAddr+8</Address>
