@@ -9,7 +9,7 @@
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2021-07-18
+  Date   : 2021-08-30
   Author : 94817
 
   This script does blah blah blah
@@ -22,8 +22,8 @@ alloc(newmem,$1000,INJECT)
 alloc(BaseAddr,$20,INJECT)
 
 define(Param,BaseAddr+8)
-define(Pos1,AoE2DE_s.exe+340E0F4)
-define(Pos2,AoE2DE_s.exe+340E0F8)
+define(Pos1,AoE2DE_s.exe+3500844)
+define(Pos2,AoE2DE_s.exe+3500848)
 
 label(unit)
 label(code)
@@ -50,7 +50,7 @@ unit:
   movss xmm3,dword ptr ds:[Pos2]
   mov edx,dword ptr ds:[Param]
   mov rcx,rbx
-  call qword ptr ds:[rax+170]
+  call qword ptr ds:[rax+168]
   add rsp,30
   pop rcx
   pop rdx
@@ -81,31 +81,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 7FF78EF08B9B
+// ORIGINAL CODE - INJECTION POINT: 7FF77BF7CA0B
 
-7FF78EF08B72: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-7FF78EF08B79: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
-7FF78EF08B7D: 89 7D 88              - mov [rbp-78],edi
-7FF78EF08B80: 48 8D 55 88           - lea rdx,[rbp-78]
-7FF78EF08B84: E8 D7 F3 02 00        - call 7FF78EF37F60
-7FF78EF08B89: 84 C0                 - test al,al
-7FF78EF08B8B: 74 21                 - je 7FF78EF08BAE
-7FF78EF08B8D: 4D 03 F6              - add r14,r14
-7FF78EF08B90: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-7FF78EF08B97: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
+7FF77BF7C9E2: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+7FF77BF7C9E9: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
+7FF77BF7C9ED: 89 7D 88              - mov [rbp-78],edi
+7FF77BF7C9F0: 48 8D 55 88           - lea rdx,[rbp-78]
+7FF77BF7C9F4: E8 37 F7 02 00        - call 7FF77BFAC130
+7FF77BF7C9F9: 84 C0                 - test al,al
+7FF77BF7C9FB: 74 21                 - je 7FF77BF7CA1E
+7FF77BF7C9FD: 4D 03 F6              - add r14,r14
+7FF77BF7CA00: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+7FF77BF7CA07: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
 // ---------- INJECTING HERE ----------
-7FF78EF08B9B: 48 8B 01              - mov rax,[rcx]
+7FF77BF7CA0B: 48 8B 01              - mov rax,[rcx]
 // ---------- DONE INJECTING  ----------
-7FF78EF08B9E: 89 7D 8C              - mov [rbp-74],edi
-7FF78EF08BA1: 48 8D 55 8C           - lea rdx,[rbp-74]
-7FF78EF08BA5: FF 90 B0 02 00 00     - call qword ptr [rax+000002B0]
-7FF78EF08BAB: 45 89 27              - mov [r15],r12d
-7FF78EF08BAE: FF C3                 - inc ebx
-7FF78EF08BB0: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
-7FF78EF08BB7: 48 8B CA              - mov rcx,rdx
-7FF78EF08BBA: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
-7FF78EF08BC1: 48 2B C2              - sub rax,rdx
-7FF78EF08BC4: 48 C1 F8 04           - sar rax,04
+7FF77BF7CA0E: 89 7D 8C              - mov [rbp-74],edi
+7FF77BF7CA11: 48 8D 55 8C           - lea rdx,[rbp-74]
+7FF77BF7CA15: FF 90 A8 02 00 00     - call qword ptr [rax+000002A8]
+7FF77BF7CA1B: 45 89 27              - mov [r15],r12d
+7FF77BF7CA1E: FF C3                 - inc ebx
+7FF77BF7CA20: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
+7FF77BF7CA27: 48 8B CA              - mov rcx,rdx
+7FF77BF7CA2A: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
+7FF77BF7CA31: 48 2B C2              - sub rax,rdx
+7FF77BF7CA34: 48 C1 F8 04           - sar rax,04
 }
 </AssemblerScript>
       <Hotkeys>
@@ -320,7 +320,7 @@ dealloc(newmem)
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2021-07-18
+  Date   : 2021-08-30
   Author : 94817
 
   This script does blah blah blah
@@ -356,31 +356,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 7FF78F07867E
+// ORIGINAL CODE - INJECTION POINT: 7FF77C0F316E
 
-7FF78F078656: 44 88 7C 24 38     - mov [rsp+38],r15l
-7FF78F07865B: C6 44 24 30 01     - mov byte ptr [rsp+30],01
-7FF78F078660: 44 88 7C 24 28     - mov [rsp+28],r15l
-7FF78F078665: 4C 89 7C 24 20     - mov [rsp+20],r15
-7FF78F07866A: 0F 28 DE           - movaps xmm3,xmm6
-7FF78F07866D: 0F 28 D7           - movaps xmm2,xmm7
-7FF78F078670: 48 8B D3           - mov rdx,rbx
-7FF78F078673: FF 50 50           - call qword ptr [rax+50]
-7FF78F078676: 84 C0              - test al,al
-7FF78F078678: 0F 85 8A 36 00 00  - jne 7FF78F07BD08
+7FF77C0F3146: 44 88 7C 24 38     - mov [rsp+38],r15l
+7FF77C0F314B: C6 44 24 30 01     - mov byte ptr [rsp+30],01
+7FF77C0F3150: 44 88 7C 24 28     - mov [rsp+28],r15l
+7FF77C0F3155: 4C 89 7C 24 20     - mov [rsp+20],r15
+7FF77C0F315A: 0F 28 DE           - movaps xmm3,xmm6
+7FF77C0F315D: 0F 28 D7           - movaps xmm2,xmm7
+7FF77C0F3160: 48 8B D3           - mov rdx,rbx
+7FF77C0F3163: FF 50 50           - call qword ptr [rax+50]
+7FF77C0F3166: 84 C0              - test al,al
+7FF77C0F3168: 0F 85 FA 36 00 00  - jne 7FF77C0F6868
 // ---------- INJECTING HERE ----------
-7FF78F07867E: 48 8B 03           - mov rax,[rbx]
+7FF77C0F316E: 48 8B 03           - mov rax,[rbx]
 // ---------- DONE INJECTING  ----------
-7FF78F078681: 41 BC 01 00 00 00  - mov r12d,00000001
-7FF78F078687: 44 89 64 24 28     - mov [rsp+28],r12d
-7FF78F07868C: 0F 57 C0           - xorps xmm0,xmm0
-7FF78F07868F: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
-7FF78F078695: 0F 28 DE           - movaps xmm3,xmm6
-7FF78F078698: 0F 28 D7           - movaps xmm2,xmm7
-7FF78F07869B: 8B 57 28           - mov edx,[rdi+28]
-7FF78F07869E: 48 8B CB           - mov rcx,rbx
-7FF78F0786A1: FF 90 70 01 00 00  - call qword ptr [rax+00000170]
-7FF78F0786A7: 48 8B D8           - mov rbx,rax
+7FF77C0F3171: 41 BC 01 00 00 00  - mov r12d,00000001
+7FF77C0F3177: 44 89 64 24 28     - mov [rsp+28],r12d
+7FF77C0F317C: 0F 57 C0           - xorps xmm0,xmm0
+7FF77C0F317F: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
+7FF77C0F3185: 0F 28 DE           - movaps xmm3,xmm6
+7FF77C0F3188: 0F 28 D7           - movaps xmm2,xmm7
+7FF77C0F318B: 8B 57 28           - mov edx,[rdi+28]
+7FF77C0F318E: 48 8B CB           - mov rcx,rbx
+7FF77C0F3191: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
+7FF77C0F3197: 48 8B D8           - mov rbx,rax
 }
 </AssemblerScript>
     </CheatEntry>
