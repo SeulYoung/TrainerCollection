@@ -9,7 +9,7 @@
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2021-08-30
+  Date   : 2021-10-08
   Author : 94817
 
   This script does blah blah blah
@@ -17,13 +17,13 @@
 
 [ENABLE]
 
-aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 01 89 7D 8C) // should be unique
+aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 01 89 7D 9C) // should be unique
 alloc(newmem,$1000,INJECT)
 alloc(BaseAddr,$20,INJECT)
 
 define(Param,BaseAddr+8)
-define(Pos1,AoE2DE_s.exe+3500844)
-define(Pos2,AoE2DE_s.exe+3500848)
+define(Pos1,AoE2DE_s.exe+3EA6CC4)
+define(Pos2,AoE2DE_s.exe+3EA6CC8)
 
 label(unit)
 label(code)
@@ -60,7 +60,7 @@ unit:
 
 code:
   mov rax,[rcx]
-  mov [rbp-74],edi
+  mov [rbp-64],edi
   jmp return
 
 INJECT:
@@ -73,7 +73,7 @@ registersymbol(BaseAddr)
 [DISABLE]
 
 INJECT:
-  db 48 8B 01 89 7D 8C
+  db 48 8B 01 89 7D 9C
 
 unregistersymbol(BaseAddr)
 dealloc(BaseAddr)
@@ -81,31 +81,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 7FF77BF7CA0B
+// ORIGINAL CODE - INJECTION POINT: 7FF781D566FD
 
-7FF77BF7C9E2: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-7FF77BF7C9E9: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
-7FF77BF7C9ED: 89 7D 88              - mov [rbp-78],edi
-7FF77BF7C9F0: 48 8D 55 88           - lea rdx,[rbp-78]
-7FF77BF7C9F4: E8 37 F7 02 00        - call 7FF77BFAC130
-7FF77BF7C9F9: 84 C0                 - test al,al
-7FF77BF7C9FB: 74 21                 - je 7FF77BF7CA1E
-7FF77BF7C9FD: 4D 03 F6              - add r14,r14
-7FF77BF7CA00: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-7FF77BF7CA07: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
+7FF781D566D4: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+7FF781D566DB: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
+7FF781D566DF: 89 7D 98              - mov [rbp-68],edi
+7FF781D566E2: 48 8D 55 98           - lea rdx,[rbp-68]
+7FF781D566E6: E8 D5 A0 06 00        - call 7FF781DC07C0
+7FF781D566EB: 84 C0                 - test al,al
+7FF781D566ED: 74 21                 - je 7FF781D56710
+7FF781D566EF: 4D 03 F6              - add r14,r14
+7FF781D566F2: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+7FF781D566F9: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
 // ---------- INJECTING HERE ----------
-7FF77BF7CA0B: 48 8B 01              - mov rax,[rcx]
+7FF781D566FD: 48 8B 01              - mov rax,[rcx]
 // ---------- DONE INJECTING  ----------
-7FF77BF7CA0E: 89 7D 8C              - mov [rbp-74],edi
-7FF77BF7CA11: 48 8D 55 8C           - lea rdx,[rbp-74]
-7FF77BF7CA15: FF 90 A8 02 00 00     - call qword ptr [rax+000002A8]
-7FF77BF7CA1B: 45 89 27              - mov [r15],r12d
-7FF77BF7CA1E: FF C3                 - inc ebx
-7FF77BF7CA20: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
-7FF77BF7CA27: 48 8B CA              - mov rcx,rdx
-7FF77BF7CA2A: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
-7FF77BF7CA31: 48 2B C2              - sub rax,rdx
-7FF77BF7CA34: 48 C1 F8 04           - sar rax,04
+7FF781D56700: 89 7D 9C              - mov [rbp-64],edi
+7FF781D56703: 48 8D 55 9C           - lea rdx,[rbp-64]
+7FF781D56707: FF 90 B0 02 00 00     - call qword ptr [rax+000002B0]
+7FF781D5670D: 45 89 27              - mov [r15],r12d
+7FF781D56710: FF C3                 - inc ebx
+7FF781D56712: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
+7FF781D56719: 48 8B CA              - mov rcx,rdx
+7FF781D5671C: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
+7FF781D56723: 48 2B C2              - sub rax,rdx
+7FF781D56726: 48 C1 F8 04           - sar rax,04
 }
 </AssemblerScript>
       <Hotkeys>
@@ -320,7 +320,7 @@ dealloc(newmem)
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2021-08-30
+  Date   : 2021-10-08
   Author : 94817
 
   This script does blah blah blah
@@ -356,31 +356,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: 7FF77C0F316E
+// ORIGINAL CODE - INJECTION POINT: 7FF7820277DE
 
-7FF77C0F3146: 44 88 7C 24 38     - mov [rsp+38],r15l
-7FF77C0F314B: C6 44 24 30 01     - mov byte ptr [rsp+30],01
-7FF77C0F3150: 44 88 7C 24 28     - mov [rsp+28],r15l
-7FF77C0F3155: 4C 89 7C 24 20     - mov [rsp+20],r15
-7FF77C0F315A: 0F 28 DE           - movaps xmm3,xmm6
-7FF77C0F315D: 0F 28 D7           - movaps xmm2,xmm7
-7FF77C0F3160: 48 8B D3           - mov rdx,rbx
-7FF77C0F3163: FF 50 50           - call qword ptr [rax+50]
-7FF77C0F3166: 84 C0              - test al,al
-7FF77C0F3168: 0F 85 FA 36 00 00  - jne 7FF77C0F6868
+7FF7820277B6: 44 88 6C 24 38     - mov [rsp+38],r13l
+7FF7820277BB: C6 44 24 30 01     - mov byte ptr [rsp+30],01
+7FF7820277C0: 44 88 6C 24 28     - mov [rsp+28],r13l
+7FF7820277C5: 4C 89 6C 24 20     - mov [rsp+20],r13
+7FF7820277CA: 0F 28 DE           - movaps xmm3,xmm6
+7FF7820277CD: 0F 28 D7           - movaps xmm2,xmm7
+7FF7820277D0: 48 8B D3           - mov rdx,rbx
+7FF7820277D3: FF 50 50           - call qword ptr [rax+50]
+7FF7820277D6: 84 C0              - test al,al
+7FF7820277D8: 0F 85 0A 3C 00 00  - jne 7FF78202B3E8
 // ---------- INJECTING HERE ----------
-7FF77C0F316E: 48 8B 03           - mov rax,[rbx]
+7FF7820277DE: 48 8B 03           - mov rax,[rbx]
 // ---------- DONE INJECTING  ----------
-7FF77C0F3171: 41 BC 01 00 00 00  - mov r12d,00000001
-7FF77C0F3177: 44 89 64 24 28     - mov [rsp+28],r12d
-7FF77C0F317C: 0F 57 C0           - xorps xmm0,xmm0
-7FF77C0F317F: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
-7FF77C0F3185: 0F 28 DE           - movaps xmm3,xmm6
-7FF77C0F3188: 0F 28 D7           - movaps xmm2,xmm7
-7FF77C0F318B: 8B 57 28           - mov edx,[rdi+28]
-7FF77C0F318E: 48 8B CB           - mov rcx,rbx
-7FF77C0F3191: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
-7FF77C0F3197: 48 8B D8           - mov rbx,rax
+7FF7820277E1: 41 BC 01 00 00 00  - mov r12d,00000001
+7FF7820277E7: 44 89 64 24 28     - mov [rsp+28],r12d
+7FF7820277EC: 0F 57 C0           - xorps xmm0,xmm0
+7FF7820277EF: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
+7FF7820277F5: 0F 28 DE           - movaps xmm3,xmm6
+7FF7820277F8: 0F 28 D7           - movaps xmm2,xmm7
+7FF7820277FB: 8B 57 28           - mov edx,[rdi+28]
+7FF7820277FE: 48 8B CB           - mov rcx,rbx
+7FF782027801: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
+7FF782027807: 48 8B D8           - mov rbx,rax
 }
 </AssemblerScript>
     </CheatEntry>
