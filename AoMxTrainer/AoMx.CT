@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"召唤单位脚本"</Description>
+      <Options moHideChildren="1"/>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : aomx.exe
+  Version:
+  Date   : 2021-11-01
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,aomx.exe,2B 45 08 8B 55 F0) // should be unique
+alloc(newmem,$1000)
+alloc(BaseAddr,$10)
+
+define(Param,BaseAddr)
+define(Pos1,[[[[[[aomx.exe+85CC00]+140]+310]+8]+34]+C])
+define(Pos2,Pos1+14)
+
+label(code)
+label(return)
+
+newmem:
+  cmp [Param],0
+  je code
+  push eax
+  push ecx
+  push edx
+  push esi
+  push esp
+  mov eax,[aomx.exe+85CC00]
+  push 0
+  push 0
+  mov esi,[eax+140]
+  mov eax,3F800000
+  push FFFFFFFF
+  push 0
+  sub esp,c
+  mov ecx,esp
+  sub esp,c
+  mov edx,esp
+  push 1
+  mov [ecx],0
+  push [Param]
+  mov [ecx+8],eax
+  mov ecx,esi
+  mov eax,[Pos1]
+  mov [edx],eax
+  mov eax,[Pos2]
+  mov [edx+8],eax
+  call aomx.exe+276340
+  pop esp
+  pop esi
+  pop edx
+  pop ecx
+  pop eax
+  mov [Param],0
+
+code:
+  sub eax,[ebp+08]
+  mov edx,[ebp-10]
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+registersymbol(BaseAddr)
+
+[DISABLE]
+
+INJECT:
+  db 2B 45 08 8B 55 F0
+
+unregistersymbol(BaseAddr)
+dealloc(BaseAddr)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: aomx.exe+6C53F
+
+aomx.exe+6C50F: 8B 45 DC           - mov eax,[ebp-24]
+aomx.exe+6C512: 1B 45 D4           - sbb eax,[ebp-2C]
+aomx.exe+6C515: 01 8B DC 0B 00 00  - add [ebx+00000BDC],ecx
+aomx.exe+6C51B: 11 83 E0 0B 00 00  - adc [ebx+00000BE0],eax
+aomx.exe+6C521: FF 83 F4 0B 00 00  - inc [ebx+00000BF4]
+aomx.exe+6C527: 8B CB              - mov ecx,ebx
+aomx.exe+6C529: E8 C2 1B 1F 00     - call aomx.exe+25E0F0
+aomx.exe+6C52E: 8B 0D C8 83 8D 00  - mov ecx,[aomx.exe+8283C8]
+aomx.exe+6C534: E8 07 A0 12 00     - call aomx.exe+196540
+aomx.exe+6C539: FF 15 E4 C4 68 00  - call dword ptr [aomx.exe+5DC4E4]
+// ---------- INJECTING HERE ----------
+aomx.exe+6C53F: 2B 45 08           - sub eax,[ebp+08]
+// ---------- DONE INJECTING  ----------
+aomx.exe+6C542: 8B 55 F0           - mov edx,[ebp-10]
+aomx.exe+6C545: 8B 8B 40 01 00 00  - mov ecx,[ebx+00000140]
+aomx.exe+6C54B: 03 D0              - add edx,eax
+aomx.exe+6C54D: 85 C9              - test ecx,ecx
+aomx.exe+6C54F: 74 10              - je aomx.exe+6C561
+aomx.exe+6C551: 8B 89 28 0B 00 00  - mov ecx,[ecx+00000B28]
+aomx.exe+6C557: 85 C9              - test ecx,ecx
+aomx.exe+6C559: 74 06              - je aomx.exe+6C561
+aomx.exe+6C55B: 52                 - push edx
+aomx.exe+6C55C: E8 BF D9 2F 00     - call aomx.exe+369F20
+}
+</AssemblerScript>
+      <Hotkeys>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys>
+            <Key>45</Key>
+          </Keys>
+          <ID>0</ID>
+          <ActivateSound TTS="EN">{MRDescription} Activated</ActivateSound>
+          <DeactivateSound TTS="EN">{MRDescription} Deactivated</DeactivateSound>
+        </Hotkey>
+      </Hotkeys>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>16</ID>
+          <Description>"单位ID"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>BaseAddr</Address>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>219</Key>
+              </Keys>
+              <Value>167</Value>
+              <ID>0</ID>
+              <DeactivateSound>Deactivate</DeactivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>221</Key>
+              </Keys>
+              <Value>143</Value>
+              <ID>1</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>220</Key>
+              </Keys>
+              <Value>135</Value>
+              <ID>2</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>186</Key>
+              </Keys>
+              <Value>267</Value>
+              <ID>4</ID>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"坐标1"</Description>
+          <LastState Value="103.6009293" RealAddress="1D118DB0"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>Float</VariableType>
+          <Address>aomx.exe+85CC00</Address>
+          <Offsets>
+            <Offset>0</Offset>
+            <Offset>C</Offset>
+            <Offset>34</Offset>
+            <Offset>8</Offset>
+            <Offset>310</Offset>
+            <Offset>140</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>23</ID>
+          <Description>"坐标2"</Description>
+          <LastState Value="177.1650391" RealAddress="1D118DC4"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>Float</VariableType>
+          <Address>aomx.exe+85CC00</Address>
+          <Offsets>
+            <Offset>14</Offset>
+            <Offset>C</Offset>
+            <Offset>34</Offset>
+            <Offset>8</Offset>
+            <Offset>310</Offset>
+            <Offset>140</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry Color="20000000">
+      <Description>修改人口</Description>
+      <AddressString>aomx.exe+291763</AddressString>
+      <Before>
+        <Byte>45</Byte>
+        <Byte>F8</Byte>
+        <Byte>33</Byte>
+        <Byte>45</Byte>
+        <Byte>08</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>42</Byte>
+        <Byte>34</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>E5</Byte>
+        <Byte>5D</Byte>
+        <Byte>C2</Byte>
+        <Byte>04</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>访问人口</Description>
+      <AddressString>aomx.exe+2916FD</AddressString>
+      <Before>
+        <Byte>D3</Byte>
+        <Byte>C0</Byte>
+        <Byte>89</Byte>
+        <Byte>45</Byte>
+        <Byte>F8</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>42</Byte>
+        <Byte>34</Byte>
+      </Actual>
+      <After>
+        <Byte>33</Byte>
+        <Byte>45</Byte>
+        <Byte>F8</Byte>
+        <Byte>8B</Byte>
+        <Byte>E5</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>

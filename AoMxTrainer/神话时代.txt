@@ -1,0 +1,61 @@
+010F432A | A1 00CC5E01              | mov eax,dword ptr ds:[15ECC00]          | eax=03AFA000
+010F432F | F3:0F7E87 B0000000       | movq xmm0,qword ptr ds:[edi+B0]         | xmm0=0
+010F4337 | 6A 00                    | push 0                                  |
+010F4339 | 6A 00                    | push 0                                  |
+010F433B | 8BB0 40010000            | mov esi,dword ptr ds:[eax+140]          | esi=1AC00000
+010F4341 | 8B87 B8000000            | mov eax,dword ptr ds:[edi+B8]           | eax=3F800000
+010F4347 | 6A FF                    | push FFFFFFFF                           |
+010F4349 | 6A 00                    | push 0                                  |
+010F434B | 83EC 0C                  | sub esp,C                               |
+010F434E | 8BCC                     | mov ecx,esp                             |
+010F4350 | 83EC 0C                  | sub esp,C                               |
+010F4353 | 8BD4                     | mov edx,esp                             |
+010F4355 | FF77 24                  | push dword ptr ds:[edi+24]              | dword ptr ds:[edi+24]=[1A98B3A4]=1
+010F4358 | 66:0FD601                | movq qword ptr ds:[ecx],xmm0            | ds:[ecx]=[00CFFB00]=00 00 00 00 00 00 00 00
+010F435C | F3:0F7E87 BC000000       | movq xmm0,qword ptr ds:[edi+BC]         | xmm0=65
+010F4364 | FFB7 AC000000            | push dword ptr ds:[edi+AC]              | dword ptr ds:[edi+AC]=[1A98B42C]=1A7 单位id
+010F436A | 8941 08                  | mov dword ptr ds:[ecx+8],eax            | dword ptr ds:[ecx+8]=[00CFFB08]=3F800000
+010F436D | 8BCE                     | mov ecx,esi                             | ecx=1AC00000
+010F436F | 8B87 C4000000            | mov eax,dword ptr ds:[edi+C4]           | eax=131 float
+010F4375 | 66:0FD602                | movq qword ptr ds:[edx],xmm0            | ds:[edx]=[00CFFAF4 "w>{B"]=77 3E 7B 42 00 00 00 00 坐标！
+010F4379 | 8942 08                  | mov dword ptr ds:[edx+8],eax            | dword ptr ds:[edx+8]=[00CFFAFC]=4302FD2F 坐标？
+010F437C | E8 BF1FF1FF              | call aomx.1006340                       | 777
+
+0100635E | FF75 34                  | push dword ptr ss:[ebp+34]              | 0 
+01006361 | F3:0F7E45 1C             | movq xmm0,qword ptr ss:[ebp+1C]         | xmm0=0
+01006366 | FF75 30                  | push dword ptr ss:[ebp+30]              | 0
+01006369 | 8B45 24                  | mov eax,dword ptr ss:[ebp+24]           | eax=3F800000
+0100636C | FF75 2C                  | push dword ptr ss:[ebp+2C]              | FFFFFFFF
+0100636F | FF75 28                  | push dword ptr ss:[ebp+28]              | 0
+01006372 | 83EC 0C                  | sub esp,C                               |
+01006375 | 8BCC                     | mov ecx,esp                             | ecx=00CFFAC0=18
+01006377 | 83EC 0C                  | sub esp,C                               |
+0100637A | 66:0FD601                | movq qword ptr ds:[ecx],xmm0            | ds:[ecx]=[00CFFAC0]=0
+0100637E | F3:0F7E45 10             | movq xmm0,qword ptr ss:[ebp+10]         | xmm0=62.811
+01006383 | 8941 08                  | mov dword ptr ds:[ecx+8],eax            | dword ptr ds:[ecx+8]=[00CFFAC8]=3F800000
+01006386 | 8BCC                     | mov ecx,esp                             |
+01006388 | FF75 0C                  | push dword ptr ss:[ebp+C]               | 00000001
+0100638B | 8B45 18                  | mov eax,dword ptr ss:[ebp+18]           | eax=4300CF9E
+0100638E | FF75 08                  | push dword ptr ss:[ebp+8]               | 000001A7
+01006391 | 66:0FD601                | movq qword ptr ds:[ecx],xmm0            | 
+01006395 | 8941 08                  | mov dword ptr ds:[ecx+8],eax            | dword ptr ds:[ecx+8]=[00CFFABC]=4300CF9E
+01006398 | 8BCF                     | mov ecx,edi                             | ecx=158A9000
+0100639A | 56                       | push esi                                | 196A6B04
+0100639B | E8 30000000              | call <aomx.sub_10063D0>                 | 666
+
+01006442 | 8946 7C                  | mov dword ptr ds:[esi+7C],eax           | 18
+01006445 | 6A 01                    | push 1                                  |
+01006447 | FF75 10                  | push dword ptr ss:[ebp+10]              | 1
+0100644A | 8BCF                     | mov ecx,edi                             | ecx=158A9000
+0100644C | FF75 0C                  | push dword ptr ss:[ebp+C]               | 1A7
+0100644F | 56                       | push esi                                | esi=196A6B04
+01006450 | E8 2BFCFFFF              | call <aomx.sub_1006080>                 | 555
+
+01006133 | 8B03                     | mov eax,dword ptr ds:[ebx]              |
+01006135 | 8BCB                     | mov ecx,ebx                             | ecx:L"阘ň\x18"
+01006137 | 6A 00                    | push 0                                  |
+01006139 | 57                       | push edi                                |
+0100613A | 8B40 18                  | mov eax,dword ptr ds:[eax+18]           |
+0100613D | FFD0                     | call eax                                | 444
+
+[[[[[[015ECC00]+140]+310]+8]+34]+C]=04BCB390
