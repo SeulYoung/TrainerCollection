@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"召唤单位脚本"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : age3y.exe
+  Version:
+  Date   : 2021-11-04
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,age3y.exe,C7 00 01 00 00 00 E9 CA) // should be unique
+alloc(newmem,$1000)
+alloc(BaseAddr,$50)
+
+define(Param,BaseAddr)
+define(Flag,BaseAddr+4)
+define(Pos,BaseAddr+10)
+
+label(create)
+label(code)
+label(return)
+
+newmem:
+  cmp [ecx+14],FFFFFFFF
+  jne create
+  push edx
+  mov edx,[ecx]
+  mov [Pos],edx
+  mov edx,[ecx+8]
+  mov [Pos+8],edx
+  pop edx
+
+create:
+  cmp [Param],0
+  je code
+  push esp
+  push eax
+  push ecx
+  push edx
+  mov [Flag],80000000
+  mov [Flag+4],80000000
+  mov [Flag+8],BF800000
+  mov [Pos+4],0
+  mov ecx,[age3y.exe+866234]
+  mov ecx,[ecx+13C]
+  push FFFFFFFF
+  push 0
+  push FFFFFFFF
+  push 0
+  push Flag
+  push Pos
+  push 1
+  push [Param]
+  call age3y.exe+98ACC
+  pop edx
+  pop ecx
+  pop eax
+  pop esp
+  mov [Param],0
+
+code:
+  mov [eax],00000001
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+registersymbol(BaseAddr)
+
+[DISABLE]
+
+INJECT:
+  db C7 00 01 00 00 00
+
+unregistersymbol(BaseAddr)
+dealloc(BaseAddr)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: age3y.exe+4F5E0
+
+age3y.exe+4F5BE: 8B 44 24 6C        - mov eax,[esp+6C]
+age3y.exe+4F5C2: 8B 54 24 20        - mov edx,[esp+20]
+age3y.exe+4F5C6: D9 18              - fstp dword ptr [eax]
+age3y.exe+4F5C8: 8B 4C 24 60        - mov ecx,[esp+60]
+age3y.exe+4F5CC: 8B 44 24 24        - mov eax,[esp+24]
+age3y.exe+4F5D0: 89 11              - mov [ecx],edx
+age3y.exe+4F5D2: 8B 54 24 28        - mov edx,[esp+28]
+age3y.exe+4F5D6: 89 41 04           - mov [ecx+04],eax
+age3y.exe+4F5D9: 8B 44 24 70        - mov eax,[esp+70]
+age3y.exe+4F5DD: 89 51 08           - mov [ecx+08],edx
+// ---------- INJECTING HERE ----------
+age3y.exe+4F5E0: C7 00 01 00 00 00  - mov [eax],00000001
+// ---------- DONE INJECTING  ----------
+age3y.exe+4F5E6: E9 CA F9 FF FF     - jmp age3y.exe+4EFB5
+age3y.exe+4F5EB: 8B CE              - mov ecx,esi
+age3y.exe+4F5ED: E8 44 98 FB FF     - call age3y.exe+8E36
+age3y.exe+4F5F2: E9 32 97 FB FF     - jmp age3y.exe+8D29
+age3y.exe+4F5F7: FF E0              - jmp eax
+age3y.exe+4F5F9: E9 FE 76 FB FF     - jmp age3y.exe+6CFC
+age3y.exe+4F5FE: 8B 51 18           - mov edx,[ecx+18]
+age3y.exe+4F601: 85 D2              - test edx,edx
+age3y.exe+4F603: 0F 85 44 27 05 00  - jne age3y.exe+A1D4D
+age3y.exe+4F609: 33 C0              - xor eax,eax
+}
+</AssemblerScript>
+      <Hotkeys>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys>
+            <Key>45</Key>
+          </Keys>
+          <ID>0</ID>
+          <ActivateSound TTS="EN">{MRDescription} Activated</ActivateSound>
+          <DeactivateSound TTS="EN">{MRDescription} Deactivated</DeactivateSound>
+        </Hotkey>
+      </Hotkeys>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"单位id"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>BaseAddr</Address>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>189</Key>
+              </Keys>
+              <Value>2DB</Value>
+              <ID>0</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>187</Key>
+              </Keys>
+              <Value>2FB</Value>
+              <ID>1</ID>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry Color="80000008">
+      <Description>修改人口</Description>
+      <AddressString>age3y.exe+B4847</AddressString>
+      <Before>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+        <Byte>08</Byte>
+        <Byte>33</Byte>
+        <Byte>C2</Byte>
+      </Before>
+      <Actual>
+        <Byte>89</Byte>
+        <Byte>46</Byte>
+        <Byte>70</Byte>
+      </Actual>
+      <After>
+        <Byte>5E</Byte>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+        <Byte>08</Byte>
+        <Byte>C2</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="80000008">
+      <Description>访问人口</Description>
+      <AddressString>age3y.exe+58093</AddressString>
+      <Before>
+        <Byte>D3</Byte>
+        <Byte>C0</Byte>
+        <Byte>89</Byte>
+        <Byte>04</Byte>
+        <Byte>24</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>42</Byte>
+        <Byte>70</Byte>
+      </Actual>
+      <After>
+        <Byte>33</Byte>
+        <Byte>04</Byte>
+        <Byte>24</Byte>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>

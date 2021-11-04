@@ -1,0 +1,35 @@
+007CCD84 | 8B0D 3462C600            | mov ecx,dword ptr ds:[C66234]           | ecx=05213000
+007CCD8A | 8B89 3C010000            | mov ecx,dword ptr ds:[ecx+13C]          | ecx=09808000
+007CCD90 | 6A FF                    | push FFFFFFFF                           |
+007CCD92 | 6A 00                    | push 0                                  |
+007CCD94 | 6A FF                    | push FFFFFFFF                           |
+007CCD96 | 6A 00                    | push 0                                  |
+007CCD98 | 8D96 90000000            | lea edx,dword ptr ds:[esi+90]           |
+007CCD9E | 52                       | push edx                                | edx=05C94210 存放坐标的地址
+007CCD9F | 8B56 20                  | mov edx,dword ptr ds:[esi+20]           |
+007CCDA2 | 8D86 9C000000            | lea eax,dword ptr ds:[esi+9C]           |
+007CCDA8 | 50                       | push eax                                | eax=05C9421C 存放坐标的地址
+007CCDA9 | 8B86 8C000000            | mov eax,dword ptr ds:[esi+8C]           | eax=2DB L'˛'
+007CCDAF | 52                       | push edx                                | 1
+007CCDB0 | 50                       | push eax                                | 2DB
+007CCDB1 | E8 16BDCCFF              | call age3y.498ACC                       | 6
+
+00498AEA | 8B4424 28                | mov eax,dword ptr ss:[esp+28]           | eax=FFFFFFFF
+00498AEE | 8B4C24 24                | mov ecx,dword ptr ss:[esp+24]           | ecx=0
+00498AF2 | 8B5424 20                | mov edx,dword ptr ss:[esp+20]           | edx=FFFFFFFF
+00498AF6 | 50                       | push eax                                |
+00498AF7 | 8B4424 20                | mov eax,dword ptr ss:[esp+20]           | eax=0
+00498AFB | 51                       | push ecx                                |
+00498AFC | 8B4C24 20                | mov ecx,dword ptr ss:[esp+20]           | ecx=05C94450
+00498B00 | 52                       | push edx                                |
+00498B01 | 8B5424 20                | mov edx,dword ptr ss:[esp+20]           | edx=05C9445C
+00498B05 | 50                       | push eax                                |
+00498B06 | 8B4424 20                | mov eax,dword ptr ss:[esp+20]           | eax=1
+00498B0A | 51                       | push ecx                                |
+00498B0B | 8B4C24 20                | mov ecx,dword ptr ss:[esp+20]           | ecx=2DB L'˛'
+00498B0F | 52                       | push edx                                |
+00498B10 | 50                       | push eax                                |
+00498B11 | 51                       | push ecx                                |
+00498B12 | 56                       | push esi                                | esi=0F8236A4
+00498B13 | 8BCF                     | mov ecx,edi                             | ecx=09808000
+00498B15 | E8 13010000              | call age3y.498C2D                       | 5
