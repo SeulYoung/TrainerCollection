@@ -4,7 +4,7 @@
     <CheatEntry>
       <ID>1</ID>
       <Description>"召唤单位脚本"</Description>
-      <LastState Activated="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : age3y.exe
   Version:
@@ -151,13 +151,21 @@ age3y.exe+4F609: 33 C0              - xor eax,eax
               <Value>2FB</Value>
               <ID>1</ID>
             </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>48</Key>
+              </Keys>
+              <Value>231</Value>
+              <ID>2</ID>
+            </Hotkey>
           </Hotkeys>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>修改人口</Description>
       <AddressString>age3y.exe+B4847</AddressString>
       <Before>
@@ -180,7 +188,7 @@ age3y.exe+4F609: 33 C0              - xor eax,eax
         <Byte>C2</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>访问人口</Description>
       <AddressString>age3y.exe+58093</AddressString>
       <Before>
