@@ -172,7 +172,6 @@ aomx.exe+6C55C: E8 BF D9 2F 00     - call aomx.exe+369F20
         <CheatEntry>
           <ID>22</ID>
           <Description>"坐标1"</Description>
-          <LastState Value="103.6009293" RealAddress="1D118DB0"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>aomx.exe+85CC00</Address>
@@ -188,7 +187,6 @@ aomx.exe+6C55C: E8 BF D9 2F 00     - call aomx.exe+369F20
         <CheatEntry>
           <ID>23</ID>
           <Description>"坐标2"</Description>
-          <LastState Value="177.1650391" RealAddress="1D118DC4"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>aomx.exe+85CC00</Address>
@@ -200,6 +198,39 @@ aomx.exe+6C55C: E8 BF D9 2F 00     - call aomx.exe+369F20
             <Offset>310</Offset>
             <Offset>140</Offset>
           </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"快捷键说明"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>25</ID>
+          <Description>"[：巨神像"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>26</ID>
+          <Description>"]：火巨人"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>27</ID>
+          <Description>"\：独眼巨人"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>28</ID>
+          <Description>";：多爪海怪"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
