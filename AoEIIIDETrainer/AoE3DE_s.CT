@@ -17,14 +17,13 @@
 
 [ENABLE]
 
-aobscanmodule(INJECT,AoE3DE_s.exe,F3 0F 58 49 24) // should be unique
+aobscanmodule(INJECT,AoE3DE_s.exe,F3 0F 58 41 24 F3 0F 59) // should be unique
 alloc(newmem,$1000,INJECT)
 alloc(BaseAddr,$100)
 
 define(Param,BaseAddr)
 define(Flag,BaseAddr+8)
 define(Pos,Flag+C)
-define(RspDiff,Pos+C)
 
 label(code)
 label(return)
@@ -45,15 +44,7 @@ newmem:
   push rdx
   push r9
   push r8
-  xor edx,edx
-  xor eax,eax
-  mov ax,sp
-  xor ebx,ebx
-  mov cx,10
-  div cx
-  add edx,60
-  mov dword ptr ds:[RspDiff],edx
-  sub rsp,edx
+  sub rsp,60
   mov dword ptr ds:[Flag],80000000
   mov dword ptr ds:[Flag+4],80000000
   mov dword ptr ds:[Flag+8],BF800000
@@ -71,7 +62,7 @@ newmem:
   mov r8d,1
   mov edx,dword ptr ds:[Param]
   call AoE3DE_s.exe+8675F0
-  add rsp,dword ptr ds:[RspDiff]
+  add rsp,60
   pop r8
   pop r9
   pop rdx
@@ -81,7 +72,7 @@ newmem:
   mov [Param],0
 
 code:
-  addss xmm1,[rcx+24]
+  addss xmm0,[rcx+24]
   jmp return
 
 INJECT:
@@ -93,7 +84,7 @@ registersymbol(BaseAddr)
 [DISABLE]
 
 INJECT:
-  db F3 0F 58 49 24
+  db F3 0F 58 41 24
 
 unregistersymbol(BaseAddr)
 dealloc(BaseAddr)
@@ -101,31 +92,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+A59F63
+// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+A5A03A
 
-AoE3DE_s.exe+A59F34: F3 0F 10 1D A4 6B 35 02  - movss xmm3,[AoE3DE_s.exe+2DB0AE0]
-AoE3DE_s.exe+A59F3C: F3 0F 10 15 A0 6B 35 02  - movss xmm2,[AoE3DE_s.exe+2DB0AE4]
-AoE3DE_s.exe+A59F44: 0F 28 E3                 - movaps xmm4,xmm3
-AoE3DE_s.exe+A59F47: F3 0F 58 59 28           - addss xmm3,[rcx+28]
-AoE3DE_s.exe+A59F4C: 0F 28 C2                 - movaps xmm0,xmm2
-AoE3DE_s.exe+A59F4F: 0F 29 74 24 10           - movaps [rsp+10],xmm6
-AoE3DE_s.exe+A59F54: F3 0F 59 41 30           - mulss xmm0,[rcx+30]
-AoE3DE_s.exe+A59F59: 0F 57 F6                 - xorps xmm6,xmm6
-AoE3DE_s.exe+A59F5C: F3 0F 59 E6              - mulss xmm4,xmm6
-AoE3DE_s.exe+A59F60: 0F 28 CC                 - movaps xmm1,xmm4
+AoE3DE_s.exe+A5A010: 0F 28 C3                 - movaps xmm0,xmm3
+AoE3DE_s.exe+A5A013: 0F 14 C1                 - unpcklps xmm0,xmm1
+AoE3DE_s.exe+A5A016: F2 41 0F 11 00           - movsd [r8],xmm0
+AoE3DE_s.exe+A5A01B: 0F 28 C5                 - movaps xmm0,xmm5
+AoE3DE_s.exe+A5A01E: F3 0F 11 54 24 08        - movss [rsp+08],xmm2
+AoE3DE_s.exe+A5A024: F3 0F 10 15 BC 6A 35 02  - movss xmm2,[AoE3DE_s.exe+2DB0AE8]
+AoE3DE_s.exe+A5A02C: 8B 44 24 08              - mov eax,[rsp+08]
+AoE3DE_s.exe+A5A030: 0F 28 DA                 - movaps xmm3,xmm2
+AoE3DE_s.exe+A5A033: 41 89 40 08              - mov [r8+08],eax
+AoE3DE_s.exe+A5A037: 0F 28 CA                 - movaps xmm1,xmm2
 // ---------- INJECTING HERE ----------
-AoE3DE_s.exe+A59F63: F3 0F 58 49 24           - addss xmm1,[rcx+24]
+AoE3DE_s.exe+A5A03A: F3 0F 58 41 24           - addss xmm0,[rcx+24]
 // ---------- DONE INJECTING  ----------
-AoE3DE_s.exe+A59F68: F3 0F 58 61 2C           - addss xmm4,[rcx+2C]
-AoE3DE_s.exe+A59F6D: F3 0F 58 C1              - addss xmm0,xmm1
-AoE3DE_s.exe+A59F71: 0F 28 CA                 - movaps xmm1,xmm2
-AoE3DE_s.exe+A59F74: F3 0F 59 49 34           - mulss xmm1,[rcx+34]
-AoE3DE_s.exe+A59F79: F3 0F 59 51 38           - mulss xmm2,[rcx+38]
-AoE3DE_s.exe+A59F7E: F3 0F 58 CB              - addss xmm1,xmm3
-AoE3DE_s.exe+A59F82: F3 0F 58 D4              - addss xmm2,xmm4
-AoE3DE_s.exe+A59F86: 0F 14 C1                 - unpcklps xmm0,xmm1
-AoE3DE_s.exe+A59F89: F2 0F 11 02              - movsd [rdx],xmm0
-AoE3DE_s.exe+A59F8D: F3 0F 11 54 24 08        - movss [rsp+08],xmm2
+AoE3DE_s.exe+A5A03F: F3 0F 59 59 30           - mulss xmm3,[rcx+30]
+AoE3DE_s.exe+A5A044: F3 0F 58 61 28           - addss xmm4,[rcx+28]
+AoE3DE_s.exe+A5A049: F3 0F 58 69 2C           - addss xmm5,[rcx+2C]
+AoE3DE_s.exe+A5A04E: F3 0F 59 49 34           - mulss xmm1,[rcx+34]
+AoE3DE_s.exe+A5A053: F3 0F 58 D8              - addss xmm3,xmm0
+AoE3DE_s.exe+A5A057: F3 0F 59 51 38           - mulss xmm2,[rcx+38]
+AoE3DE_s.exe+A5A05C: F3 0F 58 CC              - addss xmm1,xmm4
+AoE3DE_s.exe+A5A060: 0F 28 C3                 - movaps xmm0,xmm3
+AoE3DE_s.exe+A5A063: F3 0F 58 D5              - addss xmm2,xmm5
+AoE3DE_s.exe+A5A067: 0F 14 C1                 - unpcklps xmm0,xmm1
 }
 </AssemblerScript>
       <Hotkeys>
