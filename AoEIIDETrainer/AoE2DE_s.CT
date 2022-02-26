@@ -9,7 +9,7 @@
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2021-11-22
+  Date   : 2022-02-26
   Author : 94817
 
   This script does blah blah blah
@@ -22,8 +22,8 @@ alloc(newmem,$1000,INJECT)
 alloc(BaseAddr,$20,INJECT)
 
 define(Param,BaseAddr+8)
-define(Pos1,AoE2DE_s.exe+3F71C94)
-define(Pos2,AoE2DE_s.exe+3F71C98)
+define(Pos1,AoE2DE_s.exe+4097694)
+define(Pos2,AoE2DE_s.exe+4097698)
 
 label(unit)
 label(code)
@@ -81,31 +81,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+131745B
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+134CBF3
 
-AoE2DE_s.exe+1317432: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-AoE2DE_s.exe+1317439: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
-AoE2DE_s.exe+131743D: 89 7D 98              - mov [rbp-68],edi
-AoE2DE_s.exe+1317440: 48 8D 55 98           - lea rdx,[rbp-68]
-AoE2DE_s.exe+1317444: E8 07 B6 06 00        - call AoE2DE_s.exe+1382A50
-AoE2DE_s.exe+1317449: 84 C0                 - test al,al
-AoE2DE_s.exe+131744B: 74 21                 - je AoE2DE_s.exe+131746E
-AoE2DE_s.exe+131744D: 4D 03 F6              - add r14,r14
-AoE2DE_s.exe+1317450: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
-AoE2DE_s.exe+1317457: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
+AoE2DE_s.exe+134CBCE: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
+AoE2DE_s.exe+134CBD2: 89 7D 98              - mov [rbp-68],edi
+AoE2DE_s.exe+134CBD5: 41 B0 01              - mov r8l,01
+AoE2DE_s.exe+134CBD8: 48 8D 55 98           - lea rdx,[rbp-68]
+AoE2DE_s.exe+134CBDC: E8 EF 4C 07 00        - call AoE2DE_s.exe+13C18D0
+AoE2DE_s.exe+134CBE1: 84 C0                 - test al,al
+AoE2DE_s.exe+134CBE3: 74 21                 - je AoE2DE_s.exe+134CC06
+AoE2DE_s.exe+134CBE5: 4D 03 F6              - add r14,r14
+AoE2DE_s.exe+134CBE8: 48 8B 86 38 07 00 00  - mov rax,[rsi+00000738]
+AoE2DE_s.exe+134CBEF: 4A 8B 0C F0           - mov rcx,[rax+r14*8]
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+131745B: 48 8B 01              - mov rax,[rcx]
+AoE2DE_s.exe+134CBF3: 48 8B 01              - mov rax,[rcx]
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+131745E: 89 7D 9C              - mov [rbp-64],edi
-AoE2DE_s.exe+1317461: 48 8D 55 9C           - lea rdx,[rbp-64]
-AoE2DE_s.exe+1317465: FF 90 B0 02 00 00     - call qword ptr [rax+000002B0]
-AoE2DE_s.exe+131746B: 45 89 27              - mov [r15],r12d
-AoE2DE_s.exe+131746E: FF C3                 - inc ebx
-AoE2DE_s.exe+1317470: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
-AoE2DE_s.exe+1317477: 48 8B CA              - mov rcx,rdx
-AoE2DE_s.exe+131747A: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
-AoE2DE_s.exe+1317481: 48 2B C2              - sub rax,rdx
-AoE2DE_s.exe+1317484: 48 C1 F8 04           - sar rax,04
+AoE2DE_s.exe+134CBF6: 89 7D 9C              - mov [rbp-64],edi
+AoE2DE_s.exe+134CBF9: 48 8D 55 9C           - lea rdx,[rbp-64]
+AoE2DE_s.exe+134CBFD: FF 90 B0 02 00 00     - call qword ptr [rax+000002B0]
+AoE2DE_s.exe+134CC03: 45 89 27              - mov [r15],r12d
+AoE2DE_s.exe+134CC06: FF C3                 - inc ebx
+AoE2DE_s.exe+134CC08: 48 8B 96 38 07 00 00  - mov rdx,[rsi+00000738]
+AoE2DE_s.exe+134CC0F: 48 8B CA              - mov rcx,rdx
+AoE2DE_s.exe+134CC12: 48 8B 86 40 07 00 00  - mov rax,[rsi+00000740]
+AoE2DE_s.exe+134CC19: 48 2B C2              - sub rax,rdx
+AoE2DE_s.exe+134CC1C: 48 C1 F8 04           - sar rax,04
 }
 </AssemblerScript>
       <Hotkeys>
@@ -171,77 +171,6 @@ AoE2DE_s.exe+1317484: 48 C1 F8 04           - sar rax,04
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>54</ID>
-      <Description>"单位触发Call（无需勾选）"</Description>
-      <LastState/>
-      <VariableType>Auto Assembler Script</VariableType>
-      <AssemblerScript>{ Game   : AoE2DE_s.exe
-  Version:
-  Date   : 2021-11-22
-  Author : 94817
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-
-aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 03 41 BC 01 00 00 00) // should be unique
-alloc(newmem,$1000,INJECT)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  mov rax,[rbx]
-  mov r12d,00000001
-  jmp return
-
-INJECT:
-  jmp newmem
-  nop 4
-return:
-registersymbol(INJECT)
-
-[DISABLE]
-
-INJECT:
-  db 48 8B 03 41 BC 01 00 00 00
-
-unregistersymbol(INJECT)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+15EBA3E
-
-AoE2DE_s.exe+15EBA16: 44 88 6C 24 38     - mov [rsp+38],r13l
-AoE2DE_s.exe+15EBA1B: C6 44 24 30 01     - mov byte ptr [rsp+30],01
-AoE2DE_s.exe+15EBA20: 44 88 6C 24 28     - mov [rsp+28],r13l
-AoE2DE_s.exe+15EBA25: 4C 89 6C 24 20     - mov [rsp+20],r13
-AoE2DE_s.exe+15EBA2A: 0F 28 DE           - movaps xmm3,xmm6
-AoE2DE_s.exe+15EBA2D: 0F 28 D7           - movaps xmm2,xmm7
-AoE2DE_s.exe+15EBA30: 48 8B D3           - mov rdx,rbx
-AoE2DE_s.exe+15EBA33: FF 50 50           - call qword ptr [rax+50]
-AoE2DE_s.exe+15EBA36: 84 C0              - test al,al
-AoE2DE_s.exe+15EBA38: 0F 85 9A 3C 00 00  - jne AoE2DE_s.exe+15EF6D8
-// ---------- INJECTING HERE ----------
-AoE2DE_s.exe+15EBA3E: 48 8B 03           - mov rax,[rbx]
-// ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+15EBA41: 41 BC 01 00 00 00  - mov r12d,00000001
-AoE2DE_s.exe+15EBA47: 44 89 64 24 28     - mov [rsp+28],r12d
-AoE2DE_s.exe+15EBA4C: 0F 57 C0           - xorps xmm0,xmm0
-AoE2DE_s.exe+15EBA4F: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
-AoE2DE_s.exe+15EBA55: 0F 28 DE           - movaps xmm3,xmm6
-AoE2DE_s.exe+15EBA58: 0F 28 D7           - movaps xmm2,xmm7
-AoE2DE_s.exe+15EBA5B: 8B 56 28           - mov edx,[rsi+28]
-AoE2DE_s.exe+15EBA5E: 48 8B CB           - mov rcx,rbx
-AoE2DE_s.exe+15EBA61: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
-AoE2DE_s.exe+15EBA67: 48 8B D8           - mov rbx,rax
-}
-</AssemblerScript>
-    </CheatEntry>
-    <CheatEntry>
       <ID>55</ID>
       <Description>"热键说明"</Description>
       <Options moHideChildren="1"/>
@@ -277,6 +206,77 @@ AoE2DE_s.exe+15EBA67: 48 8B D8           - mov rbx,rax
           <Description>"数字键4：精锐长弓兵"</Description>
           <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>54</ID>
+          <Description>"单位触发Call备份"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : AoE2DE_s.exe
+  Version:
+  Date   : 2022-02-26
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 03 41 BC 01 00 00 00) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rax,[rbx]
+  mov r12d,00000001
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 4
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 48 8B 03 41 BC 01 00 00 00
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+16313B3
+
+AoE2DE_s.exe+163138B: 44 88 6C 24 38     - mov [rsp+38],r13l
+AoE2DE_s.exe+1631390: C6 44 24 30 01     - mov byte ptr [rsp+30],01
+AoE2DE_s.exe+1631395: 44 88 6C 24 28     - mov [rsp+28],r13l
+AoE2DE_s.exe+163139A: 4C 89 6C 24 20     - mov [rsp+20],r13
+AoE2DE_s.exe+163139F: 0F 28 DE           - movaps xmm3,xmm6
+AoE2DE_s.exe+16313A2: 0F 28 D7           - movaps xmm2,xmm7
+AoE2DE_s.exe+16313A5: 48 8B D3           - mov rdx,rbx
+AoE2DE_s.exe+16313A8: FF 50 50           - call qword ptr [rax+50]
+AoE2DE_s.exe+16313AB: 84 C0              - test al,al
+AoE2DE_s.exe+16313AD: 0F 85 05 3E 00 00  - jne AoE2DE_s.exe+16351B8
+// ---------- INJECTING HERE ----------
+AoE2DE_s.exe+16313B3: 48 8B 03           - mov rax,[rbx]
+// ---------- DONE INJECTING  ----------
+AoE2DE_s.exe+16313B6: 41 BC 01 00 00 00  - mov r12d,00000001
+AoE2DE_s.exe+16313BC: 44 89 64 24 28     - mov [rsp+28],r12d
+AoE2DE_s.exe+16313C1: 0F 57 C0           - xorps xmm0,xmm0
+AoE2DE_s.exe+16313C4: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
+AoE2DE_s.exe+16313CA: 0F 28 DE           - movaps xmm3,xmm6
+AoE2DE_s.exe+16313CD: 0F 28 D7           - movaps xmm2,xmm7
+AoE2DE_s.exe+16313D0: 8B 56 28           - mov edx,[rsi+28]
+AoE2DE_s.exe+16313D3: 48 8B CB           - mov rcx,rbx
+AoE2DE_s.exe+16313D6: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
+AoE2DE_s.exe+16313DC: 48 8B D8           - mov rbx,rax
+}
+</AssemblerScript>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
