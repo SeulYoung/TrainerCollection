@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"初始化"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : MMH7Game-Win64-Shipping.exe
+  Version: 
+  Date   : 2022-03-05
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,MMH7Game-Win64-Shipping.exe,48 8B 01 FF 90 18 08 00 00 89) // should be unique
+alloc(newmem,$1000,INJECT)
+alloc(pHero,$8,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+  mov [pHero],rcx
+
+code:
+  mov rax,[rcx]
+  call qword ptr [rax+00000818]
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 4
+return:
+registersymbol(pHero)
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 48 8B 01 FF 90 18 08 00 00
+
+unregistersymbol(pHero)
+dealloc(pHero)
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: MMH7Game-Win64-Shipping.exe+C9354F
+
+MMH7Game-Win64-Shipping.exe+C93520: E8 9B 4D 3A FF        - call MMH7Game-Win64-Shipping.exe+382C0
+MMH7Game-Win64-Shipping.exe+C93525: 48 89 83 B8 05 00 00  - mov [rbx+000005B8],rax
+MMH7Game-Win64-Shipping.exe+C9352C: EB 07                 - jmp MMH7Game-Win64-Shipping.exe+C93535
+MMH7Game-Win64-Shipping.exe+C9352E: 48 8B BD E0 00 00 00  - mov rdi,[rbp+000000E0]
+MMH7Game-Win64-Shipping.exe+C93535: 45 8B F5              - mov r14d,r13d
+MMH7Game-Win64-Shipping.exe+C93538: 44 89 AD 28 01 00 00  - mov [rbp+00000128],r13d
+MMH7Game-Win64-Shipping.exe+C9353F: 48 8B 4F 7C           - mov rcx,[rdi+7C]
+MMH7Game-Win64-Shipping.exe+C93543: 48 85 C9              - test rcx,rcx
+MMH7Game-Win64-Shipping.exe+C93546: 74 55                 - je MMH7Game-Win64-Shipping.exe+C9359D
+MMH7Game-Win64-Shipping.exe+C93548: 48 8B 89 08 06 00 00  - mov rcx,[rcx+00000608]
+// ---------- INJECTING HERE ----------
+MMH7Game-Win64-Shipping.exe+C9354F: 48 8B 01              - mov rax,[rcx]
+// ---------- DONE INJECTING  ----------
+MMH7Game-Win64-Shipping.exe+C93552: FF 90 18 08 00 00     - call qword ptr [rax+00000818]
+MMH7Game-Win64-Shipping.exe+C93558: 89 85 28 01 00 00     - mov [rbp+00000128],eax
+MMH7Game-Win64-Shipping.exe+C9355E: 45 0F 2E EC           - ucomiss xmm13,xmm12
+MMH7Game-Win64-Shipping.exe+C93562: 75 39                 - jne MMH7Game-Win64-Shipping.exe+C9359D
+MMH7Game-Win64-Shipping.exe+C93564: 48 8B 5F 7C           - mov rbx,[rdi+7C]
+MMH7Game-Win64-Shipping.exe+C93568: 44 89 AB C0 05 00 00  - mov [rbx+000005C0],r13d
+MMH7Game-Win64-Shipping.exe+C9356F: 83 BB C4 05 00 00 00  - cmp dword ptr [rbx+000005C4],00
+MMH7Game-Win64-Shipping.exe+C93576: 74 25                 - je MMH7Game-Win64-Shipping.exe+C9359D
+MMH7Game-Win64-Shipping.exe+C93578: 44 89 AB C4 05 00 00  - mov [rbx+000005C4],r13d
+MMH7Game-Win64-Shipping.exe+C9357F: 48 8B 8B B8 05 00 00  - mov rcx,[rbx+000005B8]
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>15</ID>
+          <Description>"力量"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>pHero</Address>
+          <Offsets>
+            <Offset>44C</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>16</ID>
+          <Description>"防御"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>pHero</Address>
+          <Offsets>
+            <Offset>450</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"伤害1"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>pHero</Address>
+          <Offsets>
+            <Offset>45C</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>18</ID>
+          <Description>"伤害2"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>pHero</Address>
+          <Offsets>
+            <Offset>460</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
