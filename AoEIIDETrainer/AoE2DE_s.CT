@@ -19,36 +19,38 @@
 
 aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 01 89 7D 9C) // should be unique
 alloc(newmem,$1000,INJECT)
-alloc(BaseAddr,$20,INJECT)
+alloc(playerAddr,$20,INJECT)
 
-define(Param,BaseAddr+8)
+define(unitParam,playerAddr+8)
+define(techParam,playerAddr+10)
 define(Pos1,AoE2DE_s.exe+4097694)
 define(Pos2,AoE2DE_s.exe+4097698)
 
 label(unit)
+label(tech)
 label(code)
 label(return)
 
 newmem:
   cmp [rcx+10],1
   jne unit
-  mov [BaseAddr],rcx
+  mov [playerAddr],rcx
 
 unit:
-  cmp qword ptr ds:[Param],0
-  je code
+  cmp qword ptr ds:[unitParam],0
+  je tech
   push rbx
   push rax
   push rdx
   push rcx
   sub rsp,30
-  mov rbx,qword ptr ds:[BaseAddr]
+  mov rbx,qword ptr ds:[playerAddr]
   mov rax,qword ptr ds:[rbx]
   mov dword ptr ss:[rsp+28],1
   mov dword ptr ss:[rsp+20],0
   movss xmm2,dword ptr ds:[Pos1]
   movss xmm3,dword ptr ds:[Pos2]
-  mov edx,dword ptr ds:[Param]
+  mov edx,dword ptr ds:[unitParam]
   mov rcx,rbx
   call qword ptr ds:[rax+168]
   add rsp,30
@@ -56,7 +58,27 @@ unit:
   pop rdx
   pop rax
   pop rbx
-  mov qword ptr ds:[Param],0
+  mov qword ptr ds:[unitParam],0
+
+tech:
+  cmp qword ptr ds:[techParam],0
+  je code
+  push rbx
+  push r8
+  push rdx
+  push rcx
+  mov r8,AoE2DE_s.exe+1
+  movzx edx,word ptr ds:[techParam]
+  mov rbx,[playerAddr]
+  mov rcx,[rbx+94F8]
+  mov dword ptr ds:[techParam],43FA0000
+  movss xmm6,dword ptr ds:[techParam]
+  call AoE2DE_s.exe+15CD2C0
+  pop rcx
+  pop rdx
+  pop r8
+  pop rbx
+  mov qword ptr ds:[techParam],0
 
 code:
   mov rax,[rcx]
@@ -68,15 +90,15 @@ INJECT:
   nop
 return:
 registersymbol(INJECT)
-registersymbol(BaseAddr)
+registersymbol(playerAddr)
 
 [DISABLE]
 
 INJECT:
   db 48 8B 01 89 7D 9C
 
-unregistersymbol(BaseAddr)
-dealloc(BaseAddr)
+unregistersymbol(playerAddr)
+dealloc(playerAddr)
 unregistersymbol(INJECT)
 dealloc(newmem)
 
@@ -124,15 +146,17 @@ AoE2DE_s.exe+134CC1C: 48 C1 F8 04           - sar rax,04
           <ID>45</ID>
           <Description>"玩家地址"</Description>
           <ShowAsHex>1</ShowAsHex>
+          <ShowAsSigned>0</ShowAsSigned>
           <VariableType>8 Bytes</VariableType>
-          <Address>BaseAddr</Address>
+          <Address>playerAddr</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>16</ID>
-          <Description>"单位种类"</Description>
+          <Description>"单位id"</Description>
           <ShowAsHex>1</ShowAsHex>
+          <ShowAsSigned>0</ShowAsSigned>
           <VariableType>8 Bytes</VariableType>
-          <Address>BaseAddr+8</Address>
+          <Address>playerAddr+8</Address>
           <Hotkeys>
             <Hotkey>
               <Action>Set Value</Action>
@@ -167,6 +191,14 @@ AoE2DE_s.exe+134CC1C: 48 C1 F8 04           - sar rax,04
               <ID>3</ID>
             </Hotkey>
           </Hotkeys>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>64</ID>
+          <Description>"科技id"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>8 Bytes</VariableType>
+          <Address>playerAddr+10</Address>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -278,9 +310,153 @@ AoE2DE_s.exe+16313DC: 48 8B D8           - mov rbx,rax
 }
 </AssemblerScript>
         </CheatEntry>
+        <CheatEntry>
+          <ID>63</ID>
+          <Description>"科技触发Call备份"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : AoE2DE_s.exe
+  Version: 
+  Date   : 2022-04-20
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,AoE2DE_s.exe,83 BE 90 00 00 00 01 41) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  cmp dword ptr [rsi+00000090],01
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 2
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 83 BE 90 00 00 00 01
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1630D1A
+
+AoE2DE_s.exe+1630CF3: 49 03 C8              - add rcx,r8
+AoE2DE_s.exe+1630CF6: 48 8B 5D 90           - mov rbx,[rbp-70]
+AoE2DE_s.exe+1630CFA: FF E1                 - jmp rcx
+AoE2DE_s.exe+1630CFC: 48 8B 4D 90           - mov rcx,[rbp-70]
+AoE2DE_s.exe+1630D00: 4C 8B 09              - mov r9,[rcx]
+AoE2DE_s.exe+1630D03: 44 8B 46 1C           - mov r8d,[rsi+1C]
+AoE2DE_s.exe+1630D07: 48 8B 45 C8           - mov rax,[rbp-38]
+AoE2DE_s.exe+1630D0B: 8B 90 B8 94 00 00     - mov edx,[rax+000094B8]
+AoE2DE_s.exe+1630D11: 41 FF 51 30           - call qword ptr [r9+30]
+AoE2DE_s.exe+1630D15: E9 9E 44 00 00        - jmp AoE2DE_s.exe+16351B8
+// ---------- INJECTING HERE ----------
+AoE2DE_s.exe+1630D1A: 83 BE 90 00 00 00 01  - cmp dword ptr [rsi+00000090],01
+// ---------- DONE INJECTING  ----------
+AoE2DE_s.exe+1630D21: 41 0F 94 C0           - sete r8l
+AoE2DE_s.exe+1630D25: 0F B7 56 34           - movzx edx,word ptr [rsi+34]
+AoE2DE_s.exe+1630D29: 48 8B 4D 90           - mov rcx,[rbp-70]
+AoE2DE_s.exe+1630D2D: 48 8B 89 F8 94 00 00  - mov rcx,[rcx+000094F8]
+AoE2DE_s.exe+1630D34: E8 87 C5 F9 FF        - call AoE2DE_s.exe+15CD2C0
+AoE2DE_s.exe+1630D39: E9 7A 44 00 00        - jmp AoE2DE_s.exe+16351B8
+AoE2DE_s.exe+1630D3E: 48 8B 0D E3 87 70 02  - mov rcx,[AoE2DE_s.exe+3D39528]
+AoE2DE_s.exe+1630D45: E8 46 14 5F FF        - call AoE2DE_s.exe+C22190
+AoE2DE_s.exe+1630D4A: 48 3B D8              - cmp rbx,rax
+AoE2DE_s.exe+1630D4D: 75 5D                 - jne AoE2DE_s.exe+1630DAC
+}
+</AssemblerScript>
+        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry Color="80000008">
+      <Description>gold-</Description>
+      <AddressString>AoE2DE_s.exe+1385F66</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+        <Byte>48</Byte>
+      </Before>
+      <Actual>
+        <Byte>48</Byte>
+        <Byte>89</Byte>
+        <Byte>04</Byte>
+        <Byte>F9</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>CE</Byte>
+        <Byte>E8</Byte>
+        <Byte>CE</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="80000008">
+      <Description>gold+</Description>
+      <AddressString>AoE2DE_s.exe+1386C22</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+        <Byte>30</Byte>
+      </Before>
+      <Actual>
+        <Byte>48</Byte>
+        <Byte>89</Byte>
+        <Byte>04</Byte>
+        <Byte>D1</Byte>
+      </Actual>
+      <After>
+        <Byte>49</Byte>
+        <Byte>83</Byte>
+        <Byte>C0</Byte>
+        <Byte>06</Byte>
+        <Byte>49</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="80000008">
+      <Description>纸币科技+gold</Description>
+      <AddressString>AoE2DE_s.exe+13BC233</AddressString>
+      <Before>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>44</Byte>
+        <Byte>24</Byte>
+        <Byte>30</Byte>
+      </Before>
+      <Actual>
+        <Byte>48</Byte>
+        <Byte>89</Byte>
+        <Byte>04</Byte>
+        <Byte>D1</Byte>
+      </Actual>
+      <After>
+        <Byte>66</Byte>
+        <Byte>83</Byte>
+        <Byte>FD</Byte>
+        <Byte>0B</Byte>
+        <Byte>0F</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>mythread_create</Name>
@@ -289,4 +465,33 @@ AoE2DE_s.exe+16313DC: 48 8B D8           - mov rbx,rax
   </UserdefinedSymbols>
   <Comments>关于表格信息:
 </Comments>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"AoE2DE_s.exe"+15CD2E4</Address>
+      <Comment>000002272D324030
+-00007FF783C135F0
+--00007FF7822725B0
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"AoE2DE_s.exe"+15CD2E8</Address>
+      <Comment>500(0000000043FA0000)
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"AoE2DE_s.exe"+1630D21</Address>
+      <Comment>00007FF780E90001
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"AoE2DE_s.exe"+1630D25</Address>
+      <Comment>科技id
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"AoE2DE_s.exe"+1630D29</Address>
+      <Comment>玩家id
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
 </CheatTable>
