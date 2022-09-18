@@ -42,7 +42,7 @@ unit:
   mov dword ptr ds:[UnitParam],80000000
   mov dword ptr ds:[UnitParam+4],80000000
   mov dword ptr ds:[UnitParam+8],BF800000
-  mov rcx,qword ptr ds:[AoE3DE_s.exe+2FB3BA8]
+  mov rcx,qword ptr ds:[AoE3DE_s.exe+2FC1200]
   mov rcx,qword ptr ds:[rcx+148] // Player
   mov byte ptr ss:[rsp+48],0
   mov dword ptr ss:[rsp+40],FFFFFFFF
@@ -51,13 +51,13 @@ unit:
   mov byte ptr ss:[rsp+28],0
   lea rax,qword ptr ds:[UnitParam]
   mov qword ptr ss:[rsp+20],rax
-  mov r9,qword ptr ds:[AoE3DE_s.exe+02FC9568] // Pos
+  mov r9,qword ptr ds:[AoE3DE_s.exe+02FD6F78] // Pos
   mov r9,[r9+28]
   mov r9,[r9+8]
   lea r9,[r9+24]
   mov r8d,1
   mov edx,dword ptr ds:[UnitId]
-  call AoE3DE_s.exe+890800
+  call AoE3DE_s.exe+894150
   add rsp,80
   pop r8
   pop r9
@@ -73,7 +73,7 @@ tech:
   mov r8,2
   mov rdx,qword ptr ds:[TechId]
   mov rcx,1
-  call AoE3DE_s.exe+E74940
+  call AoE3DE_s.exe+E7C9D0
   mov qword ptr ds:[TechId],0
 
 timeCode:
@@ -213,7 +213,7 @@ AoE3DE_s.exe+7FD278: E8 83 66 96 FF        - call AoE3DE_s.exe+163900
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
   Version:
-  Date   : 2022-07-04
+  Date   : 2022-09-18
   Author : 94817
 
   This script does blah blah blah
@@ -247,31 +247,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+A49C14
+// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+A4E994
 
-AoE3DE_s.exe+A49BD5: 41 8B 04 10              - mov eax,[r8+rdx]
-AoE3DE_s.exe+A49BD9: 39 05 59 8A 58 02        - cmp [AoE3DE_s.exe+2FD2638],eax
-AoE3DE_s.exe+A49BDF: 0F 8F 9B 00 00 00        - jg AoE3DE_s.exe+A49C80
-AoE3DE_s.exe+A49BE5: 4C 8D 87 C8 00 00 00     - lea r8,[rdi+000000C8]
-AoE3DE_s.exe+A49BEC: 48 8D 15 25 8A 58 02     - lea rdx,[AoE3DE_s.exe+2FD2618]
-AoE3DE_s.exe+A49BF3: 48 8D 0D E6 5F 79 02     - lea rcx,[AoE3DE_s.exe+31DFBE0]
-AoE3DE_s.exe+A49BFA: E8 91 56 C8 FF           - call AoE3DE_s.exe+6CF290
-AoE3DE_s.exe+A49BFF: 48 8B 05 A2 9F 56 02     - mov rax,[AoE3DE_s.exe+2FB3BA8]
-AoE3DE_s.exe+A49C06: 48 8B 88 48 01 00 00     - mov rcx,[rax+00000148]
-AoE3DE_s.exe+A49C0D: 48 8D 87 BC 00 00 00     - lea rax,[rdi+000000BC]
+AoE3DE_s.exe+A4E955: 41 8B 04 10              - mov eax,[r8+rdx]
+AoE3DE_s.exe+A4E959: 39 05 E9 16 59 02        - cmp [AoE3DE_s.exe+2FE0048],eax
+AoE3DE_s.exe+A4E95F: 0F 8F 9B 00 00 00        - jg AoE3DE_s.exe+A4EA00
+AoE3DE_s.exe+A4E965: 4C 8D 87 C8 00 00 00     - lea r8,[rdi+000000C8]
+AoE3DE_s.exe+A4E96C: 48 8D 15 B5 16 59 02     - lea rdx,[AoE3DE_s.exe+2FE0028]
+AoE3DE_s.exe+A4E973: 48 8D 0D F6 EC 79 02     - lea rcx,[AoE3DE_s.exe+31ED670]
+AoE3DE_s.exe+A4E97A: E8 C1 19 C8 FF           - call AoE3DE_s.exe+6D0340
+AoE3DE_s.exe+A4E97F: 48 8B 05 7A 28 57 02     - mov rax,[AoE3DE_s.exe+2FC1200]
+AoE3DE_s.exe+A4E986: 48 8B 88 48 01 00 00     - mov rcx,[rax+00000148]
+AoE3DE_s.exe+A4E98D: 48 8D 87 BC 00 00 00     - lea rax,[rdi+000000BC]
 // ---------- INJECTING HERE ----------
-AoE3DE_s.exe+A49C14: C6 44 24 48 00           - mov byte ptr [rsp+48],00
+AoE3DE_s.exe+A4E994: C6 44 24 48 00           - mov byte ptr [rsp+48],00
 // ---------- DONE INJECTING  ----------
-AoE3DE_s.exe+A49C19: C7 44 24 40 FF FF FF FF  - mov [rsp+40],FFFFFFFF
-AoE3DE_s.exe+A49C21: C6 44 24 38 00           - mov byte ptr [rsp+38],00
-AoE3DE_s.exe+A49C26: C7 44 24 30 FF FF FF FF  - mov [rsp+30],FFFFFFFF
-AoE3DE_s.exe+A49C2E: C6 44 24 28 00           - mov byte ptr [rsp+28],00
-AoE3DE_s.exe+A49C33: 48 89 44 24 20           - mov [rsp+20],rax
-AoE3DE_s.exe+A49C38: 4C 8D 8F C8 00 00 00     - lea r9,[rdi+000000C8]
-AoE3DE_s.exe+A49C3F: 44 8B 47 38              - mov r8d,[rdi+38]
-AoE3DE_s.exe+A49C43: 8B 97 B8 00 00 00        - mov edx,[rdi+000000B8]
-AoE3DE_s.exe+A49C49: E8 B2 6B E4 FF           - call AoE3DE_s.exe+890800
-AoE3DE_s.exe+A49C4E: 48 8B D8                 - mov rbx,rax
+AoE3DE_s.exe+A4E999: C7 44 24 40 FF FF FF FF  - mov [rsp+40],FFFFFFFF
+AoE3DE_s.exe+A4E9A1: C6 44 24 38 00           - mov byte ptr [rsp+38],00
+AoE3DE_s.exe+A4E9A6: C7 44 24 30 FF FF FF FF  - mov [rsp+30],FFFFFFFF
+AoE3DE_s.exe+A4E9AE: C6 44 24 28 00           - mov byte ptr [rsp+28],00
+AoE3DE_s.exe+A4E9B3: 48 89 44 24 20           - mov [rsp+20],rax
+AoE3DE_s.exe+A4E9B8: 4C 8D 8F C8 00 00 00     - lea r9,[rdi+000000C8]
+AoE3DE_s.exe+A4E9BF: 44 8B 47 38              - mov r8d,[rdi+38]
+AoE3DE_s.exe+A4E9C3: 8B 97 B8 00 00 00        - mov edx,[rdi+000000B8]
+AoE3DE_s.exe+A4E9C9: E8 82 57 E4 FF           - call AoE3DE_s.exe+894150
+AoE3DE_s.exe+A4E9CE: 48 8B D8                 - mov rbx,rax
 }
 </AssemblerScript>
         </CheatEntry>
@@ -282,7 +282,7 @@ AoE3DE_s.exe+A49C4E: 48 8B D8                 - mov rbx,rax
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
   Version:
-  Date   : 2022-07-04
+  Date   : 2022-09-18
   Author : 94817
 
   This script does blah blah blah
@@ -318,31 +318,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+67D092
+// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+67E072
 
-AoE3DE_s.exe+67D06B: 41 8B 02                 - mov eax,[r10]
-AoE3DE_s.exe+67D06E: F3 0F 10 4D 77           - movss xmm1,[rbp+77]
-AoE3DE_s.exe+67D073: 89 45 7F                 - mov [rbp+7F],eax
-AoE3DE_s.exe+67D076: F3 0F 10 45 7F           - movss xmm0,[rbp+7F]
-AoE3DE_s.exe+67D07B: 41 FF D3                 - call r11
-AoE3DE_s.exe+67D07E: 0F B6 C3                 - movzx eax,bl
-AoE3DE_s.exe+67D081: 48 8B 9C 24 A0 00 00 00  - mov rbx,[rsp+000000A0]
-AoE3DE_s.exe+67D089: 48 81 C4 90 00 00 00     - add rsp,00000090
-AoE3DE_s.exe+67D090: 5D                       - pop rbp
-AoE3DE_s.exe+67D091: C3                       - ret
+AoE3DE_s.exe+67E04B: 41 8B 02                 - mov eax,[r10]
+AoE3DE_s.exe+67E04E: F3 0F 10 4D 77           - movss xmm1,[rbp+77]
+AoE3DE_s.exe+67E053: 89 45 7F                 - mov [rbp+7F],eax
+AoE3DE_s.exe+67E056: F3 0F 10 45 7F           - movss xmm0,[rbp+7F]
+AoE3DE_s.exe+67E05B: 41 FF D3                 - call r11
+AoE3DE_s.exe+67E05E: 0F B6 C3                 - movzx eax,bl
+AoE3DE_s.exe+67E061: 48 8B 9C 24 A0 00 00 00  - mov rbx,[rsp+000000A0]
+AoE3DE_s.exe+67E069: 48 81 C4 90 00 00 00     - add rsp,00000090
+AoE3DE_s.exe+67E070: 5D                       - pop rbp
+AoE3DE_s.exe+67E071: C3                       - ret
 // ---------- INJECTING HERE ----------
-AoE3DE_s.exe+67D092: 4D 8B 42 20              - mov r8,[r10+20]
+AoE3DE_s.exe+67E072: 4D 8B 42 20              - mov r8,[r10+20]
 // ---------- DONE INJECTING  ----------
-AoE3DE_s.exe+67D096: 49 8B 52 10              - mov rdx,[r10+10]
-AoE3DE_s.exe+67D09A: 49 8B 0A                 - mov rcx,[r10]
-AoE3DE_s.exe+67D09D: 41 FF D3                 - call r11
-AoE3DE_s.exe+67D0A0: 0F B6 C3                 - movzx eax,bl
-AoE3DE_s.exe+67D0A3: 48 8B 9C 24 A0 00 00 00  - mov rbx,[rsp+000000A0]
-AoE3DE_s.exe+67D0AB: 48 81 C4 90 00 00 00     - add rsp,00000090
-AoE3DE_s.exe+67D0B2: 5D                       - pop rbp
-AoE3DE_s.exe+67D0B3: C3                       - ret
-AoE3DE_s.exe+67D0B4: 83 FA 0F                 - cmp edx,0F
-AoE3DE_s.exe+67D0B7: 0F 87 FE 01 00 00        - ja AoE3DE_s.exe+67D2BB
+AoE3DE_s.exe+67E076: 49 8B 52 10              - mov rdx,[r10+10]
+AoE3DE_s.exe+67E07A: 49 8B 0A                 - mov rcx,[r10]
+AoE3DE_s.exe+67E07D: 41 FF D3                 - call r11
+AoE3DE_s.exe+67E080: 0F B6 C3                 - movzx eax,bl
+AoE3DE_s.exe+67E083: 48 8B 9C 24 A0 00 00 00  - mov rbx,[rsp+000000A0]
+AoE3DE_s.exe+67E08B: 48 81 C4 90 00 00 00     - add rsp,00000090
+AoE3DE_s.exe+67E092: 5D                       - pop rbp
+AoE3DE_s.exe+67E093: C3                       - ret
+AoE3DE_s.exe+67E094: 83 FA 0F                 - cmp edx,0F
+AoE3DE_s.exe+67E097: 0F 87 FE 01 00 00        - ja AoE3DE_s.exe+67E29B
 }
 </AssemblerScript>
         </CheatEntry>
@@ -352,8 +352,8 @@ AoE3DE_s.exe+67D0B7: 0F 87 FE 01 00 00        - ja AoE3DE_s.exe+67D2BB
           <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
-  Version: 
-  Date   : 2022-06-14
+  Version:
+  Date   : 2022-09-18
   Author : 94817
 
   This script does blah blah blah
@@ -387,41 +387,41 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+ABC86A
+// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+AC5B3A
 
-AoE3DE_s.exe+ABC840: 0F 28 C3                 - movaps xmm0,xmm3
-AoE3DE_s.exe+ABC843: 0F 14 C1                 - unpcklps xmm0,xmm1
-AoE3DE_s.exe+ABC846: F2 41 0F 11 00           - movsd [r8],xmm0
-AoE3DE_s.exe+ABC84B: 0F 28 C5                 - movaps xmm0,xmm5
-AoE3DE_s.exe+ABC84E: F3 0F 11 54 24 08        - movss [rsp+08],xmm2
-AoE3DE_s.exe+ABC854: F3 0F 10 15 4C 3C 34 02  - movss xmm2,[AoE3DE_s.exe+2E004A8]
-AoE3DE_s.exe+ABC85C: 8B 44 24 08              - mov eax,[rsp+08]
-AoE3DE_s.exe+ABC860: 0F 28 DA                 - movaps xmm3,xmm2
-AoE3DE_s.exe+ABC863: 41 89 40 08              - mov [r8+08],eax
-AoE3DE_s.exe+ABC867: 0F 28 CA                 - movaps xmm1,xmm2
+AoE3DE_s.exe+AC5B10: 0F 28 C3                 - movaps xmm0,xmm3
+AoE3DE_s.exe+AC5B13: 0F 14 C1                 - unpcklps xmm0,xmm1
+AoE3DE_s.exe+AC5B16: F2 41 0F 11 00           - movsd [r8],xmm0
+AoE3DE_s.exe+AC5B1B: 0F 28 C5                 - movaps xmm0,xmm5
+AoE3DE_s.exe+AC5B1E: F3 0F 11 54 24 08        - movss [rsp+08],xmm2
+AoE3DE_s.exe+AC5B24: F3 0F 10 15 8C 7A 35 02  - movss xmm2,[AoE3DE_s.exe+2E1D5B8]
+AoE3DE_s.exe+AC5B2C: 8B 44 24 08              - mov eax,[rsp+08]
+AoE3DE_s.exe+AC5B30: 0F 28 DA                 - movaps xmm3,xmm2
+AoE3DE_s.exe+AC5B33: 41 89 40 08              - mov [r8+08],eax
+AoE3DE_s.exe+AC5B37: 0F 28 CA                 - movaps xmm1,xmm2
 // ---------- INJECTING HERE ----------
-AoE3DE_s.exe+ABC86A: F3 0F 58 41 24           - addss xmm0,[rcx+24]
+AoE3DE_s.exe+AC5B3A: F3 0F 58 41 24           - addss xmm0,[rcx+24]
 // ---------- DONE INJECTING  ----------
-AoE3DE_s.exe+ABC86F: F3 0F 59 59 30           - mulss xmm3,[rcx+30]
-AoE3DE_s.exe+ABC874: F3 0F 58 61 28           - addss xmm4,[rcx+28]
-AoE3DE_s.exe+ABC879: F3 0F 58 69 2C           - addss xmm5,[rcx+2C]
-AoE3DE_s.exe+ABC87E: F3 0F 59 49 34           - mulss xmm1,[rcx+34]
-AoE3DE_s.exe+ABC883: F3 0F 58 D8              - addss xmm3,xmm0
-AoE3DE_s.exe+ABC887: F3 0F 59 51 38           - mulss xmm2,[rcx+38]
-AoE3DE_s.exe+ABC88C: F3 0F 58 CC              - addss xmm1,xmm4
-AoE3DE_s.exe+ABC890: 0F 28 C3                 - movaps xmm0,xmm3
-AoE3DE_s.exe+ABC893: F3 0F 58 D5              - addss xmm2,xmm5
-AoE3DE_s.exe+ABC897: 0F 14 C1                 - unpcklps xmm0,xmm1
+AoE3DE_s.exe+AC5B3F: F3 0F 59 59 30           - mulss xmm3,[rcx+30]
+AoE3DE_s.exe+AC5B44: F3 0F 58 61 28           - addss xmm4,[rcx+28]
+AoE3DE_s.exe+AC5B49: F3 0F 58 69 2C           - addss xmm5,[rcx+2C]
+AoE3DE_s.exe+AC5B4E: F3 0F 59 49 34           - mulss xmm1,[rcx+34]
+AoE3DE_s.exe+AC5B53: F3 0F 58 D8              - addss xmm3,xmm0
+AoE3DE_s.exe+AC5B57: F3 0F 59 51 38           - mulss xmm2,[rcx+38]
+AoE3DE_s.exe+AC5B5C: F3 0F 58 CC              - addss xmm1,xmm4
+AoE3DE_s.exe+AC5B60: 0F 28 C3                 - movaps xmm0,xmm3
+AoE3DE_s.exe+AC5B63: F3 0F 58 D5              - addss xmm2,xmm5
+AoE3DE_s.exe+AC5B67: 0F 14 C1                 - unpcklps xmm0,xmm1
 }
 </AssemblerScript>
           <CheatEntries>
             <CheatEntry>
               <ID>16</ID>
               <Description>"PosX"</Description>
-              <LastState Value="73.23252106" RealAddress="1B3AD87FFDC"/>
+              <LastState Value="67.81655121" RealAddress="1C9BD2420AC"/>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>Float</VariableType>
-              <Address>AoE3DE_s.exe+02FC9568</Address>
+              <Address>AoE3DE_s.exe+02FD6F78</Address>
               <Offsets>
                 <Offset>24</Offset>
                 <Offset>8</Offset>
@@ -431,10 +431,10 @@ AoE3DE_s.exe+ABC897: 0F 14 C1                 - unpcklps xmm0,xmm1
             <CheatEntry>
               <ID>15</ID>
               <Description>"PosX"</Description>
-              <LastState Value="73.23252106" RealAddress="1B3AD87FFDC"/>
+              <LastState Value="67.81655121" RealAddress="1C9BD2420AC"/>
               <ShowAsSigned>0</ShowAsSigned>
               <VariableType>Float</VariableType>
-              <Address>AoE3DE_s.exe+02FB6E80</Address>
+              <Address>AoE3DE_s.exe+02FC44E0</Address>
               <Offsets>
                 <Offset>24</Offset>
                 <Offset>8</Offset>
@@ -454,5 +454,6 @@ AoE3DE_s.exe+ABC897: 0F 14 C1                 - unpcklps xmm0,xmm1
     </SymbolEntry>
   </UserdefinedSymbols>
   <Comments>food:9999=2253599018(4 bytes)
-</Comments>
+PosX base addr:0F 57 C0 F3 0F 11 44 24 40 4C 8D 44 24 40 BA
+PosX base addr:48 8B 43 10 48 8D 04 F8 48 8B 5C 24 50 (first)</Comments>
 </CheatTable>
