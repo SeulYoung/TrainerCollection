@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="42">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"制作不消耗物品（No Item Consume）"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : DyingLightGame.exe
+  Version: 
+  Date   : 2023-01-08
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,gamedll_x64_rwdi.dll,D8 89 1E 48 8B 5C 24 30) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+  cmp [rsi+2C],00000000FFFFFFFF
+  jne code
+  cmp [rsi],ebx
+  jb code
+  mov ebx,[rsi]
+
+code:
+  mov [rsi],ebx
+  mov rbx,[rsp+30]
+  jmp return
+
+INJECT+01:
+  jmp newmem
+  nop 2
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT+01:
+  db 89 1E 48 8B 5C 24 30
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: gamedll_x64_rwdi.dll+6F2E75
+
+gamedll_x64_rwdi.dll+6F2E5A: 79 14           - jns gamedll_x64_rwdi.dll+6F2E70
+gamedll_x64_rwdi.dll+6F2E5C: 33 DB           - xor ebx,ebx
+gamedll_x64_rwdi.dll+6F2E5E: 89 1E           - mov [rsi],ebx
+gamedll_x64_rwdi.dll+6F2E60: 48 8B 5C 24 30  - mov rbx,[rsp+30]
+gamedll_x64_rwdi.dll+6F2E65: 48 8B 74 24 38  - mov rsi,[rsp+38]
+gamedll_x64_rwdi.dll+6F2E6A: 48 83 C4 20     - add rsp,20
+gamedll_x64_rwdi.dll+6F2E6E: 5F              - pop rdi
+gamedll_x64_rwdi.dll+6F2E6F: C3              - ret 
+gamedll_x64_rwdi.dll+6F2E70: 3B D8           - cmp ebx,eax
+gamedll_x64_rwdi.dll+6F2E72: 0F 4F D8        - cmovg ebx,eax
+// ---------- INJECTING HERE ----------
+gamedll_x64_rwdi.dll+6F2E75: 89 1E           - mov [rsi],ebx
+// ---------- DONE INJECTING  ----------
+gamedll_x64_rwdi.dll+6F2E77: 48 8B 5C 24 30  - mov rbx,[rsp+30]
+gamedll_x64_rwdi.dll+6F2E7C: 48 8B 74 24 38  - mov rsi,[rsp+38]
+gamedll_x64_rwdi.dll+6F2E81: 48 83 C4 20     - add rsp,20
+gamedll_x64_rwdi.dll+6F2E85: 5F              - pop rdi
+gamedll_x64_rwdi.dll+6F2E86: C3              - ret 
+gamedll_x64_rwdi.dll+6F2E87: CC              - int 3 
+gamedll_x64_rwdi.dll+6F2E88: CC              - int 3 
+gamedll_x64_rwdi.dll+6F2E89: CC              - int 3 
+gamedll_x64_rwdi.dll+6F2E8A: CC              - int 3 
+gamedll_x64_rwdi.dll+6F2E8B: CC              - int 3 
+}
+</AssemblerScript>
+      <Hotkeys>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys>
+            <Key>45</Key>
+          </Keys>
+          <ID>0</ID>
+          <ActivateSound>Activate</ActivateSound>
+          <DeactivateSound>Deactivate</DeactivateSound>
+        </Hotkey>
+      </Hotkeys>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>消逝的光芒
+适用版本：1.49
+
+Insert热键激活脚本</Comments>
+</CheatTable>
