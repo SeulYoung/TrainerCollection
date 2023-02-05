@@ -5,6 +5,7 @@
       <ID>44</ID>
       <Description>"初始化"</Description>
       <Options moHideChildren="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -23,7 +24,7 @@ alloc(Param,$20,INJECT)
 define(UnitParam,Param)
 define(TechParam,Param+8)
 define(LocalParam,Param+10)
-define(PlayerBase,AoE2DE_s.exe+03C21FA8)
+define(PlayerBase,AoE2DE_s.exe+03B4A790)
 define(PosX,AoE2DE_s.exe+3C218E0)
 define(PosY,AoE2DE_s.exe+3C218E4)
 
@@ -37,22 +38,22 @@ newmem:
 unit:
   cmp qword ptr ds:[UnitParam],0
   je tech
-  push rbx
   push rax
-  push rdx
+  push rbx
   push rcx
+  push rdx
   sub rsp,30
-  // ----- Find Player -----
+  // ----- Find Address, [Address] == Player -----
   mov rbx,PlayerBase
   mov rbx,[rbx]
-  mov rbx,[rbx+A30]
-  mov rbx,[rbx+138]
-  mov rbx,[rbx+30]
-  mov rbx,[rbx+8]
-  mov rbx,[rbx+F0]
-  mov rbx,[rbx+138]
-  // --------------------
-  mov rax,qword ptr ds:[rbx]
+  mov rbx,[rbx+38]
+  mov rbx,[rbx+18]
+  mov rbx,[rbx+10]
+  mov rbx,[rbx+C20]
+  mov rbx,[rbx+78]
+  mov rbx,[rbx]
+  // ----------------------------------------
+  mov rax,[rbx]
   mov dword ptr ss:[rsp+28],1
   mov dword ptr ss:[rsp+20],0
   mov rcx,PosX
@@ -63,38 +64,43 @@ unit:
   mov rcx,rbx
   call qword ptr ds:[rax+168]
   add rsp,30
-  pop rcx
   pop rdx
-  pop rax
+  pop rcx
   pop rbx
+  pop rax
   mov qword ptr ds:[UnitParam],0
 
 tech:
   cmp qword ptr ds:[TechParam],0
   je code
   push rax
-  push r8
-  push rdx
+  push rbx
   push rcx
+  push rdx
+  push r8
+  sub rsp,8 // Stack Align
   mov dword ptr ds:[LocalParam],43FA0000
   movss xmm6,dword ptr ds:[LocalParam]
   mov r8,AoE2DE_s.exe+1
   movzx edx,word ptr ds:[TechParam]
-  // ----- Find Player -----
-  mov rax,PlayerBase
-  mov rax,[rax]
-  mov rax,[rax+A30]
-  mov rax,[rax+138]
-  mov rax,[rax+30]
-  mov rax,[rax+8]
-  mov rax,[rax+F0]
-  mov rax,[rax+138]
-  // --------------------
+  // ----- Find Address, [Address] == Player -----
+  mov rbx,PlayerBase
+  mov rbx,[rbx]
+  mov rbx,[rbx+38]
+  mov rbx,[rbx+18]
+  mov rbx,[rbx+10]
+  mov rbx,[rbx+C20]
+  mov rbx,[rbx+78]
+  mov rbx,[rbx]
+  // ----------------------------------------
+  mov rax,rbx
   mov rcx,[rax+760]
   call AoE2DE_s.exe+157D6B0
-  pop rcx
-  pop rdx
+  add rsp,8
   pop r8
+  pop rdx
+  pop rcx
+  pop rbx
   pop rax
   mov qword ptr ds:[TechParam],0
 
@@ -160,20 +166,20 @@ gameoverlayrenderer64.dll+88F76: 80 7F 5B 00           - cmp byte ptr [rdi+5B],0
       </Hotkeys>
       <CheatEntries>
         <CheatEntry>
-          <ID>45</ID>
+          <ID>75</ID>
           <Description>"玩家地址"</Description>
           <ShowAsHex>1</ShowAsHex>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>8 Bytes</VariableType>
-          <Address>AoE2DE_s.exe+03C21FA8</Address>
+          <Address>AoE2DE_s.exe+03B4A790</Address>
           <Offsets>
             <Offset>0</Offset>
-            <Offset>138</Offset>
-            <Offset>F0</Offset>
-            <Offset>8</Offset>
-            <Offset>30</Offset>
-            <Offset>138</Offset>
-            <Offset>A30</Offset>
+            <Offset>0</Offset>
+            <Offset>78</Offset>
+            <Offset>C20</Offset>
+            <Offset>10</Offset>
+            <Offset>18</Offset>
+            <Offset>38</Offset>
           </Offsets>
         </CheatEntry>
         <CheatEntry>
@@ -256,41 +262,49 @@ gameoverlayrenderer64.dll+88F76: 80 7F 5B 00           - cmp byte ptr [rdi+5B],0
       <ID>55</ID>
       <Description>"热键说明"</Description>
       <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>60</ID>
           <Description>"Insert键激活/取消脚本"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>56</ID>
           <Description>"数字键1：精锐皇家骑士"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>57</ID>
           <Description>"数字键2：精锐条顿骑士"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>58</ID>
           <Description>"数字键3：精锐蒙古突骑"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>59</ID>
           <Description>"数字键4：精锐长弓兵"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>71</ID>
           <Description>"Ctrl+Alt+数字键1：研究反曲弓科技"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>72</ID>
           <Description>"Ctrl+Alt+数字键2：研究突厥骑射科技"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
       </CheatEntries>
@@ -299,11 +313,13 @@ gameoverlayrenderer64.dll+88F76: 80 7F 5B 00           - cmp byte ptr [rdi+5B],0
       <ID>74</ID>
       <Description>"修改备份"</Description>
       <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>54</ID>
           <Description>"单位触发Call备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -374,6 +390,7 @@ AoE2DE_s.exe+15CE139: 48 8B D8           - mov rbx,rax
         <CheatEntry>
           <ID>63</ID>
           <Description>"科技触发Call备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -442,7 +459,8 @@ AoE2DE_s.exe+15CDAD1: 8B 56 38              - mov edx,[rsi+38]
         </CheatEntry>
         <CheatEntry>
           <ID>69</ID>
-          <Description>"玩家地址备份"</Description>
+          <Description>"访问玩家备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version: 
@@ -511,8 +529,79 @@ AoE2DE_s.exe+1332B90: 48 C1 F8 04           - sar rax,04
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
+          <ID>77</ID>
+          <Description>"玩家基址备份"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : AoE2DE_s.exe
+  Version: 
+  Date   : 2023-02-05
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,AoE2DE_s.exe,48 03 CA FF E1 48 8B 43 18) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  add rcx,rdx
+  jmp rcx
+  jmp return
+
+INJECT:
+  jmp newmem
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 48 03 CA FF E1
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+96611F
+
+AoE2DE_s.exe+9660F1: 48 8B 03              - mov rax,[rbx]
+AoE2DE_s.exe+9660F4: 4D 8B C7              - mov r8,r15
+AoE2DE_s.exe+9660F7: 49 8B D6              - mov rdx,r14
+AoE2DE_s.exe+9660FA: 48 8B CB              - mov rcx,rbx
+AoE2DE_s.exe+9660FD: FF 90 C0 00 00 00     - call qword ptr [rax+000000C0]
+AoE2DE_s.exe+966103: E9 34 06 00 00        - jmp AoE2DE_s.exe+96673C
+AoE2DE_s.exe+966108: 41 8D 80 FF FD FF FF  - lea eax,[r8-00000201]
+AoE2DE_s.exe+96610F: 83 F8 0C              - cmp eax,0C
+AoE2DE_s.exe+966112: 0F 87 65 FF FF FF     - ja AoE2DE_s.exe+96607D
+AoE2DE_s.exe+966118: 8B 8C 82 5C 67 96 00  - mov ecx,[rdx+rax*4+0096675C]
+// ---------- INJECTING HERE ----------
+AoE2DE_s.exe+96611F: 48 03 CA              - add rcx,rdx
+// ---------- DONE INJECTING  ----------
+AoE2DE_s.exe+966122: FF E1                 - jmp rcx
+AoE2DE_s.exe+966124: 48 8B 43 18           - mov rax,[rbx+18]
+AoE2DE_s.exe+966128: 4C 3B 68 30           - cmp r13,[rax+30]
+AoE2DE_s.exe+96612C: 0F 85 08 06 00 00     - jne AoE2DE_s.exe+96673A
+AoE2DE_s.exe+966132: 48 8B 0D 57 46 1E 03  - mov rcx,[AoE2DE_s.exe+3B4A790]
+AoE2DE_s.exe+966139: E8 52 10 00 00        - call AoE2DE_s.exe+967190
+AoE2DE_s.exe+96613E: 85 C0                 - test eax,eax
+AoE2DE_s.exe+966140: 0F 84 F4 05 00 00     - je AoE2DE_s.exe+96673A
+AoE2DE_s.exe+966146: 48 8B C3              - mov rax,rbx
+AoE2DE_s.exe+966149: 0F 1F 80 00 00 00 00  - nop dword ptr [rax+00000000]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
           <ID>67</ID>
           <Description>"屏幕位置备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -588,7 +677,8 @@ AoE2DE_s.exe+15F5918: 48 8D 54 24 30           - lea rdx,[rsp+30]
       <Address>1BC20E60000</Address>
     </SymbolEntry>
   </UserdefinedSymbols>
-  <Comments>INJECT: GetSystemTimeAsFileTime</Comments>
+  <Comments>INJECT: GetSystemTimeAsFileTime
+</Comments>
   <DisassemblerComments>
     <DisassemblerComment>
       <Address>"AoE2DE_s.exe"+15CD2E4</Address>
