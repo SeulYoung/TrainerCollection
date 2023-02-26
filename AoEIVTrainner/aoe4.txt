@@ -30,3 +30,6 @@ upgrade_landmark_elephant_caravan_sul
 
 upgrade_gunpowder_damage_chi
 upgrade_siege_corned_gunpowder_sul
+
+upgrade_ranged_armor_iii_improved_mon
+upgrade_melee_armor_iii_improved_mon

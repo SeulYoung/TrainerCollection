@@ -15,6 +15,7 @@
 }
 
 [ENABLE]
+define(GetLocalPlayer,RelicCardinal.exe+570E18)
 
 aobscanmodule(GetSquadBlueprint,RelicCardinal.exe,4C 8D 44 24 20 BA 00 00 2E)
 
@@ -43,7 +44,6 @@ label(code)
 label(return)
 
 newmem:
-  mov [Player],rcx
 
 unit:
   cmp byte ptr ds:[unitParam],0
@@ -63,6 +63,10 @@ unit:
   lea rdx,[unitParam]
   call GetSquadBlueprint-35
   mov rdi,rax
+  // GetLocalPlayer
+  sub rsp,20
+  call GetLocalPlayer
+  mov [Player],rax
   // CreateCache
   sub rsp,20
   mov edx,6
@@ -117,6 +121,7 @@ unit:
   add rsp,60
   add rsp,40
   add rsp,20
+  add rsp,20
   add rsp,38
   pop r10
   pop r9
@@ -147,6 +152,10 @@ tech:
   lea rdx,[techParam]
   call RelicCardinal.exe+D72760
   mov rdi,rax
+  // GetLocalPlayer
+  sub rsp,20
+  call GetLocalPlayer
+  mov [Player],rax
   // PlayerUpgrade
   mov rbp,rsp
   sub rsp,60
@@ -161,6 +170,7 @@ tech:
   mov qword ptr ss:[rbp-30],rax
   call UpgradeTech
   add rsp,60
+  add rsp,20
   add rsp,38
   pop r10
   pop r9
@@ -376,6 +386,75 @@ RelicCardinal.exe+FCCD6A: 48 C1 F9 04           - sar rcx,04
       <Options moHideChildren="1"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
+        <CheatEntry>
+          <ID>27</ID>
+          <Description>"GetLocalPlayer"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : RelicCardinal.exe
+  Version: 
+  Date   : 2023-02-25
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,RelicCardinal.exe,48 8B 0D 71 DA 44 07) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rcx,[RelicCardinal.exe+79BE890]
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 2
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 48 8B 0D 71 DA 44 07
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+570E18
+
+RelicCardinal.exe+570DF9: 3B C1                 - cmp eax,ecx
+RelicCardinal.exe+570DFB: 0F 85 69 DA C3 02     - jne RelicCardinal.exe+31AE86A
+RelicCardinal.exe+570E01: 48 8B 5C 24 38        - mov rbx,[rsp+38]
+RelicCardinal.exe+570E06: B8 01 00 00 00        - mov eax,00000001
+RelicCardinal.exe+570E0B: 48 8B 74 24 40        - mov rsi,[rsp+40]
+RelicCardinal.exe+570E10: 48 83 C4 20           - add rsp,20
+RelicCardinal.exe+570E14: 5F                    - pop rdi
+RelicCardinal.exe+570E15: C3                    - ret 
+RelicCardinal.exe+570E16: CC                    - int 3 
+RelicCardinal.exe+570E17: CC                    - int 3 
+// ---------- INJECTING HERE ----------
+RelicCardinal.exe+570E18: 48 8B 0D 71 DA 44 07  - mov rcx,[RelicCardinal.exe+79BE890]
+// ---------- DONE INJECTING  ----------
+RelicCardinal.exe+570E1F: 48 8B 89 30 02 00 00  - mov rcx,[rcx+00000230]
+RelicCardinal.exe+570E26: E9 69 63 3E 00        - jmp RelicCardinal.exe+957194
+RelicCardinal.exe+570E2B: CC                    - int 3 
+RelicCardinal.exe+570E2C: 48 89 5C 24 08        - mov [rsp+08],rbx
+RelicCardinal.exe+570E31: 57                    - push rdi
+RelicCardinal.exe+570E32: 48 83 EC 20           - sub rsp,20
+RelicCardinal.exe+570E36: 48 83 39 00           - cmp qword ptr [rcx],00
+RelicCardinal.exe+570E3A: 48 8B DA              - mov rbx,rdx
+RelicCardinal.exe+570E3D: 48 8B F9              - mov rdi,rcx
+RelicCardinal.exe+570E40: 74 5E                 - je RelicCardinal.exe+570EA0
+}
+</AssemblerScript>
+        </CheatEntry>
         <CheatEntry>
           <ID>10</ID>
           <Description>"SBP CALL"</Description>
@@ -935,6 +1014,32 @@ RelicCardinal.exe+4FB50F: 44 89 74 24 68           - mov [rsp+68],r14d
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Code :mov edx,[r14+08]</Description>
+      <AddressString>RelicCardinal.exe+4C55EAD</AddressString>
+      <Before>
+        <Byte>4D</Byte>
+        <Byte>85</Byte>
+        <Byte>F6</Byte>
+        <Byte>74</Byte>
+        <Byte>16</Byte>
+      </Before>
+      <Actual>
+        <Byte>41</Byte>
+        <Byte>8B</Byte>
+        <Byte>56</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>49</Byte>
+        <Byte>8B</Byte>
+        <Byte>CD</Byte>
+        <Byte>E8</Byte>
+        <Byte>0F</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>mythread_create</Name>
