@@ -8,6 +8,7 @@ CT表基于Cheat Engine 7.0制作
 * PVZ适用于年度版1.2.0.1073  
 * AoEIIDE由于C++不支持内嵌64位汇编暂时放弃，CT表会跟随游戏版本更新
 * AoEIIIDE作弊CT表会跟随游戏版本更新
+* AoEIV作弊CT表会跟随游戏版本更新
 * AoMx适应于拓展版2.0.1
 * AoEII适用于游戏版本1.0C
 * AoEIII适用于亚洲王朝1.03
