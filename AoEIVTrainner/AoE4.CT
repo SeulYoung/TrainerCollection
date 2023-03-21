@@ -311,7 +311,7 @@ RelicCardinal.exe+FCCD6A: 48 C1 F9 04           - sar rcx,04
                 <Key>18</Key>
                 <Key>98</Key>
               </Keys>
-              <Value>upgrade_tech_university_biology</Value>
+              <Value>upgrade_tech_university_biology_improved_mon</Value>
               <ID>1</ID>
               <ActivateSound TTS="EN">Tech 2</ActivateSound>
             </Hotkey>
@@ -1014,32 +1014,6 @@ RelicCardinal.exe+4FB50F: 44 89 74 24 68           - mov [rsp+68],r14d
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
-  <CheatCodes>
-    <CodeEntry>
-      <Description>Code :mov edx,[r14+08]</Description>
-      <AddressString>RelicCardinal.exe+4C55EAD</AddressString>
-      <Before>
-        <Byte>4D</Byte>
-        <Byte>85</Byte>
-        <Byte>F6</Byte>
-        <Byte>74</Byte>
-        <Byte>16</Byte>
-      </Before>
-      <Actual>
-        <Byte>41</Byte>
-        <Byte>8B</Byte>
-        <Byte>56</Byte>
-        <Byte>08</Byte>
-      </Actual>
-      <After>
-        <Byte>49</Byte>
-        <Byte>8B</Byte>
-        <Byte>CD</Byte>
-        <Byte>E8</Byte>
-        <Byte>0F</Byte>
-      </After>
-    </CodeEntry>
-  </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
       <Name>mythread_create</Name>
