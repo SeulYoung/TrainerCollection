@@ -1,0 +1,344 @@
+寻找单位和科技ID的方法，找到其在xml文件中按顺序排下来的位置序号，序号从0开始，该序号就是ID
+
+  <unit id="2003" name="legacyGatlingCamel">
+
+强化的雇佣兵
+  <tech name="HCMercenaryCombatGerman" type="Normal">
+    <dbid>1854</dbid>
+    <displaynameid>34014</displaynameid>
+    <cost resourcetype="Ships">1.0000</cost>
+    <researchpoints>40.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\elite_cavalry\elite_cavalry.png</icon>
+    <rollovertextid>34013</rollovertextid>
+    <flag>HomeCity</flag>
+    <effects>
+      <effect type="Data" amount="1.20" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.20" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="3.00" subtype="FreeHomeCityUnit" unittype="Uhlan" relativity="Absolute">
+        <target type="Player">
+        </target>
+      </effect>
+      <effect type="TextOutputTechName">110130</effect>
+    </effects>
+  </tech>
+
+
+  <tech name="UniqueSPCCustomizedMercWeapons" type="Normal">
+    <dbid>1955</dbid>
+    <displaynameid>34567</displaynameid>
+    <researchpoints>15.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\rifling\rifling.png</icon>
+    <rollovertextid>34566</rollovertextid>
+    <flag>UniqueTech</flag>
+    <flag>CountsTowardEconomicScore</flag>
+    <prereqs>
+      <techstatus status="Active">HCRoyalDecreeSPC</techstatus>
+      <techstatus status="Active">Fortressize</techstatus>
+    </prereqs>
+    <effects>
+      <effect type="Data" amount="1.30" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.30" subtype="Cost" resource="Gold" relativity="BasePercent">
+        <target type="ProtoUnit">Building</target>
+      </effect>
+      <effect type="Data" amount="1.30" subtype="Cost" resource="Wood" relativity="BasePercent">
+        <target type="ProtoUnit">Building</target>
+      </effect>
+      <effect type="Data" amount="1.30" subtype="Cost" resource="Food" relativity="BasePercent">
+        <target type="ProtoUnit">Building</target>
+      </effect>
+    </effects>
+  </tech>
+
+
+  <tech name="DEPoliticianMercContractor" type="Normal">
+    <dbid>6346</dbid>
+    <displaynameid>91552</displaynameid>
+    <cost resourcetype="Food">4000.0000</cost>
+    <cost resourcetype="Gold">4000.0000</cost>
+    <researchpoints>90.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\ingame\icon_age_v.png</icon>
+    <rollovertextid>91553</rollovertextid>
+    <flag>Shadow</flag>
+    <flag>AgeUpgrade</flag>
+    <flag>CountsTowardEconomicScore</flag>
+    <effects>
+      <effect type="SetAge">Age4</effect>
+      <effect type="Data" amount="1.50" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.50" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="0.85" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">IndustrialMercenary</target>
+      </effect>
+      <effect type="Data" amount="0.85" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">IndustrialMercenary</target>
+      </effect>
+      <effect tech="deAdvancedPoliticiansShadow" type="Data" amount="2.00" subtype="FreeHomeCityUnitIfTechObtainable" unittype="deMercRoyalHorseman" relativity="Absolute">
+        <target type="Player">
+        </target>
+      </effect>
+    </effects>
+  </tech>
+
+德国雇佣兵合同
+  <tech name="DEHCGermanMercenaryContracts" type="Normal">
+    <dbid>6500</dbid>
+    <displaynameid>91731</displaynameid>
+    <cost resourcetype="Ships">1.0000</cost>
+    <researchpoints>60.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\hc_mercenary_contracts\german_mercenary_contracts.png</icon>
+    <rollovertextid>91745</rollovertextid>
+    <flag>HomeCity</flag>
+    <effects>
+      <effect type="Data" amount="1.25" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.25" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="Enable" relativity="Absolute">
+        <target type="ProtoUnit">MercBlackRider</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="Enable" relativity="Absolute">
+        <target type="ProtoUnit">MercLandsknecht</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="Enable" relativity="Absolute">
+        <target type="ProtoUnit">MercJaeger</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="AddTrain" unittype="MercBlackRider" relativity="Absolute">
+        <target type="ProtoUnit">Galleon</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="AddTrain" unittype="MercLandsknecht" relativity="Absolute">
+        <target type="ProtoUnit">Galleon</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="AddTrain" unittype="MercJaeger" relativity="Absolute">
+        <target type="ProtoUnit">Galleon</target>
+      </effect>
+      <effect type="Data" amount="1.00" subtype="AddTrain" unittype="MercBlackRider" relativity="Absolute">
+        <target type="ProtoUnit">Stable</target>
+      </effect>
+      <effect type="CommandAdd" proto="MercLandsknecht" page="2" column="4">
+        <target type="ProtoUnit">Barracks</target>
+      </effect>
+      <effect type="CommandAdd" proto="MercJaeger" page="2" column="4">
+        <target type="ProtoUnit">Barracks</target>
+      </effect>
+      <effect type="CommandAdd" proto="MercLandsknecht" page="2" column="4">
+        <target type="ProtoUnit">Blockhouse</target>
+      </effect>
+      <effect type="CommandAdd" proto="MercJaeger" page="2" column="4">
+        <target type="ProtoUnit">Blockhouse</target>
+      </effect>
+      <effect type="TextOutput">91746</effect>
+    </effects>
+  </tech>
+
+
+  <tech name="DEPoliticianFederalNewYork" type="Normal">
+    <dbid>7093</dbid>
+    <displaynameid>110238</displaynameid>
+    <cost resourcetype="Food">4000.0000</cost>
+    <cost resourcetype="Gold">4000.0000</cost>
+    <researchpoints>90.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\ingame\icon_age_v.png</icon>
+    <rollovertextid>110633</rollovertextid>
+    <flag>Shadow</flag>
+    <flag>AgeUpgrade</flag>
+    <flag>CountsTowardEconomicScore</flag>
+    <effects>
+      <effect type="SetAge">Age4</effect>
+      <effect type="Data" amount="1.25" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.25" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="0.925" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">IndustrialMercenary</target>
+      </effect>
+      <effect type="Data" amount="0.925" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">IndustrialMercenary</target>
+      </effect>
+      <effect type="Data" amount="1.25" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.25" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="AddHomeCityCard" tech="DEHCFedNewYorkZouaves" maxcount="-1" ageprereq="4" unitcount="0" infiniteinlastage="0">
+      </effect>
+      <effect type="AddHomeCityCard" tech="DEHCFedHamiltonsOwn" maxcount="1" ageprereq="4" unitcount="6" infiniteinlastage="0">
+      </effect>
+    </effects>
+  </tech>
+
+汉密尔顿私兵
+  <tech name="DEHCFedHamiltonsOwn" type="Normal">
+    <dbid>7135</dbid>
+    <displaynameid>110331</displaynameid>
+    <cost resourcetype="Gold">2500.0000</cost>
+    <cost resourcetype="Ships">1.0000</cost>
+    <researchpoints>60.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\art\units\mercenaries\napoleon_gun\napoleon_gun_icon.png</icon>
+    <rollovertextid>110330</rollovertextid>
+    <flag>HomeCity</flag>
+    <effects>
+      <effect type="Data" amount="2.00" subtype="FreeHomeCityUnit" unittype="MercGreatCannon" relativity="Absolute">
+        <target type="Player">
+        </target>
+      </effect>
+      <effect type="Data" amount="4.00" subtype="FreeHomeCityUnit" unittype="deMercNapoleonGun" relativity="Absolute">
+        <target type="Player">
+        </target>
+      </effect>
+      <effect type="Data" amount="1.25" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.25" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+    </effects>
+  </tech>
+
+萨赫勒诸国
+  <tech name="DEHCSahelianKingdoms" type="Normal">
+    <dbid>8315</dbid>
+    <displaynameid>102823</displaynameid>
+    <rollovertextid>102863</rollovertextid>
+    <cost resourcetype="Ships">1.0000</cost>
+    <researchpoints>40.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\africans\hausa\mercenary_combat.png</icon>
+    <flag>HomeCity</flag>
+    <effects>
+      <effect type="Data" amount="1.15" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractNativeWarrior</target>
+      </effect>
+      <effect type="Data" amount="1.15" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractNativeWarrior</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="TextOutputTechName">110130</effect>
+    </effects>
+  </tech>
+
+亡命之徒战斗力
+  <tech name="DEHCREVFedMXFilibusterCombat" type="Normal">
+    <dbid>7795</dbid>
+    <displaynameid>112975</displaynameid>
+    <cost resourcetype="Ships">1.0000</cost>
+    <cost resourcetype="Gold">750.0000</cost>
+    <researchpoints>40.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\hc_gunpowder_infantry_combat\hc_gunpowder_infantry_combat.png</icon>
+    <rollovertextid>112974</rollovertextid>
+    <flag>HomeCity</flag>
+    <effects>
+      <effect type="TechStatus" status="active">DEVeteranFilibusters</effect>
+      <effect type="Data" amount="1.15" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.15" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.15" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.15" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="TextOutputTechName">110130</effect>
+    </effects>
+  </tech>
+
+萨赫勒诸国
+  <tech name="DEUnknownSahelianKingdoms" type="Normal">
+    <dbid>10555</dbid>
+    <displaynameid>36494</displaynameid>
+    <rollovertextid>102863</rollovertextid>
+    <cost resourcetype="Wood">300.0000</cost>
+    <cost resourcetype="Gold">300.0000</cost>
+    <researchpoints>30.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\africans\hausa\mercenary_combat.png</icon>
+    <flag>CountsTowardMilitaryScore</flag>
+    <prereqs>
+      <techstatus status="Active">Colonialize</techstatus>
+    </prereqs>
+    <effects>
+      <effect type="Data" amount="1.10" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractNativeWarrior</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractNativeWarrior</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.10" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractOutlaw</target>
+      </effect>
+      <effect type="Data" amount="1.05" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+      <effect type="Data" amount="1.05" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">Mercenary</target>
+      </effect>
+    </effects>
+  </tech>
+
+护卫马穆鲁克
+  <tech name="DEGuardMameluke" type="Normal">
+    <dbid>6326</dbid>
+    <displaynameid>80750</displaynameid>
+    <cost resourcetype="Wood">1000.0000</cost>
+    <cost resourcetype="Gold">1000.0000</cost>
+    <researchpoints>30.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\guard_cavalry\guard_cavalry.png</icon>
+    <rollovertextid>80751</rollovertextid>
+    <flag>UpgradeTech</flag>
+    <flag>CountsTowardMilitaryScore</flag>
+    <prereqs>
+      <techstatus status="Active">Industrialize</techstatus>
+    </prereqs>
+    <effects>
+      <effect type="Data" amount="1.30" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">MercMameluke</target>
+      </effect>
+      <effect type="Data" amount="1.30" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">MercMameluke</target>
+      </effect>
+      <effect type="SetName" proto="MercMameluke" culture="none" newname="80752">
+      </effect>
+      <effect type="Data" amount="0.00" subtype="UpdateVisual" unittype="MercMameluke" relativity="Absolute">
+        <target type="Player">
+        </target>
+      </effect>
+    </effects>
+  </tech>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="42">
+<CheatTable CheatEngineTableVersion="45">
   <CheatEntries>
     <CheatEntry>
       <ID>1</ID>
@@ -9,7 +9,7 @@
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE3DE_s.exe
   Version:
-  Date   : 2022-10-22
+  Date   : 2023-03-22
   Author : 94817
 
   This script does blah blah blah
@@ -26,7 +26,7 @@ registersymbol(BaseAddr)
 aobscanmodule(UnitCallAddr,AoE3DE_s.exe,48 83 EC 50 48 8B D9 49 8B E9)
 aobscanmodule(TechCallAddr,AoE3DE_s.exe,48 89 5C 24 10 56 48 83 EC 30 8B F2)
 
-aobscanmodule(INJECT,AoE3DE_s.exe,41 89 86 E0 00 00 00 48 81) // should be unique
+aobscanmodule(INJECT,gameoverlayrenderer64.dll,F7 44 8B C5 8B D6 49 8B CE) // should be unique
 alloc(unit,$800,INJECT)
 label(tech)
 label(code)
@@ -45,7 +45,8 @@ unit:
   mov dword ptr ds:[UnitParam],80000000
   mov dword ptr ds:[UnitParam+4],80000000
   mov dword ptr ds:[UnitParam+8],BF800000
-  mov rcx,qword ptr ds:[AoE3DE_s.exe+2F8B600]
+  mov rcx,AoE3DE_s.exe+2F8B600
+  mov rcx,qword ptr ds:[rcx]
   mov rcx,qword ptr ds:[rcx+148] // Player
   mov byte ptr ss:[rsp+48],0
   mov dword ptr ss:[rsp+40],FFFFFFFF
@@ -54,7 +55,8 @@ unit:
   mov byte ptr ss:[rsp+28],0
   lea rax,qword ptr ds:[UnitParam]
   mov qword ptr ss:[rsp+20],rax
-  mov r9,qword ptr ds:[AoE3DE_s.exe+2FA2AB8] // Pos
+  mov r9,AoE3DE_s.exe+2FA2AB8 // Pos
+  mov r9,[r9]
   mov r9,[r9+28]
   mov r9,[r9+8]
   lea r9,[r9+24]
@@ -73,26 +75,36 @@ unit:
 tech:
   cmp qword ptr ds:[TechId],0
   je code
+  push rax
+  push rcx
+  push rdx
+  push r8
+  sub rsp,20
   mov r8,2
   mov rdx,qword ptr ds:[TechId]
   mov rcx,1
   call TechCallAddr
+  add rsp,20
+  pop r8
+  pop rdx
+  pop rcx
+  pop rax
   mov qword ptr ds:[TechId],0
 
 code:
-  mov [r14+000000E0],eax
+  mov edx,esi
+  mov rcx,r14
   jmp return
 
-INJECT:
+INJECT+04:
   jmp unit
-  nop 2
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
-INJECT:
-  db 41 89 86 E0 00 00 00
+INJECT+04:
+  db 8B D6 49 8B CE
 
 unregistersymbol(BaseAddr)
 dealloc(BaseAddr)
@@ -100,31 +112,31 @@ unregistersymbol(INJECT)
 dealloc(unit)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE3DE_s.exe+142E80
+// ORIGINAL CODE - INJECTION POINT: gameoverlayrenderer64.dll+88F58
 
-AoE3DE_s.exe+142E52: EB 15                    - jmp AoE3DE_s.exe+142E69
-AoE3DE_s.exe+142E54: 49 8B 8E 88 00 00 00     - mov rcx,[r14+00000088]
-AoE3DE_s.exe+142E5B: 48 85 C9                 - test rcx,rcx
-AoE3DE_s.exe+142E5E: 74 09                    - je AoE3DE_s.exe+142E69
-AoE3DE_s.exe+142E60: 48 8B 01                 - mov rax,[rcx]
-AoE3DE_s.exe+142E63: FF 90 58 01 00 00        - call qword ptr [rax+00000158]
-AoE3DE_s.exe+142E69: 41 80 BE EB 00 00 00 00  - cmp byte ptr [r14+000000EB],00
-AoE3DE_s.exe+142E71: 0F 94 C0                 - sete al
-AoE3DE_s.exe+142E74: 41 88 86 EB 00 00 00     - mov [r14+000000EB],al
-AoE3DE_s.exe+142E7B: E8 20 36 64 00           - call AoE3DE_s.exe+7864A0
+gameoverlayrenderer64.dll+88F3D: 0F 95 C0              - setne al
+gameoverlayrenderer64.dll+88F40: 88 47 5D              - mov [rdi+5D],al
+gameoverlayrenderer64.dll+88F43: 48 85 DB              - test rbx,rbx
+gameoverlayrenderer64.dll+88F46: 74 08                 - je gameoverlayrenderer64.dll+88F50
+gameoverlayrenderer64.dll+88F48: 85 F6                 - test esi,esi
+gameoverlayrenderer64.dll+88F4A: 0F 95 C0              - setne al
+gameoverlayrenderer64.dll+88F4D: 88 43 5D              - mov [rbx+5D],al
+gameoverlayrenderer64.dll+88F50: 33 F6                 - xor esi,esi
+gameoverlayrenderer64.dll+88F52: 83 E5 F7              - and ebp,-09
+gameoverlayrenderer64.dll+88F55: 44 8B C5              - mov r8d,ebp
 // ---------- INJECTING HERE ----------
-AoE3DE_s.exe+142E80: 41 89 86 E0 00 00 00     - mov [r14+000000E0],eax
+gameoverlayrenderer64.dll+88F58: 8B D6                 - mov edx,esi
 // ---------- DONE INJECTING  ----------
-AoE3DE_s.exe+142E87: 48 81 C4 B0 00 00 00     - add rsp,000000B0
-AoE3DE_s.exe+142E8E: 41 5F                    - pop r15
-AoE3DE_s.exe+142E90: 41 5E                    - pop r14
-AoE3DE_s.exe+142E92: 41 5D                    - pop r13
-AoE3DE_s.exe+142E94: 5F                       - pop rdi
-AoE3DE_s.exe+142E95: 5E                       - pop rsi
-AoE3DE_s.exe+142E96: 5B                       - pop rbx
-AoE3DE_s.exe+142E97: 5D                       - pop rbp
-AoE3DE_s.exe+142E98: C3                       - ret
-AoE3DE_s.exe+142E99: 90                       - nop
+gameoverlayrenderer64.dll+88F5A: 49 8B CE              - mov rcx,r14
+gameoverlayrenderer64.dll+88F5D: FF 15 65 86 0B 00     - call qword ptr [gameoverlayrenderer64.dll+1415C8]
+gameoverlayrenderer64.dll+88F63: 8B F0                 - mov esi,eax
+gameoverlayrenderer64.dll+88F65: 48 85 FF              - test rdi,rdi
+gameoverlayrenderer64.dll+88F68: 74 2A                 - je gameoverlayrenderer64.dll+88F94
+gameoverlayrenderer64.dll+88F6A: 48 8B 97 40 01 00 00  - mov rdx,[rdi+00000140]
+gameoverlayrenderer64.dll+88F71: 48 85 D2              - test rdx,rdx
+gameoverlayrenderer64.dll+88F74: 74 1E                 - je gameoverlayrenderer64.dll+88F94
+gameoverlayrenderer64.dll+88F76: 80 7F 5B 00           - cmp byte ptr [rdi+5B],00
+gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer64.dll+88F94
 }
 </AssemblerScript>
       <Hotkeys>
@@ -152,7 +164,7 @@ AoE3DE_s.exe+142E99: 90                       - nop
               <Keys>
                 <Key>189</Key>
               </Keys>
-              <Value>2DB</Value>
+              <Value>57B</Value>
               <ID>0</ID>
             </Hotkey>
             <Hotkey>
@@ -160,7 +172,7 @@ AoE3DE_s.exe+142E99: 90                       - nop
               <Keys>
                 <Key>187</Key>
               </Keys>
-              <Value>2FB</Value>
+              <Value>231</Value>
               <ID>1</ID>
             </Hotkey>
             <Hotkey>
@@ -168,8 +180,36 @@ AoE3DE_s.exe+142E99: 90                       - nop
               <Keys>
                 <Key>48</Key>
               </Keys>
-              <Value>231</Value>
+              <Value>6FA</Value>
+              <Description>deMercGatlingCamel</Description>
               <ID>2</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>57</Key>
+              </Keys>
+              <Value>17E</Value>
+              <Description>MercMameluke</Description>
+              <ID>3</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>56</Key>
+              </Keys>
+              <Value>2DB</Value>
+              <Description>MercElmeti</Description>
+              <ID>4</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>55</Key>
+              </Keys>
+              <Value>738</Value>
+              <Description>deNatSudaneseSennarProxy</Description>
+              <ID>5</ID>
             </Hotkey>
           </Hotkeys>
         </CheatEntry>
@@ -180,6 +220,107 @@ AoE3DE_s.exe+142E99: 90                       - nop
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>8 Bytes</VariableType>
           <Address>BaseAddr+8</Address>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>97</Key>
+              </Keys>
+              <Value>242</Value>
+              <ID>0</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 1</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>98</Key>
+              </Keys>
+              <Value>25C</Value>
+              <ID>1</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 2</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>99</Key>
+              </Keys>
+              <Value>AE9</Value>
+              <ID>2</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 3</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>100</Key>
+              </Keys>
+              <Value>B84</Value>
+              <ID>3</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 4</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>101</Key>
+              </Keys>
+              <Value>CB5</Value>
+              <ID>4</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 5</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>102</Key>
+              </Keys>
+              <Value>CDA</Value>
+              <ID>5</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 6</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>103</Key>
+              </Keys>
+              <Value>FB1</Value>
+              <ID>6</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 7</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>104</Key>
+              </Keys>
+              <Value>118C</Value>
+              <ID>7</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 8</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>105</Key>
+              </Keys>
+              <Value>AD5</Value>
+              <ID>8</ID>
+              <ActivateSound TTS="EN">{MRDescription} Tech 9</ActivateSound>
+            </Hotkey>
+          </Hotkeys>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -191,20 +332,44 @@ AoE3DE_s.exe+142E99: 90                       - nop
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
+          <ID>21</ID>
+          <Description>"主键区数字键7：森纳尔骑手"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>23</ID>
+          <Description>"主键区数字键8：埃尔梅蒂长矛骑兵"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"主键区数字键9：马穆鲁克"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
           <ID>5</ID>
-          <Description>"主键区数字键0：帝国护卫舰"</Description>
+          <Description>"主键区数字键0：加特林骆驼"</Description>
           <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>6</ID>
-          <Description>"主键区减号-：装甲骑兵"</Description>
+          <Description>"主键区减号-：归化的里尔火炮雇佣兵"</Description>
           <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>7</ID>
-          <Description>"主键区等号=：燧枪兵"</Description>
+          <Description>"主键区等号=：帝国护卫舰"</Description>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>24</ID>
+          <Description>"Ctrl+Alt+1-9：雇佣兵科技"</Description>
           <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
