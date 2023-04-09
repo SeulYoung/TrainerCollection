@@ -29,6 +29,7 @@ aobscanmodule(TechCallAddr,AoE3DE_s.exe,48 89 5C 24 10 56 48 83 EC 30 8B F2)
 aobscanmodule(INJECT,gameoverlayrenderer64.dll,F7 44 8B C5 8B D6 49 8B CE) // should be unique
 alloc(unit,$800,INJECT)
 label(tech)
+label(loop)
 label(code)
 label(return)
 
@@ -76,18 +77,25 @@ tech:
   cmp qword ptr ds:[TechId],0
   je code
   push rax
+  push rbx
   push rcx
   push rdx
   push r8
-  sub rsp,20
+  sub rsp,28
+  mov rbx,6
+loop:
   mov r8,2
   mov rdx,qword ptr ds:[TechId]
   mov rcx,1
   call TechCallAddr
-  add rsp,20
+  dec rbx
+  cmp rbx,0
+  jne loop
+  add rsp,28
   pop r8
   pop rdx
   pop rcx
+  pop rbx
   pop rax
   mov qword ptr ds:[TechId],0
 
@@ -198,18 +206,36 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
               <Keys>
                 <Key>56</Key>
               </Keys>
-              <Value>2DB</Value>
-              <Description>MercElmeti</Description>
-              <ID>4</ID>
+              <Value>738</Value>
+              <Description>deNatSudaneseSennarProxy</Description>
+              <ID>5</ID>
             </Hotkey>
             <Hotkey>
               <Action>Set Value</Action>
               <Keys>
                 <Key>55</Key>
               </Keys>
-              <Value>738</Value>
-              <Description>deNatSudaneseSennarProxy</Description>
-              <ID>5</ID>
+              <Value>600</Value>
+              <Description>deMercHarquebusier</Description>
+              <ID>6</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>54</Key>
+              </Keys>
+              <Value>180</Value>
+              <Description>MercBlackRider</Description>
+              <ID>7</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>53</Key>
+              </Keys>
+              <Value>81B</Value>
+              <Description>deMercPistoleer</Description>
+              <ID>10</ID>
             </Hotkey>
           </Hotkeys>
         </CheatEntry>
@@ -228,7 +254,7 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
                 <Key>18</Key>
                 <Key>97</Key>
               </Keys>
-              <Value>242</Value>
+              <Value>B84</Value>
               <ID>0</ID>
               <ActivateSound TTS="EN">{MRDescription} Tech 1</ActivateSound>
             </Hotkey>
@@ -261,7 +287,7 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
                 <Key>18</Key>
                 <Key>100</Key>
               </Keys>
-              <Value>B84</Value>
+              <Value>242</Value>
               <ID>3</ID>
               <ActivateSound TTS="EN">{MRDescription} Tech 4</ActivateSound>
             </Hotkey>
@@ -316,7 +342,8 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
                 <Key>18</Key>
                 <Key>105</Key>
               </Keys>
-              <Value>AD5</Value>
+              <Value>B16</Value>
+              <Description>DEHCRangedCavalryCombat</Description>
               <ID>8</ID>
               <ActivateSound TTS="EN">{MRDescription} Tech 9</ActivateSound>
             </Hotkey>
@@ -333,19 +360,7 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
       <CheatEntries>
         <CheatEntry>
           <ID>21</ID>
-          <Description>"主键区数字键7：森纳尔骑手"</Description>
-          <LastState Value="" RealAddress="00000000"/>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>23</ID>
-          <Description>"主键区数字键8：埃尔梅蒂长矛骑兵"</Description>
-          <LastState Value="" RealAddress="00000000"/>
-          <GroupHeader>1</GroupHeader>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>22</ID>
-          <Description>"主键区数字键9：马穆鲁克"</Description>
+          <Description>"主键区数字键5-9：各种雇佣兵"</Description>
           <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
@@ -369,7 +384,7 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
         </CheatEntry>
         <CheatEntry>
           <ID>24</ID>
-          <Description>"Ctrl+Alt+1-9：雇佣兵科技"</Description>
+          <Description>"Ctrl+Alt+1-9：各种雇佣兵科技"</Description>
           <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>

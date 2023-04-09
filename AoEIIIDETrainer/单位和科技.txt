@@ -342,3 +342,50 @@
       </effect>
     </effects>
   </tech>
+
+远程骑兵半回旋战术
+  <tech name="Caracole" type="Normal">
+    <dbid>2656</dbid>
+    <displaynameid>38297</displaynameid>
+    <cost resourcetype="Food">200.0000</cost>
+    <cost resourcetype="Wood">300.0000</cost>
+    <researchpoints>30.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\caracole\caracole.png</icon>
+    <rollovertextid>38296</rollovertextid>
+    <flag>CountsTowardMilitaryScore</flag>
+    <flag>UpgradeTech</flag>
+    <flag>DECostConvertToInfluence</flag>
+    <prereqs>
+      <techstatus status="Active">Colonialize</techstatus>
+    </prereqs>
+    <effects>
+      <effect type="Data" amount="1.10" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractRangedCavalry</target>
+      </effect>
+      <effect type="Data" action="StaggerRangedAttack" amount="2.00" subtype="MaximumRange" relativity="Absolute">
+        <target type="ProtoUnit">AbstractRangedCavalry</target>
+      </effect>
+    </effects>
+  </tech>
+
+远程骑兵战斗力
+  <tech name="DEHCRangedCavalryCombat" type="Normal">
+    <dbid>6390</dbid>
+    <displaynameid>91642</displaynameid>
+    <cost resourcetype="Ships">1.0000</cost>
+    <researchpoints>40.0000</researchpoints>
+    <status>UNOBTAINABLE</status>
+    <icon>resources\images\icons\techs\hc_cavalry_combat\hc_cavalry_combat.png</icon>
+    <rollovertextid>91641</rollovertextid>
+    <flag>HomeCity</flag>
+    <effects>
+      <effect type="Data" amount="1.15" subtype="Hitpoints" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractRangedCavalry</target>
+      </effect>
+      <effect type="Data" amount="1.15" subtype="Damage" allactions="1" relativity="BasePercent">
+        <target type="ProtoUnit">AbstractRangedCavalry</target>
+      </effect>
+      <effect type="TextOutput">91643</effect>
+    </effects>
+  </tech>
