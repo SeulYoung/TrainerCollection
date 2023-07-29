@@ -21,6 +21,7 @@ alloc(BaseAddr,$40)
 define(UnitId,BaseAddr)
 define(TechId,BaseAddr+8)
 define(UnitParam,BaseAddr+10)
+define(Pos,AoE3DE_s.exe+2FA1AB8)
 registersymbol(BaseAddr)
 
 aobscanmodule(UnitCallAddr,AoE3DE_s.exe,48 83 EC 50 48 8B D9 49 8B E9)
@@ -56,7 +57,7 @@ unit:
   mov byte ptr ss:[rsp+28],0
   lea rax,qword ptr ds:[UnitParam]
   mov qword ptr ss:[rsp+20],rax
-  mov r9,AoE3DE_s.exe+2FA1AB8 // Pos
+  mov r9,Pos // Pos
   mov r9,[r9]
   mov r9,[r9+28]
   mov r9,[r9+8]
@@ -404,7 +405,7 @@ gameoverlayrenderer64.dll+88F7A: 74 18                 - je gameoverlayrenderer6
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
   Version:
-  Date   : 2023-05-01
+  Date   : 2023-07-29
   Author : 94817
 
   This script does blah blah blah
@@ -474,7 +475,7 @@ AoE3DE_s.exe+A51663: 8B 97 B8 00 00 00        - mov edx,[rdi+000000B8]
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
   Version:
-  Date   : 2023-05-01
+  Date   : 2023-07-29
   Author : 94817
 
   This script does blah blah blah
@@ -545,7 +546,7 @@ AoE3DE_s.exe+67ED27: 0F 87 FE 01 00 00        - ja AoE3DE_s.exe+67EF2B
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
   Version:
-  Date   : 2023-05-01
+  Date   : 2023-07-29
   Author : 94817
 
   This script does blah blah blah
@@ -613,8 +614,8 @@ AoE3DE_s.exe+ACA1B7: 0F 14 C1                 - unpcklps xmm0,xmm1
           <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE3DE_s.exe
-  Version: 
-  Date   : 2023-03-21
+  Version:
+  Date   : 2023-07-29
   Author : 94817
 
   This script does blah blah blah
