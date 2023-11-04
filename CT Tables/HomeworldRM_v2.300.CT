@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"Player resource ships always full"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : HomeworldRM.exe
+  Version: 
+  Date   : 2023-08-03
+  Author : ctl3d
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Resources,HomeworldRM.exe,8B 87 D4 0A 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+  test edi, edi
+  jz code
+  mov eax, [edi+95C] // pointer to Player
+  test eax, eax
+  jz code
+  cmp [eax+10],0 // player = 0
+  jne code
+  //cmp [edi+978],0 // player = 0
+  //cmp [edi+9F8],0 // player = 0
+  //jne code
+  mov eax, [edi+154] // pointer to ShipStatic
+  mov eax, [eax+9AC] // pointer to ResourceCommandStaticInfo
+  test eax, eax
+  jz code
+  mov eax, [eax+8] // max carry resource
+  sal eax,A
+  mov [edi+AD4],eax
+code:
+  mov eax,[edi+00000AD4]
+  jmp return
+
+Resources:
+  jmp newmem
+  nop
+return:
+registersymbol(Resources)
+
+[DISABLE]
+
+Resources:
+  db 8B 87 D4 0A 00 00
+
+unregistersymbol(Resources)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: HomeworldRM.exe+21BF3
+
+HomeworldRM.exe+21BCB: FF 50 34                 - call dword ptr [eax+34]
+HomeworldRM.exe+21BCE: 8B 97 54 01 00 00        - mov edx,[edi+00000154]
+HomeworldRM.exe+21BD4: 8B 04 C5 40 31 1B 01     - mov eax,[eax*8+HomeworldRM.NvOptimusEnablement+12EC]
+HomeworldRM.exe+21BDB: 89 44 24 4C              - mov [esp+4C],eax
+HomeworldRM.exe+21BDF: 83 BA AC 09 00 00 00     - cmp dword ptr [edx+000009AC],00
+HomeworldRM.exe+21BE6: 74 40                    - je HomeworldRM.exe+21C28
+HomeworldRM.exe+21BE8: 8B CF                    - mov ecx,edi
+HomeworldRM.exe+21BEA: E8 30 37 21 00           - call HomeworldRM.exe+23531F
+HomeworldRM.exe+21BEF: 85 C0                    - test eax,eax
+HomeworldRM.exe+21BF1: 7E 35                    - jle HomeworldRM.exe+21C28
+// ---------- INJECTING HERE ----------
+HomeworldRM.exe+21BF3: 8B 87 D4 0A 00 00        - mov eax,[edi+00000AD4]
+// ---------- DONE INJECTING  ----------
+HomeworldRM.exe+21BF9: 8B CF                    - mov ecx,edi
+HomeworldRM.exe+21BFB: C1 F8 0A                 - sar eax,0A
+HomeworldRM.exe+21BFE: C7 44 24 40 01 00 00 00  - mov [esp+40],00000001
+HomeworldRM.exe+21C06: 66 0F 6E D0              - movd xmm2,eax
+HomeworldRM.exe+21C0A: 0F 5B D2                 - cvtdq2ps xmm2,xmm2
+HomeworldRM.exe+21C0D: E8 0D 37 21 00           - call HomeworldRM.exe+23531F
+HomeworldRM.exe+21C12: 83 CE 02                 - or esi,02
+HomeworldRM.exe+21C15: 66 0F 6E C0              - movd xmm0,eax
+HomeworldRM.exe+21C19: 0F 5B C0                 - cvtdq2ps xmm0,xmm0
+HomeworldRM.exe+21C1C: F3 0F 5E D0              - divss xmm2,xmm0
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"Player ships always full armor"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript Async="1">{ Game   : HomeworldRM.exe
+  Version: 
+  Date   : 2023-08-03
+  Author : ctl3d
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(Health,HomeworldRM.exe,F3 0F 10 87 64 01 00 00 F3 0F 11 44 24 14 FF) // should be unique
+alloc(newmem,$1000)
+
+alloc(Param,$10)
+
+label(code)
+label(return)
+label(exit)
+
+newmem:
+  push eax
+  push ebx
+  test edi, edi
+  jz exit
+  mov eax, [edi+95C] // pointer to Player
+  test eax, eax
+  jz exit
+  cmp [eax+10],0 // player = 0
+  jne exit
+  //cmp [edi+978],0 // player = 0
+  //cmp [edi+9F8],0 // player = 0
+  //jne exit
+  mov eax, [edi+154] // pointer to ShipStatic
+  test eax, eax
+  jz exit
+  mov ebx,[Param]
+  cmp [eax+18],ebx
+  jne exit
+  movss xmm0, [eax+18] // max armor
+  movss [edi+164], xmm0
+exit:
+  pop ebx
+  pop eax
+code:
+  movss xmm0,[edi+00000164]
+  jmp return
+
+Health:
+  jmp newmem
+  nop 3
+return:
+registersymbol(Health)
+registersymbol(Param)
+
+[DISABLE]
+
+Health:
+  db F3 0F 10 87 64 01 00 00
+
+unregistersymbol(Health)
+dealloc(newmem)
+unregistersymbol(Param)
+dealloc(Param)
+
+{
+// ORIGINAL CODE - INJECTION POINT: HomeworldRM.exe+2181A
+
+HomeworldRM.exe+217F1: F3 0F 5C C2              - subss xmm0,xmm2
+HomeworldRM.exe+217F5: F3 0F 59 C3              - mulss xmm0,xmm3
+HomeworldRM.exe+217F9: F3 0F 58 44 24 1C        - addss xmm0,[esp+1C]
+HomeworldRM.exe+217FF: F3 0F 11 44 24 1C        - movss [esp+1C],xmm0
+HomeworldRM.exe+21805: 0F 28 C1                 - movaps xmm0,xmm1
+HomeworldRM.exe+21808: F3 0F 5C C2              - subss xmm0,xmm2
+HomeworldRM.exe+2180C: F3 0F 5C C8              - subss xmm1,xmm0
+HomeworldRM.exe+21810: F3 0F 11 4C 24 24        - movss [esp+24],xmm1
+HomeworldRM.exe+21816: 8B 07                    - mov eax,[edi]
+HomeworldRM.exe+21818: 8B CF                    - mov ecx,edi
+// ---------- INJECTING HERE ----------
+HomeworldRM.exe+2181A: F3 0F 10 87 64 01 00 00  - movss xmm0,[edi+00000164]
+// ---------- DONE INJECTING  ----------
+HomeworldRM.exe+21822: F3 0F 11 44 24 14        - movss [esp+14],xmm0
+HomeworldRM.exe+21828: FF 90 C8 00 00 00        - call dword ptr [eax+000000C8]
+HomeworldRM.exe+2182E: D8 7C 24 14              - fdivr dword ptr [esp+14]
+HomeworldRM.exe+21832: 8B CB                    - mov ecx,ebx
+HomeworldRM.exe+21834: 6A 02                    - push 02
+HomeworldRM.exe+21836: 5A                       - pop edx
+HomeworldRM.exe+21837: C7 44 24 38 01 00 00 00  - mov [esp+38],00000001
+HomeworldRM.exe+2183F: 89 54 24 30              - mov [esp+30],edx
+HomeworldRM.exe+21843: D9 5C 24 14              - fstp dword ptr [esp+14]
+HomeworldRM.exe+21847: F3 0F 10 4C 24 14        - movss xmm1,[esp+14]
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>17</ID>
+      <Description>"Movement Multiplier"</Description>
+      <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : HomeworldRM.exe
+  Version: 
+  Date   : 2023-08-04
+  Author : ctl3d
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(MovementSpeed,HomeworldRM.exe,F3 0F 10 8C 88 D4 06 00 00) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+label(exit)
+label(speed)
+registersymbol(speed)
+
+newmem:
+  movss xmm1,[eax+ecx*4+000006D4]
+  cmp ecx,83
+  je @f
+  cmp ecx,81
+  je @f
+  jmp code
+@@:
+  push eax
+  test edx, edx
+  jz exit
+  mov eax, [edx+95C] // pointer to Player
+  test eax, eax
+  jz exit
+  cmp [eax+10],0 // player = 0
+  jne exit
+  movss xmm1,[speed]
+exit:
+  pop eax
+code:
+  //movss xmm1,[eax+ecx*4+000006D4]
+  jmp return
+
+speed:
+  dd (float)2.0
+
+MovementSpeed:
+  jmp newmem
+  nop 4
+return:
+registersymbol(MovementSpeed)
+
+[DISABLE]
+
+MovementSpeed:
+  db F3 0F 10 8C 88 D4 06 00 00
+
+unregistersymbol(MovementSpeed)
+dealloc(newmem)
+unregistersymbol(speed)
+
+{
+// ORIGINAL CODE - INJECTION POINT: HomeworldRM.exe+235490
+
+HomeworldRM.exe+23546E: 85 C9                       - test ecx,ecx
+HomeworldRM.exe+235470: 75 0A                       - jne HomeworldRM.exe+23547C
+HomeworldRM.exe+235472: F3 0F 10 0D 90 8D 13 01     - movss xmm1,[HomeworldRM.exe+508D90]
+HomeworldRM.exe+23547A: EB 1D                       - jmp HomeworldRM.exe+235499
+HomeworldRM.exe+23547C: 8B 49 7C                    - mov ecx,[ecx+7C]
+HomeworldRM.exe+23547F: 6B C6 03                    - imul eax,esi,03
+HomeworldRM.exe+235482: C1 F9 08                    - sar ecx,08
+HomeworldRM.exe+235485: 83 E1 0F                    - and ecx,0F
+HomeworldRM.exe+235488: 03 C8                       - add ecx,eax
+HomeworldRM.exe+23548A: 8B 82 54 01 00 00           - mov eax,[edx+00000154]
+// ---------- INJECTING HERE ----------
+HomeworldRM.exe+235490: F3 0F 10 8C 88 D4 06 00 00  - movss xmm1,[eax+ecx*4+000006D4]
+// ---------- DONE INJECTING  ----------
+HomeworldRM.exe+235499: F3 0F 10 84 F2 AC 0B 00 00  - movss xmm0,[edx+esi*8+00000BAC]
+HomeworldRM.exe+2354A2: F3 0F 59 84 F2 A8 0B 00 00  - mulss xmm0,[edx+esi*8+00000BA8]
+HomeworldRM.exe+2354AB: 5E                          - pop esi
+HomeworldRM.exe+2354AC: F3 0F 59 C1                 - mulss xmm0,xmm1
+HomeworldRM.exe+2354B0: C2 04 00                    - ret 0004
+HomeworldRM.exe+2354B3: 8B 81 54 01 00 00           - mov eax,[ecx+00000154]
+HomeworldRM.exe+2354B9: C3                          - ret 
+HomeworldRM.exe+2354BA: 56                          - push esi
+HomeworldRM.exe+2354BB: 8B F1                       - mov esi,ecx
+HomeworldRM.exe+2354BD: 6A 0E                       - push 0E
+}
+</AssemblerScript>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>18</ID>
+          <Description>"Speed"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>Float</VariableType>
+          <Address>speed</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"Cursor Ship Armor"</Description>
+      <Options moHideChildren="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : HomeworldRM.exe
+  Version: 
+  Date   : 2023-10-27
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,HomeworldRM.exe,F3 0F 5F CA F3 0F 58 CA) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(exit)
+label(return)
+
+label(armor)
+
+newmem:
+  cmp [armor],0
+  je code
+
+  push ebx
+  mov ebx,[eax+154] // pointer to ShipStatic
+  test ebx,ebx
+  jz exit
+
+  movss xmm4,[armor]
+  mulss xmm1,xmm4
+  movss [eax+164],xmm1
+  mov [armor],0
+exit:
+  pop ebx
+
+code:
+  maxss xmm1,xmm2
+  addss xmm1,xmm2
+  jmp return
+
+armor:
+  dd (float)0.0
+
+INJECT:
+  jmp newmem
+  nop 3
+return:
+registersymbol(INJECT)
+registersymbol(armor)
+
+[DISABLE]
+
+INJECT:
+  db F3 0F 5F CA F3 0F 58 CA
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+unregistersymbol(armor)
+
+{
+// ORIGINAL CODE - INJECTION POINT: HomeworldRM.exe+281540
+
+HomeworldRM.exe+28151A: F3 0F 10 80 64 01 00 00  - movss xmm0,[eax+00000164]
+HomeworldRM.exe+281522: F3 0F 5F C2              - maxss xmm0,xmm2
+HomeworldRM.exe+281526: F3 0F 58 C8              - addss xmm1,xmm0
+HomeworldRM.exe+28152A: 83 E9 01                 - sub ecx,01
+HomeworldRM.exe+28152D: 75 E6                    - jne HomeworldRM.exe+281515
+HomeworldRM.exe+28152F: EB 17                    - jmp HomeworldRM.exe+281548
+HomeworldRM.exe+281531: 8B 41 34                 - mov eax,[ecx+34]
+HomeworldRM.exe+281534: 85 C0                    - test eax,eax
+HomeworldRM.exe+281536: 74 10                    - je HomeworldRM.exe+281548
+HomeworldRM.exe+281538: F3 0F 10 88 64 01 00 00  - movss xmm1,[eax+00000164]
+// ---------- INJECTING HERE ----------
+HomeworldRM.exe+281540: F3 0F 5F CA              - maxss xmm1,xmm2
+// ---------- DONE INJECTING  ----------
+HomeworldRM.exe+281544: F3 0F 58 CA              - addss xmm1,xmm2
+HomeworldRM.exe+281548: 0F 28 C1                 - movaps xmm0,xmm1
+HomeworldRM.exe+28154B: C2 04 00                 - ret 0004
+HomeworldRM.exe+28154E: 55                       - push ebp
+HomeworldRM.exe+28154F: 8B EC                    - mov ebp,esp
+HomeworldRM.exe+281551: 80 7D 08 01              - cmp byte ptr [ebp+08],01
+HomeworldRM.exe+281555: 0F 57 C0                 - xorps xmm0,xmm0
+HomeworldRM.exe+281558: 56                       - push esi
+HomeworldRM.exe+281559: 8B F1                    - mov esi,ecx
+HomeworldRM.exe+28155B: 75 32                    - jne HomeworldRM.exe+28158F
+}
+</AssemblerScript>
+      <Hotkeys>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys>
+            <Key>45</Key>
+          </Keys>
+          <ID>0</ID>
+          <ActivateSound TTS="EN">{MRDescription} Activated</ActivateSound>
+          <DeactivateSound TTS="EN">{MRDescription} Deactivated</DeactivateSound>
+        </Hotkey>
+      </Hotkeys>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"Ship Armor"</Description>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>Float</VariableType>
+          <Address>armor</Address>
+          <Hotkeys>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>97</Key>
+              </Keys>
+              <Value>10</Value>
+              <ID>0</ID>
+              <ActivateSound>Activate</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>98</Key>
+              </Keys>
+              <Value>2</Value>
+              <ID>1</ID>
+              <ActivateSound>Activate</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>99</Key>
+              </Keys>
+              <Value>3</Value>
+              <ID>2</ID>
+              <ActivateSound>Activate</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>100</Key>
+              </Keys>
+              <Value>4</Value>
+              <ID>3</ID>
+              <ActivateSound>Activate</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>110</Key>
+              </Keys>
+              <Value>0.01</Value>
+              <ID>4</ID>
+              <ActivateSound>Activate</ActivateSound>
+            </Hotkey>
+          </Hotkeys>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Get Cur Shield</Description>
+      <AddressString>HomeworldRM.exe+281538</AddressString>
+      <Before>
+        <Byte>34</Byte>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+        <Byte>74</Byte>
+        <Byte>10</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>88</Byte>
+        <Byte>64</Byte>
+        <Byte>01</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>5F</Byte>
+        <Byte>CA</Byte>
+        <Byte>F3</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+  <Comments>Info about this table:
+</Comments>
+</CheatTable>
