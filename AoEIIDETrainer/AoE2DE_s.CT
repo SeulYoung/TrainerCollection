@@ -5,11 +5,10 @@
       <ID>44</ID>
       <Description>"初始化"</Description>
       <Options moHideChildren="1"/>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2023-06-17
+  Date   : 2023-11-12
   Author : 94817
 
   This script does blah blah blah
@@ -17,7 +16,8 @@
 
 [ENABLE]
 
-aobscanmodule(TechCallAddr,AoE2DE_s.exe,03 04 00 00 48 89 5C 24 18)
+aobscanmodule(TechCallAddrBase,AoE2DE_s.exe,48 33 C4 48 89 85 30 02 00 00 45)
+define(TechCallAddr,TechCallAddrBase-2E)
 
 aobscanmodule(INJECT,gameoverlayrenderer64.dll,F7 44 8B C5 8B D6) // should be unique
 alloc(newmem,$1000,INJECT)
@@ -26,9 +26,9 @@ alloc(Param,$20,INJECT)
 define(UnitParam,Param)
 define(TechParam,Param+8)
 define(LocalParam,Param+10)
-define(PlayerBase,AoE2DE_s.exe+3DD1A20)
-define(PosX,AoE2DE_s.exe+3EAB2F0)
-define(PosY,AoE2DE_s.exe+3EAB2F4)
+define(PlayerBase,AoE2DE_s.exe+03E86BF0)
+define(PosX,AoE2DE_s.exe+3DC0014)
+define(PosY,AoE2DE_s.exe+3DC0018)
 
 label(unit)
 label(tech)
@@ -45,15 +45,15 @@ unit:
   push rcx
   push rdx
   sub rsp,30
-  // ----- Find Address, [Address] == Player -----
+  // ----- Find Player Address, [Address] == Player -----
   mov rbx,PlayerBase
   mov rbx,[rbx]
-  mov rbx,[rbx+38]
-  mov rbx,[rbx+18]
-  mov rbx,[rbx+10]
-  mov rbx,[rbx+C20]
+  mov rbx,[rbx+98]
   mov rbx,[rbx+78]
-  mov rbx,[rbx]
+  mov rbx,[rbx+128]
+  mov rbx,[rbx+8]
+  mov rbx,[rbx+E0]
+  mov rbx,[rbx+168]
   // ----------------------------------------
   mov rax,[rbx]
   mov dword ptr ss:[rsp+28],1
@@ -81,23 +81,21 @@ tech:
   push rdx
   push r8
   sub rsp,8 // Stack Align
-  mov dword ptr ds:[LocalParam],43FA0000
-  movss xmm6,dword ptr ds:[LocalParam]
-  mov r8,AoE2DE_s.exe+1
+  mov r8b,1
   movzx edx,word ptr ds:[TechParam]
-  // ----- Find Address, [Address] == Player -----
+  // ----- Find Player Address, [Address] == Player -----
   mov rbx,PlayerBase
   mov rbx,[rbx]
-  mov rbx,[rbx+38]
-  mov rbx,[rbx+18]
-  mov rbx,[rbx+10]
-  mov rbx,[rbx+C20]
+  mov rbx,[rbx+98]
   mov rbx,[rbx+78]
-  mov rbx,[rbx]
+  mov rbx,[rbx+128]
+  mov rbx,[rbx+8]
+  mov rbx,[rbx+E0]
+  mov rbx,[rbx+168]
   // ----------------------------------------
   mov rax,rbx
-  mov rcx,[rax+730]
-  call TechCallAddr+04
+  mov rcx,[rax+758]
+  call TechCallAddr
   add rsp,8
   pop r8
   pop rdx
@@ -247,49 +245,41 @@ gameoverlayrenderer64.dll+88FD6: 80 7F 5B 00           - cmp byte ptr [rdi+5B],0
       <ID>55</ID>
       <Description>"热键说明"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>60</ID>
           <Description>"Insert键激活/取消脚本"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>56</ID>
           <Description>"数字键1：精锐皇家骑士"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>57</ID>
           <Description>"数字键2：精锐条顿骑士"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>58</ID>
           <Description>"数字键3：精锐蒙古突骑"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>59</ID>
           <Description>"数字键4：精锐长弓兵"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>71</ID>
           <Description>"Ctrl+Alt+数字键1：研究反曲弓科技"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>72</ID>
           <Description>"Ctrl+Alt+数字键2：研究突厥骑射科技"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
       </CheatEntries>
@@ -298,17 +288,15 @@ gameoverlayrenderer64.dll+88FD6: 80 7F 5B 00           - cmp byte ptr [rdi+5B],0
       <ID>74</ID>
       <Description>"修改备份"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>54</ID>
           <Description>"单位触发Call备份"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2023-06-17
+  Date   : 2023-11-12
   Author : 94817
 
   This script does blah blah blah
@@ -316,7 +304,7 @@ gameoverlayrenderer64.dll+88FD6: 80 7F 5B 00           - cmp byte ptr [rdi+5B],0
 
 [ENABLE]
 
-aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 03 41 BC 01 00 00 00) // should be unique
+aobscanmodule(INJECT,AoE2DE_s.exe,0F 28 DE 0F 28 D7 8B 56) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -325,61 +313,60 @@ label(return)
 newmem:
 
 code:
-  mov rax,[rbx]
-  mov r12d,00000001
+  movaps xmm3,xmm6
+  movaps xmm2,xmm7
   jmp return
 
 INJECT:
   jmp newmem
-  nop 4
+  nop
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
 INJECT:
-  db 48 8B 03 41 BC 01 00 00 00
+  db 0F 28 DE 0F 28 D7
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+162CD20
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1632597
 
-AoE2DE_s.exe+162CCF8: C6 44 24 38 00     - mov byte ptr [rsp+38],00
-AoE2DE_s.exe+162CCFD: C6 44 24 30 01     - mov byte ptr [rsp+30],01
-AoE2DE_s.exe+162CD02: C6 44 24 28 00     - mov byte ptr [rsp+28],00
-AoE2DE_s.exe+162CD07: 4C 89 6C 24 20     - mov [rsp+20],r13
-AoE2DE_s.exe+162CD0C: 0F 28 DE           - movaps xmm3,xmm6
-AoE2DE_s.exe+162CD0F: 0F 28 D7           - movaps xmm2,xmm7
-AoE2DE_s.exe+162CD12: 48 8B D3           - mov rdx,rbx
-AoE2DE_s.exe+162CD15: FF 50 50           - call qword ptr [rax+50]
-AoE2DE_s.exe+162CD18: 84 C0              - test al,al
-AoE2DE_s.exe+162CD1A: 0F 85 D3 3A 00 00  - jne AoE2DE_s.exe+16307F3
+AoE2DE_s.exe+163256F: 0F 28 D7           - movaps xmm2,xmm7
+AoE2DE_s.exe+1632572: 48 8B D3           - mov rdx,rbx
+AoE2DE_s.exe+1632575: FF 50 50           - call qword ptr [rax+50]
+AoE2DE_s.exe+1632578: 84 C0              - test al,al
+AoE2DE_s.exe+163257A: 0F 85 7E 3D 00 00  - jne AoE2DE_s.exe+16362FE
+AoE2DE_s.exe+1632580: 48 8B 03           - mov rax,[rbx]
+AoE2DE_s.exe+1632583: 41 BD 01 00 00 00  - mov r13d,00000001
+AoE2DE_s.exe+1632589: 44 89 6C 24 28     - mov [rsp+28],r13d
+AoE2DE_s.exe+163258E: 0F 57 C0           - xorps xmm0,xmm0
+AoE2DE_s.exe+1632591: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+162CD20: 48 8B 03           - mov rax,[rbx]
+AoE2DE_s.exe+1632597: 0F 28 DE           - movaps xmm3,xmm6
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+162CD23: 41 BC 01 00 00 00  - mov r12d,00000001
-AoE2DE_s.exe+162CD29: 44 89 64 24 28     - mov [rsp+28],r12d
-AoE2DE_s.exe+162CD2E: 0F 57 C0           - xorps xmm0,xmm0
-AoE2DE_s.exe+162CD31: F3 0F 11 44 24 20  - movss [rsp+20],xmm0
-AoE2DE_s.exe+162CD37: 0F 28 DE           - movaps xmm3,xmm6
-AoE2DE_s.exe+162CD3A: 0F 28 D7           - movaps xmm2,xmm7
-AoE2DE_s.exe+162CD3D: 8B 56 28           - mov edx,[rsi+28]
-AoE2DE_s.exe+162CD40: 48 8B CB           - mov rcx,rbx
-AoE2DE_s.exe+162CD43: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
-AoE2DE_s.exe+162CD49: 48 8B D8           - mov rbx,rax
+AoE2DE_s.exe+163259A: 0F 28 D7           - movaps xmm2,xmm7
+AoE2DE_s.exe+163259D: 8B 56 28           - mov edx,[rsi+28]
+AoE2DE_s.exe+16325A0: 48 8B CB           - mov rcx,rbx
+AoE2DE_s.exe+16325A3: FF 90 68 01 00 00  - call qword ptr [rax+00000168]
+AoE2DE_s.exe+16325A9: 48 8B D8           - mov rbx,rax
+AoE2DE_s.exe+16325AC: 48 89 45 A0        - mov [rbp-60],rax
+AoE2DE_s.exe+16325B0: 48 85 C0           - test rax,rax
+AoE2DE_s.exe+16325B3: 74 15              - je AoE2DE_s.exe+16325CA
+AoE2DE_s.exe+16325B5: 8B 86 BC 00 00 00  - mov eax,[rsi+000000BC]
+AoE2DE_s.exe+16325BB: 85 C0              - test eax,eax
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>63</ID>
           <Description>"科技触发Call备份"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2023-06-17
+  Date   : 2023-11-12
   Author : 94817
 
   This script does blah blah blah
@@ -414,42 +401,41 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+162C6B0
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1631F10
 
-AoE2DE_s.exe+162C689: FF E1                 - jmp rcx
-AoE2DE_s.exe+162C68B: 48 8B 4D 88           - mov rcx,[rbp-78]
-AoE2DE_s.exe+162C68F: 48 8B 01              - mov rax,[rcx]
-AoE2DE_s.exe+162C692: 4C 8B 48 30           - mov r9,[rax+30]
-AoE2DE_s.exe+162C696: 48 8B 45 08           - mov rax,[rbp+08]
-AoE2DE_s.exe+162C69A: 44 8B 46 1C           - mov r8d,[rsi+1C]
-AoE2DE_s.exe+162C69E: 8B 90 E8 06 00 00     - mov edx,[rax+000006E8]
-AoE2DE_s.exe+162C6A4: 41 FF D1              - call r9
-AoE2DE_s.exe+162C6A7: E9 47 41 00 00        - jmp AoE2DE_s.exe+16307F3
-AoE2DE_s.exe+162C6AC: 48 8B 45 88           - mov rax,[rbp-78]
+AoE2DE_s.exe+1631EE9: FF E1                 - jmp rcx
+AoE2DE_s.exe+1631EEB: 48 8B 4D 88           - mov rcx,[rbp-78]
+AoE2DE_s.exe+1631EEF: 48 8B 01              - mov rax,[rcx]
+AoE2DE_s.exe+1631EF2: 4C 8B 48 30           - mov r9,[rax+30]
+AoE2DE_s.exe+1631EF6: 48 8B 45 10           - mov rax,[rbp+10]
+AoE2DE_s.exe+1631EFA: 44 8B 46 1C           - mov r8d,[rsi+1C]
+AoE2DE_s.exe+1631EFE: 8B 90 10 07 00 00     - mov edx,[rax+00000710]
+AoE2DE_s.exe+1631F04: 41 FF D1              - call r9
+AoE2DE_s.exe+1631F07: E9 F2 43 00 00        - jmp AoE2DE_s.exe+16362FE
+AoE2DE_s.exe+1631F0C: 48 8B 45 88           - mov rax,[rbp-78]
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+162C6B0: 83 BE 90 00 00 00 01  - cmp dword ptr [rsi+00000090],01
+AoE2DE_s.exe+1631F10: 83 BE 90 00 00 00 01  - cmp dword ptr [rsi+00000090],01
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+162C6B7: 41 0F 94 C0           - sete r8b
-AoE2DE_s.exe+162C6BB: 0F B7 56 34           - movzx edx,word ptr [rsi+34]
-AoE2DE_s.exe+162C6BF: 48 8B 88 30 07 00 00  - mov rcx,[rax+00000730]
-AoE2DE_s.exe+162C6C6: E8 35 03 FB FF        - call AoE2DE_s.exe+15DCA00
-AoE2DE_s.exe+162C6CB: E9 23 41 00 00        - jmp AoE2DE_s.exe+16307F3
-AoE2DE_s.exe+162C6D0: 48 8B 0D 91 03 81 02  - mov rcx,[AoE2DE_s.exe+3E3CA68]
-AoE2DE_s.exe+162C6D7: E8 D4 5C 68 FF        - call AoE2DE_s.exe+CB23B0
-AoE2DE_s.exe+162C6DC: 48 3B D8              - cmp rbx,rax
-AoE2DE_s.exe+162C6DF: 75 5F                 - jne AoE2DE_s.exe+162C740
-AoE2DE_s.exe+162C6E1: 8B 56 38              - mov edx,[rsi+38]
+AoE2DE_s.exe+1631F17: 41 0F 94 C0           - sete r8b
+AoE2DE_s.exe+1631F1B: 0F B7 56 34           - movzx edx,word ptr [rsi+34]
+AoE2DE_s.exe+1631F1F: 48 8B 88 58 07 00 00  - mov rcx,[rax+00000758]
+AoE2DE_s.exe+1631F26: E8 25 97 FA FF        - call AoE2DE_s.exe+15DB650
+AoE2DE_s.exe+1631F2B: E9 CE 43 00 00        - jmp AoE2DE_s.exe+16362FE
+AoE2DE_s.exe+1631F30: 48 8B 0D B9 4A 78 02  - mov rcx,[AoE2DE_s.exe+3DB69F0]
+AoE2DE_s.exe+1631F37: E8 E4 7D 6F FF        - call AoE2DE_s.exe+D29D20
+AoE2DE_s.exe+1631F3C: 48 3B D8              - cmp rbx,rax
+AoE2DE_s.exe+1631F3F: 75 5F                 - jne AoE2DE_s.exe+1631FA0
+AoE2DE_s.exe+1631F41: 8B 56 38              - mov edx,[rsi+38]
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>69</ID>
           <Description>"访问玩家备份"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2023-06-17
+  Date   : 2023-11-12
   Author : 94817
 
   This script does blah blah blah
@@ -457,7 +443,7 @@ AoE2DE_s.exe+162C6E1: 8B 56 38              - mov edx,[rsi+38]
 
 [ENABLE]
 
-aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 01 89 7D D8) // should be unique
+aobscanmodule(INJECT,AoE2DE_s.exe,89 54 24 30 89 54 24 28 48) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -466,61 +452,60 @@ label(return)
 newmem:
 
 code:
-  mov rax,[rcx]
-  mov [rbp-28],edi
+  mov [rsp+30],edx
+  mov [rsp+28],edx
   jmp return
 
 INJECT:
   jmp newmem
-  nop
+  nop 3
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
 INJECT:
-  db 48 8B 01 89 7D D8
+  db 89 54 24 30 89 54 24 28
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1387295
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1722862
 
-AoE2DE_s.exe+1387270: 48 8B 0C C8           - mov rcx,[rax+rcx*8]
-AoE2DE_s.exe+1387274: 89 7D D4              - mov [rbp-2C],edi
-AoE2DE_s.exe+1387277: 41 B0 01              - mov r8b,01
-AoE2DE_s.exe+138727A: 48 8D 55 D4           - lea rdx,[rbp-2C]
-AoE2DE_s.exe+138727E: E8 BD C2 06 00        - call AoE2DE_s.exe+13F3540
-AoE2DE_s.exe+1387283: 84 C0                 - test al,al
-AoE2DE_s.exe+1387285: 74 21                 - je AoE2DE_s.exe+13872A8
-AoE2DE_s.exe+1387287: 48 03 F6              - add rsi,rsi
-AoE2DE_s.exe+138728A: 49 8B 86 40 07 00 00  - mov rax,[r14+00000740]
-AoE2DE_s.exe+1387291: 48 8B 0C F0           - mov rcx,[rax+rsi*8]
+AoE2DE_s.exe+172282F: 48 8B 45 80              - mov rax,[rbp-80]
+AoE2DE_s.exe+1722833: 49 33 C6                 - xor rax,r14
+AoE2DE_s.exe+1722836: 48 89 45 80              - mov [rbp-80],rax
+AoE2DE_s.exe+172283A: 48 8B 45 80              - mov rax,[rbp-80]
+AoE2DE_s.exe+172283E: F3 0F 10 80 68 07 00 00  - movss xmm0,[rax+00000768]
+AoE2DE_s.exe+1722846: 48 8B 87 68 06 00 00     - mov rax,[rdi+00000668]
+AoE2DE_s.exe+172284D: F3 0F 11 40 38           - movss [rax+38],xmm0
+AoE2DE_s.exe+1722852: 8B 05 B4 8D 69 02        - mov eax,[AoE2DE_s.exe+3DBB60C]
+AoE2DE_s.exe+1722858: 45 8B CF                 - mov r9d,r15d
+AoE2DE_s.exe+172285B: 48 8B 0D 8E 43 76 02     - mov rcx,[AoE2DE_s.exe+3E86BF0]
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+1387295: 48 8B 01              - mov rax,[rcx]
+AoE2DE_s.exe+1722862: 89 54 24 30              - mov [rsp+30],edx
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+1387298: 89 7D D8              - mov [rbp-28],edi
-AoE2DE_s.exe+138729B: 48 8D 55 D8           - lea rdx,[rbp-28]
-AoE2DE_s.exe+138729F: FF 90 B8 02 00 00     - call qword ptr [rax+000002B8]
-AoE2DE_s.exe+13872A5: 45 89 27              - mov [r15],r12d
-AoE2DE_s.exe+13872A8: FF C3                 - inc ebx
-AoE2DE_s.exe+13872AA: 49 8B 8E 40 07 00 00  - mov rcx,[r14+00000740]
-AoE2DE_s.exe+13872B1: 49 8B 86 48 07 00 00  - mov rax,[r14+00000748]
-AoE2DE_s.exe+13872B8: 48 2B C1              - sub rax,rcx
-AoE2DE_s.exe+13872BB: 48 C1 F8 04           - sar rax,04
-AoE2DE_s.exe+13872BF: 3B D8                 - cmp ebx,eax
+AoE2DE_s.exe+1722866: 89 54 24 28              - mov [rsp+28],edx
+AoE2DE_s.exe+172286A: 48 8B 97 68 06 00 00     - mov rdx,[rdi+00000668]
+AoE2DE_s.exe+1722871: 41 0F BF DD              - movsx ebx,r13w
+AoE2DE_s.exe+1722875: 44 8B C3                 - mov r8d,ebx
+AoE2DE_s.exe+1722878: 89 44 24 20              - mov [rsp+20],eax
+AoE2DE_s.exe+172287C: E8 AF E7 E7 FF           - call AoE2DE_s.exe+15A1030
+AoE2DE_s.exe+1722881: 48 8B 0D 68 41 69 02     - mov rcx,[AoE2DE_s.exe+3DB69F0]
+AoE2DE_s.exe+1722888: E8 E3 F3 5F FF           - call AoE2DE_s.exe+D21C70
+AoE2DE_s.exe+172288D: 44 0F B6 0D 5A D8 69 02  - movzx r9d,byte ptr [AoE2DE_s.exe+3DC00EF]
+AoE2DE_s.exe+1722895: 84 C0                    - test al,al
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>77</ID>
           <Description>"玩家基址备份"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2023-06-17
+  Date   : 2023-11-12
   Author : 94817
 
   This script does blah blah blah
@@ -528,7 +513,7 @@ AoE2DE_s.exe+13872BF: 3B D8                 - cmp ebx,eax
 
 [ENABLE]
 
-aobscanmodule(INJECT,AoE2DE_s.exe,48 03 CA FF E1 48 8B 43 18) // should be unique
+aobscanmodule(INJECT,AoE2DE_s.exe,48 C7 87 98 07 00 00 00 00 00 00 48) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -537,60 +522,59 @@ label(return)
 newmem:
 
 code:
-  add rcx,rdx
-  jmp rcx
+  mov qword ptr [rdi+00000798],00000000
   jmp return
 
 INJECT:
   jmp newmem
+  nop 6
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
 INJECT:
-  db 48 03 CA FF E1
+  db 48 C7 87 98 07 00 00 00 00 00 00
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+999EDF
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+AA5DD5
 
-AoE2DE_s.exe+999EB1: 48 8B 03              - mov rax,[rbx]
-AoE2DE_s.exe+999EB4: 4D 8B C7              - mov r8,r15
-AoE2DE_s.exe+999EB7: 49 8B D6              - mov rdx,r14
-AoE2DE_s.exe+999EBA: 48 8B CB              - mov rcx,rbx
-AoE2DE_s.exe+999EBD: FF 90 C0 00 00 00     - call qword ptr [rax+000000C0]
-AoE2DE_s.exe+999EC3: E9 34 06 00 00        - jmp AoE2DE_s.exe+99A4FC
-AoE2DE_s.exe+999EC8: 41 8D 80 FF FD FF FF  - lea eax,[r8-00000201]
-AoE2DE_s.exe+999ECF: 83 F8 0C              - cmp eax,0C
-AoE2DE_s.exe+999ED2: 0F 87 65 FF FF FF     - ja AoE2DE_s.exe+999E3D
-AoE2DE_s.exe+999ED8: 8B 8C 82 1C A5 99 00  - mov ecx,[rdx+rax*4+0099A51C]
+AoE2DE_s.exe+AA5DA5: 83 F8 15                          - cmp eax,15
+AoE2DE_s.exe+AA5DA8: 77 0A                             - ja AoE2DE_s.exe+AA5DB4
+AoE2DE_s.exe+AA5DAA: BA 82 01 20 00                    - mov edx,00200182
+AoE2DE_s.exe+AA5DAF: 0F A3 C2                          - bt edx,eax
+AoE2DE_s.exe+AA5DB2: 72 2C                             - jb AoE2DE_s.exe+AA5DE0
+AoE2DE_s.exe+AA5DB4: BA 01 00 00 00                    - mov edx,00000001
+AoE2DE_s.exe+AA5DB9: E8 E2 C0 EC FF                    - call AoE2DE_s.exe+971EA0
+AoE2DE_s.exe+AA5DBE: 48 8B 8F 90 07 00 00              - mov rcx,[rdi+00000790]
+AoE2DE_s.exe+AA5DC5: E8 C6 8C EC FF                    - call AoE2DE_s.exe+96EA90
+AoE2DE_s.exe+AA5DCA: 48 C7 87 90 07 00 00 00 00 00 00  - mov qword ptr [rdi+00000790],00000000
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+999EDF: 48 03 CA              - add rcx,rdx
+AoE2DE_s.exe+AA5DD5: 48 C7 87 98 07 00 00 00 00 00 00  - mov qword ptr [rdi+00000798],00000000
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+999EE2: FF E1                 - jmp rcx
-AoE2DE_s.exe+999EE4: 48 8B 43 18           - mov rax,[rbx+18]
-AoE2DE_s.exe+999EE8: 4C 3B 68 30           - cmp r13,[rax+30]
-AoE2DE_s.exe+999EEC: 0F 85 08 06 00 00     - jne AoE2DE_s.exe+99A4FA
-AoE2DE_s.exe+999EF2: 48 8B 0D 27 7B 43 03  - mov rcx,[AoE2DE_s.exe+3DD1A20]
-AoE2DE_s.exe+999EF9: E8 52 10 00 00        - call AoE2DE_s.exe+99AF50
-AoE2DE_s.exe+999EFE: 85 C0                 - test eax,eax
-AoE2DE_s.exe+999F00: 0F 84 F4 05 00 00     - je AoE2DE_s.exe+99A4FA
-AoE2DE_s.exe+999F06: 48 8B C3              - mov rax,rbx
-AoE2DE_s.exe+999F09: 0F 1F 80 00 00 00 00  - nop dword ptr [rax+00000000]
+AoE2DE_s.exe+AA5DE0: 48 8B 0D C1 49 31 03              - mov rcx,[AoE2DE_s.exe+3DBA7A8]
+AoE2DE_s.exe+AA5DE7: 48 85 C9                          - test rcx,rcx
+AoE2DE_s.exe+AA5DEA: 74 05                             - je AoE2DE_s.exe+AA5DF1
+AoE2DE_s.exe+AA5DEC: E8 EF FB EB FF                    - call AoE2DE_s.exe+9659E0
+AoE2DE_s.exe+AA5DF1: 48 8B CF                          - mov rcx,rdi
+AoE2DE_s.exe+AA5DF4: E8 37 29 00 00                    - call AoE2DE_s.exe+AA8730
+AoE2DE_s.exe+AA5DF9: 48 85 DB                          - test rbx,rbx
+AoE2DE_s.exe+AA5DFC: 74 10                             - je AoE2DE_s.exe+AA5E0E
+AoE2DE_s.exe+AA5DFE: 48 8B CB                          - mov rcx,rbx
+AoE2DE_s.exe+AA5E01: E8 0A 6A CC FF                    - call AoE2DE_s.exe+76C810
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>67</ID>
           <Description>"屏幕位置备份"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2023-06-17
+  Date   : 2023-11-12
   Author : 94817
 
   This script does blah blah blah
@@ -598,7 +582,7 @@ AoE2DE_s.exe+999F09: 0F 1F 80 00 00 00 00  - nop dword ptr [rax+00000000]
 
 [ENABLE]
 
-aobscanmodule(INJECT,AoE2DE_s.exe,41 8B 86 ? ? 00 00 45 8B 8E ? ? 00 00 45 8B 86 ? ? 00 00) // should be unique
+aobscanmodule(INJECT,AoE2DE_s.exe,44 0F 28 C0 F3 0F 10 B1 F0 02 00 00) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -607,51 +591,194 @@ label(return)
 newmem:
 
 code:
-  mov eax,[r14+00000268]
+  movaps xmm8,xmm0
+  movss xmm6,[rcx+000002F0]
   jmp return
 
 INJECT:
   jmp newmem
-  nop 2
+  nop 7
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
 INJECT:
-  db 41 8B 86 68 02 00 00
+  db 44 0F 28 C0 F3 0F 10 B1 F0 02 00 00
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1654680
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+AB5B10
 
-AoE2DE_s.exe+1654641: E8 EA 91 FF FF           - call AoE2DE_s.exe+164D830
-AoE2DE_s.exe+1654646: 48 8B 0D 1B 84 7E 02     - mov rcx,[AoE2DE_s.exe+3E3CA68]
-AoE2DE_s.exe+165464D: E8 AE A0 65 FF           - call AoE2DE_s.exe+CAE700
-AoE2DE_s.exe+1654652: 49 8B 86 20 02 00 00     - mov rax,[r14+00000220]
-AoE2DE_s.exe+1654659: 48 8B CB                 - mov rcx,rbx
-AoE2DE_s.exe+165465C: 44 0F 28 C0              - movaps xmm8,xmm0
-AoE2DE_s.exe+1654660: F3 0F 10 B0 C8 02 00 00  - movss xmm6,[rax+000002C8]
-AoE2DE_s.exe+1654668: F3 0F 10 B8 CC 02 00 00  - movss xmm7,[rax+000002CC]
-AoE2DE_s.exe+1654670: F3 0F 11 35 78 6C 85 02  - movss [AoE2DE_s.exe+3EAB2F0],xmm6
-AoE2DE_s.exe+1654678: F3 0F 11 3D 74 6C 85 02  - movss [AoE2DE_s.exe+3EAB2F4],xmm7
+AoE2DE_s.exe+AB5ADE: 48 8B D8                 - mov rbx,rax
+AoE2DE_s.exe+AB5AE1: 48 85 C0                 - test rax,rax
+AoE2DE_s.exe+AB5AE4: 0F 84 A3 00 00 00        - je AoE2DE_s.exe+AB5B8D
+AoE2DE_s.exe+AB5AEA: 0F 29 7C 24 50           - movaps [rsp+50],xmm7
+AoE2DE_s.exe+AB5AEF: 49 8B CD                 - mov rcx,r13
+AoE2DE_s.exe+AB5AF2: 44 0F 29 44 24 40        - movaps [rsp+40],xmm8
+AoE2DE_s.exe+AB5AF8: E8 D3 B5 FE FF           - call AoE2DE_s.exe+AA10D0
+AoE2DE_s.exe+AB5AFD: 48 8B 0D EC 0E 30 03     - mov rcx,[AoE2DE_s.exe+3DB69F0]
+AoE2DE_s.exe+AB5B04: E8 E7 B8 26 00           - call AoE2DE_s.exe+D213F0
+AoE2DE_s.exe+AB5B09: 49 8B 8D 68 01 00 00     - mov rcx,[r13+00000168]
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+1654680: 41 8B 86 68 02 00 00     - mov eax,[r14+00000268]
+AoE2DE_s.exe+AB5B10: 44 0F 28 C0              - movaps xmm8,xmm0
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+1654687: 45 8B 8E 64 02 00 00     - mov r9d,[r14+00000264]
-AoE2DE_s.exe+165468E: 45 8B 86 58 02 00 00     - mov r8d,[r14+00000258]
-AoE2DE_s.exe+1654695: 41 8B 96 54 02 00 00     - mov edx,[r14+00000254]
-AoE2DE_s.exe+165469C: 89 44 24 20              - mov [rsp+20],eax
-AoE2DE_s.exe+16546A0: E8 6B 39 2A FF           - call AoE2DE_s.exe+8F8010
-AoE2DE_s.exe+16546A5: 0F 57 C0                 - xorps xmm0,xmm0
-AoE2DE_s.exe+16546A8: F3 0F 11 74 24 30        - movss [rsp+30],xmm6
-AoE2DE_s.exe+16546AE: 41 0F 28 D0              - movaps xmm2,xmm8
-AoE2DE_s.exe+16546B2: F3 0F 11 44 24 38        - movss [rsp+38],xmm0
-AoE2DE_s.exe+16546B8: 48 8D 54 24 30           - lea rdx,[rsp+30]
+AoE2DE_s.exe+AB5B14: F3 0F 10 B1 F0 02 00 00  - movss xmm6,[rcx+000002F0]
+AoE2DE_s.exe+AB5B1C: F3 0F 10 B9 F4 02 00 00  - movss xmm7,[rcx+000002F4]
+AoE2DE_s.exe+AB5B24: F3 0F 11 35 E8 A4 30 03  - movss [AoE2DE_s.exe+3DC0014],xmm6
+AoE2DE_s.exe+AB5B2C: F3 0F 11 3D E4 A4 30 03  - movss [AoE2DE_s.exe+3DC0018],xmm7
+AoE2DE_s.exe+AB5B34: 41 8B 8D AC 01 00 00     - mov ecx,[r13+000001AC]
+AoE2DE_s.exe+AB5B3B: 45 8B 8D A8 01 00 00     - mov r9d,[r13+000001A8]
+AoE2DE_s.exe+AB5B42: 45 8B 85 9C 01 00 00     - mov r8d,[r13+0000019C]
+AoE2DE_s.exe+AB5B49: 41 8B 95 98 01 00 00     - mov edx,[r13+00000198]
+AoE2DE_s.exe+AB5B50: 89 4C 24 20              - mov [rsp+20],ecx
+AoE2DE_s.exe+AB5B54: 48 8B CB                 - mov rcx,rbx
 }
 </AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>83</ID>
+          <Description>"Max Population"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : AoE2DE_s.exe
+  Version:
+  Date   : 2023-11-12
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,AoE2DE_s.exe,48 8B 48 20 48 89 4D C0 48 8B) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rcx,[rax+20]
+  mov [rbp-40],rcx
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 3
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 48 8B 48 20 48 89 4D C0
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+13054DA
+
+AoE2DE_s.exe+13054B1: 48 89 45 C0           - mov [rbp-40],rax
+AoE2DE_s.exe+13054B5: 48 8B 45 C0           - mov rax,[rbp-40]
+AoE2DE_s.exe+13054B9: 48 33 C2              - xor rax,rdx
+AoE2DE_s.exe+13054BC: 48 89 45 C0           - mov [rbp-40],rax
+AoE2DE_s.exe+13054C0: 48 8B 45 C0           - mov rax,[rbp-40]
+AoE2DE_s.exe+13054C4: 49 03 C0              - add rax,r8
+AoE2DE_s.exe+13054C7: 48 89 45 C0           - mov [rbp-40],rax
+AoE2DE_s.exe+13054CB: 48 8B 45 C0           - mov rax,[rbp-40]
+AoE2DE_s.exe+13054CF: 48 89 45 D0           - mov [rbp-30],rax
+AoE2DE_s.exe+13054D3: 49 8B 87 F0 00 00 00  - mov rax,[r15+000000F0]
+// ---------- INJECTING HERE ----------
+AoE2DE_s.exe+13054DA: 48 8B 48 20           - mov rcx,[rax+20]
+// ---------- DONE INJECTING  ----------
+AoE2DE_s.exe+13054DE: 48 89 4D C0           - mov [rbp-40],rcx
+AoE2DE_s.exe+13054E2: 48 8B 45 C0           - mov rax,[rbp-40]
+AoE2DE_s.exe+13054E6: 49 33 C6              - xor rax,r14
+AoE2DE_s.exe+13054E9: 48 89 45 C0           - mov [rbp-40],rax
+AoE2DE_s.exe+13054ED: 48 8B 45 C0           - mov rax,[rbp-40]
+AoE2DE_s.exe+13054F1: 49 33 C4              - xor rax,r12
+AoE2DE_s.exe+13054F4: 48 89 45 C0           - mov [rbp-40],rax
+AoE2DE_s.exe+13054F8: 48 8B 45 C0           - mov rax,[rbp-40]
+AoE2DE_s.exe+13054FC: 48 33 C2              - xor rax,rdx
+AoE2DE_s.exe+13054FF: 48 89 45 C0           - mov [rbp-40],rax
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>84</ID>
+              <Description>"Edit Population"</Description>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>{ Game   : AoE2DE_s.exe
+  Version:
+  Date   : 2023-11-12
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,AoE2DE_s.exe,4A 8B 04 E1 48 89 44 24 30) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rax,[rcx+r12*8]
+  mov [rsp+30],rax
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 4
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 4A 8B 04 E1 48 89 44 24 30
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+13ED50E
+
+AoE2DE_s.exe+13ED4C4: 0F 88 84 04 00 00              - js AoE2DE_s.exe+13ED94E
+AoE2DE_s.exe+13ED4CA: 44 3B A1 90 00 00 00           - cmp r12d,[rcx+00000090]
+AoE2DE_s.exe+13ED4D1: 0F 8D 77 04 00 00              - jnl AoE2DE_s.exe+13ED94E
+AoE2DE_s.exe+13ED4D7: 48 8B 89 F0 00 00 00           - mov rcx,[rcx+000000F0]
+AoE2DE_s.exe+13ED4DE: 49 B8 BF CC 3B 4D C0 6F 53 35  - mov r8,35536FC04D3BCCBF
+AoE2DE_s.exe+13ED4E8: 49 B9 F3 26 F6 1D 25 03 10 F3  - mov r9,F31003251DF626F3
+AoE2DE_s.exe+13ED4F2: 4C 89 74 24 60                 - mov [rsp+60],r14
+AoE2DE_s.exe+13ED4F7: 49 BA 88 21 35 0A BD E7 61 F1  - mov r10,F161E7BD0A352188
+AoE2DE_s.exe+13ED501: 49 BB A5 16 91 05 A6 54 15 3C  - mov r11,3C1554A6059116A5
+AoE2DE_s.exe+13ED50B: 0F 28 C2                       - movaps xmm0,xmm2
+// ---------- INJECTING HERE ----------
+AoE2DE_s.exe+13ED50E: 4A 8B 04 E1                    - mov rax,[rcx+r12*8]
+// ---------- DONE INJECTING  ----------
+AoE2DE_s.exe+13ED512: 48 89 44 24 30                 - mov [rsp+30],rax
+AoE2DE_s.exe+13ED517: 48 8B 44 24 30                 - mov rax,[rsp+30]
+AoE2DE_s.exe+13ED51C: 49 33 C0                       - xor rax,r8
+AoE2DE_s.exe+13ED51F: 48 89 44 24 30                 - mov [rsp+30],rax
+AoE2DE_s.exe+13ED524: 48 8B 44 24 30                 - mov rax,[rsp+30]
+AoE2DE_s.exe+13ED529: 49 33 C1                       - xor rax,r9
+AoE2DE_s.exe+13ED52C: 48 89 44 24 30                 - mov [rsp+30],rax
+AoE2DE_s.exe+13ED531: 48 8B 44 24 30                 - mov rax,[rsp+30]
+AoE2DE_s.exe+13ED536: 49 33 C2                       - xor rax,r10
+AoE2DE_s.exe+13ED539: 48 89 44 24 30                 - mov [rsp+30],rax
+}
+</AssemblerScript>
+            </CheatEntry>
+          </CheatEntries>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -662,6 +789,150 @@ AoE2DE_s.exe+16546B8: 48 8D 54 24 30           - lea rdx,[rsp+30]
       <Address>1BC20E60000</Address>
     </SymbolEntry>
   </UserdefinedSymbols>
+  <Structures StructVersion="2">
+    <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000000" DisplayMethod="hexadecimal"/>
+        <Element Offset="16" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000010" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" RLECount="27" OffsetHex="00000014" DisplayMethod="hexadecimal"/>
+        <Element Offset="128" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000080" DisplayMethod="unsigned integer"/>
+        <Element Offset="132" Vartype="4 Bytes" Bytesize="4" RLECount="23" OffsetHex="00000084" DisplayMethod="hexadecimal"/>
+        <Element Offset="224" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="000000E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="228" Vartype="4 Bytes" Bytesize="4" RLECount="9" OffsetHex="000000E4" DisplayMethod="hexadecimal"/>
+        <Element Offset="264" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000108" DisplayMethod="unsigned integer"/>
+        <Element Offset="268" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000010C" DisplayMethod="hexadecimal"/>
+        <Element Offset="272" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000110" DisplayMethod="unsigned integer"/>
+        <Element Offset="276" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000114" DisplayMethod="hexadecimal"/>
+        <Element Offset="280" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000118" DisplayMethod="unsigned integer"/>
+        <Element Offset="284" Vartype="4 Bytes" Bytesize="4" RLECount="61" OffsetHex="0000011C" DisplayMethod="hexadecimal"/>
+        <Element Offset="528" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000210" DisplayMethod="unsigned integer"/>
+        <Element Offset="532" Vartype="4 Bytes" Bytesize="4" RLECount="13" OffsetHex="00000214" DisplayMethod="hexadecimal"/>
+        <Element Offset="584" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000248" DisplayMethod="unsigned integer"/>
+        <Element Offset="588" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000024C" DisplayMethod="hexadecimal"/>
+        <Element Offset="592" Vartype="String" Bytesize="4" OffsetHex="00000250" DisplayMethod="unsigned integer"/>
+        <Element Offset="596" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="00000254" DisplayMethod="hexadecimal"/>
+        <Element Offset="640" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000280" DisplayMethod="unsigned integer"/>
+        <Element Offset="644" Vartype="4 Bytes" Bytesize="4" RLECount="7" OffsetHex="00000284" DisplayMethod="hexadecimal"/>
+        <Element Offset="672" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="000002A0" DisplayMethod="unsigned integer"/>
+        <Element Offset="676" Vartype="4 Bytes" Bytesize="4" RLECount="249" OffsetHex="000002A4" DisplayMethod="hexadecimal"/>
+        <Element Offset="1672" Vartype="Byte" Bytesize="1" RLECount="2" OffsetHex="00000688" DisplayMethod="unsigned integer"/>
+        <Element Offset="1674" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000068A" DisplayMethod="unsigned integer"/>
+        <Element Offset="1676" Vartype="4 Bytes" Bytesize="4" RLECount="57" OffsetHex="0000068C" DisplayMethod="hexadecimal"/>
+        <Element Offset="1904" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000770" DisplayMethod="unsigned integer"/>
+        <Element Offset="1908" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000774" DisplayMethod="hexadecimal"/>
+        <Element Offset="1912" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000778" DisplayMethod="unsigned integer"/>
+        <Element Offset="1916" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="0000077C" DisplayMethod="hexadecimal"/>
+        <Element Offset="1928" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000788" DisplayMethod="unsigned integer"/>
+        <Element Offset="1932" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="0000078C" DisplayMethod="hexadecimal"/>
+        <Element Offset="1952" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="000007A0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1956" Vartype="4 Bytes" Bytesize="4" RLECount="105" OffsetHex="000007A4" DisplayMethod="hexadecimal"/>
+        <Element Offset="2376" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000948" DisplayMethod="unsigned integer"/>
+        <Element Offset="2408" Vartype="Double" Bytesize="8" OffsetHex="00000968" DisplayMethod="unsigned integer"/>
+        <Element Offset="2416" Vartype="Pointer" Bytesize="8" OffsetHex="00000970" DisplayMethod="unsigned integer"/>
+        <Element Offset="2424" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000978" DisplayMethod="unsigned integer"/>
+        <Element Offset="2440" Vartype="4 Bytes" Bytesize="4" RLECount="180" OffsetHex="00000988" DisplayMethod="hexadecimal"/>
+        <Element Offset="3160" Vartype="Float" Bytesize="4" OffsetHex="00000C58" DisplayMethod="unsigned integer"/>
+        <Element Offset="3164" Vartype="Byte" Bytesize="1" RLECount="4" OffsetHex="00000C5C" DisplayMethod="unsigned integer"/>
+        <Element Offset="3168" Vartype="4 Bytes" Bytesize="4" RLECount="188" OffsetHex="00000C60" DisplayMethod="hexadecimal"/>
+        <Element Offset="3920" Vartype="Pointer" Bytesize="8" OffsetHex="00000F50" DisplayMethod="unsigned integer"/>
+        <Element Offset="3928" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000F58" DisplayMethod="unsigned integer"/>
+        <Element Offset="3960" Vartype="4 Bytes" Bytesize="4" RLECount="23" OffsetHex="00000F78" DisplayMethod="hexadecimal"/>
+        <Element Offset="4052" Vartype="Float" Bytesize="4" OffsetHex="00000FD4" DisplayMethod="unsigned integer"/>
+        <Element Offset="4056" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000FD8" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Pointer" Bytesize="8" OffsetHex="00000000" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="Pointer" Bytesize="8" OffsetHex="00000008" Description="Pointer to instance of World" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000010" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="Pointer" Bytesize="8" OffsetHex="00000018" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000020" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="Pointer" Bytesize="8" OffsetHex="00000028" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000030" Description="Pointer to instance of TRIBE_Object_List" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000048" DisplayMethod="unsigned integer"/>
+        <Element Offset="104" Vartype="Pointer" Bytesize="8" OffsetHex="00000068" Description="Pointer to instance of TRIBE_Victory_Conditions" DisplayMethod="unsigned integer"/>
+        <Element Offset="112" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000070" DisplayMethod="unsigned integer"/>
+        <Element Offset="136" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000088" DisplayMethod="unsigned integer"/>
+        <Element Offset="152" Vartype="4 Bytes" Bytesize="4" RLECount="19" OffsetHex="00000098" DisplayMethod="hexadecimal"/>
+        <Element Offset="228" Vartype="String" Bytesize="4" OffsetHex="000000E4" DisplayMethod="unsigned integer"/>
+        <Element Offset="232" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000000E8" DisplayMethod="hexadecimal"/>
+        <Element Offset="240" Vartype="Pointer" Bytesize="8" OffsetHex="000000F0" DisplayMethod="unsigned integer"/>
+        <Element Offset="248" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000000F8" DisplayMethod="hexadecimal"/>
+        <Element Offset="256" Vartype="String" Bytesize="4" OffsetHex="00000100" DisplayMethod="unsigned integer"/>
+        <Element Offset="260" Vartype="Float" Bytesize="4" OffsetHex="00000104" DisplayMethod="unsigned integer"/>
+        <Element Offset="264" Vartype="4 Bytes" Bytesize="4" RLECount="19" OffsetHex="00000108" DisplayMethod="hexadecimal"/>
+        <Element Offset="340" Vartype="Float" Bytesize="4" OffsetHex="00000154" DisplayMethod="unsigned integer"/>
+        <Element Offset="344" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000158" DisplayMethod="hexadecimal"/>
+        <Element Offset="360" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000168" DisplayMethod="unsigned integer"/>
+        <Element Offset="392" Vartype="Pointer" Bytesize="8" OffsetHex="00000188" DisplayMethod="unsigned integer"/>
+        <Element Offset="400" Vartype="4 Bytes" Bytesize="4" RLECount="16" OffsetHex="00000190" DisplayMethod="unsigned integer"/>
+        <Element Offset="464" Vartype="Pointer" Bytesize="8" OffsetHex="000001D0" DisplayMethod="unsigned integer"/>
+        <Element Offset="472" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="000001D8" DisplayMethod="unsigned integer"/>
+        <Element Offset="504" Vartype="Pointer" Bytesize="8" OffsetHex="000001F8" DisplayMethod="unsigned integer"/>
+        <Element Offset="512" Vartype="4 Bytes" Bytesize="4" RLECount="16" OffsetHex="00000200" DisplayMethod="unsigned integer"/>
+        <Element Offset="576" Vartype="Pointer" Bytesize="8" RLECount="4" OffsetHex="00000240" DisplayMethod="unsigned integer"/>
+        <Element Offset="608" Vartype="4 Bytes" Bytesize="4" RLECount="12" OffsetHex="00000260" DisplayMethod="unsigned integer"/>
+        <Element Offset="656" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000290" DisplayMethod="hexadecimal"/>
+        <Element Offset="660" Vartype="4 Bytes" Bytesize="4" RLECount="15" OffsetHex="00000294" DisplayMethod="unsigned integer"/>
+        <Element Offset="720" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="000002D0" DisplayMethod="unsigned integer"/>
+        <Element Offset="736" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000002E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="744" Vartype="Pointer" Bytesize="8" OffsetHex="000002E8" DisplayMethod="unsigned integer"/>
+        <Element Offset="752" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="000002F0" DisplayMethod="unsigned integer"/>
+        <Element Offset="760" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002F8" DisplayMethod="hexadecimal"/>
+        <Element Offset="764" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002FC" DisplayMethod="unsigned integer"/>
+        <Element Offset="768" Vartype="Pointer" Bytesize="8" OffsetHex="00000300" Description="Pointer to instance of std::_Ref_count_obj2&lt;Result::FailureDescription&gt;" DisplayMethod="unsigned integer"/>
+        <Element Offset="776" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000308" DisplayMethod="unsigned integer"/>
+        <Element Offset="788" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000314" DisplayMethod="hexadecimal"/>
+        <Element Offset="812" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000032C" DisplayMethod="unsigned integer"/>
+        <Element Offset="816" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000330" DisplayMethod="hexadecimal"/>
+        <Element Offset="824" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000338" DisplayMethod="unsigned integer"/>
+        <Element Offset="836" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000344" DisplayMethod="hexadecimal"/>
+        <Element Offset="840" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000348" DisplayMethod="unsigned integer"/>
+        <Element Offset="848" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000350" DisplayMethod="unsigned integer"/>
+        <Element Offset="872" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000368" Description="Pointer to instance of TRIBE_Combat_Object" DisplayMethod="unsigned integer"/>
+        <Element Offset="888" Vartype="4 Bytes" Bytesize="4" RLECount="154" OffsetHex="00000378" DisplayMethod="unsigned integer"/>
+        <Element Offset="1504" Vartype="Pointer" Bytesize="8" OffsetHex="000005E0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1512" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="000005E8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1556" Vartype="Float" Bytesize="4" OffsetHex="00000614" DisplayMethod="unsigned integer"/>
+        <Element Offset="1560" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000618" DisplayMethod="hexadecimal"/>
+        <Element Offset="1564" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="0000061C" DisplayMethod="unsigned integer"/>
+        <Element Offset="1576" Vartype="Pointer" Bytesize="8" OffsetHex="00000628" DisplayMethod="unsigned integer"/>
+        <Element Offset="1584" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000630" DisplayMethod="unsigned integer"/>
+        <Element Offset="1616" Vartype="Pointer" Bytesize="8" OffsetHex="00000650" DisplayMethod="unsigned integer"/>
+        <Element Offset="1624" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000658" DisplayMethod="unsigned integer"/>
+        <Element Offset="1664" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000680" DisplayMethod="hexadecimal"/>
+        <Element Offset="1668" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000684" DisplayMethod="unsigned integer"/>
+        <Element Offset="1684" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000694" DisplayMethod="hexadecimal"/>
+        <Element Offset="1688" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000698" DisplayMethod="unsigned integer"/>
+        <Element Offset="1696" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006A0" DisplayMethod="hexadecimal"/>
+        <Element Offset="1700" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="000006A4" DisplayMethod="unsigned integer"/>
+        <Element Offset="1720" Vartype="Double" Bytesize="8" OffsetHex="000006B8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1728" Vartype="4 Bytes" Bytesize="4" RLECount="13" OffsetHex="000006C0" DisplayMethod="unsigned integer"/>
+        <Element Offset="1780" Vartype="Float" Bytesize="4" OffsetHex="000006F4" DisplayMethod="unsigned integer"/>
+        <Element Offset="1784" Vartype="Pointer" Bytesize="8" OffsetHex="000006F8" DisplayMethod="unsigned integer"/>
+        <Element Offset="1792" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000700" DisplayMethod="unsigned integer"/>
+        <Element Offset="1832" Vartype="Pointer" Bytesize="8" OffsetHex="00000728" Description="Pointer to instance of TRIBE_Master_Player" DisplayMethod="unsigned integer"/>
+        <Element Offset="1840" Vartype="Pointer" Bytesize="8" OffsetHex="00000730" Description="Pointer to instance of Civilization" DisplayMethod="unsigned integer"/>
+        <Element Offset="1848" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000738" DisplayMethod="unsigned integer"/>
+        <Element Offset="1880" Vartype="Pointer" Bytesize="8" OffsetHex="00000758" DisplayMethod="unsigned integer"/>
+        <Element Offset="1888" Vartype="4 Bytes" Bytesize="4" RLECount="14" OffsetHex="00000760" DisplayMethod="unsigned integer"/>
+        <Element Offset="1944" Vartype="Double" Bytesize="8" OffsetHex="00000798" DisplayMethod="unsigned integer"/>
+        <Element Offset="1952" Vartype="4 Bytes" Bytesize="4" RLECount="385" OffsetHex="000007A0" DisplayMethod="unsigned integer"/>
+        <Element Offset="3492" Vartype="Double" Bytesize="8" OffsetHex="00000DA4" DisplayMethod="unsigned integer"/>
+        <Element Offset="3500" Vartype="Float" Bytesize="4" OffsetHex="00000DAC" DisplayMethod="unsigned integer"/>
+        <Element Offset="3504" Vartype="Pointer" Bytesize="8" OffsetHex="00000DB0" DisplayMethod="unsigned integer"/>
+        <Element Offset="3512" Vartype="4 Bytes" Bytesize="4" RLECount="18" OffsetHex="00000DB8" DisplayMethod="unsigned integer"/>
+        <Element Offset="3584" Vartype="Pointer" Bytesize="8" OffsetHex="00000E00" DisplayMethod="unsigned integer"/>
+        <Element Offset="3592" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000E08" DisplayMethod="hexadecimal"/>
+        <Element Offset="3600" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E10" DisplayMethod="unsigned integer"/>
+        <Element Offset="3604" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E14" DisplayMethod="hexadecimal"/>
+        <Element Offset="3608" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E18" DisplayMethod="unsigned integer"/>
+        <Element Offset="3612" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E1C" DisplayMethod="hexadecimal"/>
+        <Element Offset="3616" Vartype="4 Bytes" Bytesize="4" RLECount="120" OffsetHex="00000E20" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+  </Structures>
   <Comments>INJECT: GetSystemTimeAsFileTime
 </Comments>
   <DisassemblerComments>
