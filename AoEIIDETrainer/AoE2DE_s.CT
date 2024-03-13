@@ -5,10 +5,11 @@
       <ID>44</ID>
       <Description>"初始化"</Description>
       <Options moHideChildren="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2024-02-28
+  Date   : 2024-03-13
   Author : 94817
 
   This script does blah blah blah
@@ -19,7 +20,7 @@
 aobscanmodule(TechCallAddrBase,AoE2DE_s.exe,48 33 C4 48 89 85 30 02 00 00 45)
 define(TechCallAddr,TechCallAddrBase-2E)
 
-aobscanmodule(INJECT,gameoverlayrenderer64.dll,F7 44 8B C5 8B D6) // should be unique
+aobscanmodule(INJECT,gameoverlayrenderer64.dll,0F 57 C9 F2 0F 5A C8 F3 0F 11 8B) // should be unique
 alloc(newmem,$1000,INJECT)
 alloc(Param,$20,INJECT)
 
@@ -105,20 +106,21 @@ tech:
   mov qword ptr ds:[TechParam],0
 
 code:
-  mov r8d,ebp
-  mov edx,esi
+  xorps xmm1,xmm1
+  cvtsd2ss xmm1,xmm0
   jmp return
 
-INJECT+01:
+INJECT:
   jmp newmem
+  nop 2
 return:
 registersymbol(INJECT)
 registersymbol(Param)
 
 [DISABLE]
 
-INJECT+01:
-  db 44 8B C5 8B D6
+INJECT:
+  db 0F 57 C9 F2 0F 5A C8
 
 unregistersymbol(Param)
 dealloc(Param)
@@ -126,31 +128,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: gameoverlayrenderer64.dll+8B706
+// ORIGINAL CODE - INJECTION POINT: gameoverlayrenderer64.SteamOverlayIsUsingMouse+F564
 
-gameoverlayrenderer64.dll+8B6EC: 85 F6                 - test esi,esi
-gameoverlayrenderer64.dll+8B6EE: 0F 95 C0              - setne al
-gameoverlayrenderer64.dll+8B6F1: 88 47 6D              - mov [rdi+6D],al
-gameoverlayrenderer64.dll+8B6F4: 48 85 DB              - test rbx,rbx
-gameoverlayrenderer64.dll+8B6F7: 74 08                 - je gameoverlayrenderer64.dll+8B701
-gameoverlayrenderer64.dll+8B6F9: 85 F6                 - test esi,esi
-gameoverlayrenderer64.dll+8B6FB: 0F 95 C0              - setne al
-gameoverlayrenderer64.dll+8B6FE: 88 43 6D              - mov [rbx+6D],al
-gameoverlayrenderer64.dll+8B701: 33 F6                 - xor esi,esi
-gameoverlayrenderer64.dll+8B703: 83 E5 F7              - and ebp,-09
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F543: 56                       - push rsi
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F544: 57                       - push rdi
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F545: 41 54                    - push r12
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F547: 41 55                    - push r13
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F549: 41 56                    - push r14
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F54B: 41 57                    - push r15
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F54D: 48 8D AC 24 18 F9 FF FF  - lea rbp,[rsp-000006E8]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F555: 48 81 EC E8 07 00 00     - sub rsp,000007E8
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F55C: 48 8B D9                 - mov rbx,rcx
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F55F: E8 CC 9D FF FF           - call gameoverlayrenderer64.SteamOverlayIsUsingMouse+9330
 // ---------- INJECTING HERE ----------
-gameoverlayrenderer64.dll+8B706: 44 8B C5              - mov r8d,ebp
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F564: 0F 57 C9                 - xorps xmm1,xmm1
 // ---------- DONE INJECTING  ----------
-gameoverlayrenderer64.dll+8B709: 8B D6                 - mov edx,esi
-gameoverlayrenderer64.dll+8B70B: 49 8B CE              - mov rcx,r14
-gameoverlayrenderer64.dll+8B70E: FF 15 2C BF 0B 00     - call qword ptr [gameoverlayrenderer64.dll+147640]
-gameoverlayrenderer64.dll+8B714: 8B F0                 - mov esi,eax
-gameoverlayrenderer64.dll+8B716: 48 85 FF              - test rdi,rdi
-gameoverlayrenderer64.dll+8B719: 74 2A                 - je gameoverlayrenderer64.dll+8B745
-gameoverlayrenderer64.dll+8B71B: 48 8B 97 50 01 00 00  - mov rdx,[rdi+00000150]
-gameoverlayrenderer64.dll+8B722: 48 85 D2              - test rdx,rdx
-gameoverlayrenderer64.dll+8B725: 74 1E                 - je gameoverlayrenderer64.dll+8B745
-gameoverlayrenderer64.dll+8B727: 80 7F 6B 00           - cmp byte ptr [rdi+6B],00
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F567: F2 0F 5A C8              - cvtsd2ss xmm1,xmm0
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F56B: F3 0F 11 8B AC 00 00 00  - movss [rbx+000000AC],xmm1
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F573: 48 8B 05 9E 1C 0C 00     - mov rax,[gameoverlayrenderer64.dll+172378]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57A: 48 85 C0                 - test rax,rax
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57D: 74 2B                    - je gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57F: 48 3B C3                 - cmp rax,rbx
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F582: 74 26                    - je gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F584: F3 0F 5C 0D 98 1C 0C 00  - subss xmm1,[gameoverlayrenderer64.dll+172384]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F58C: 0F 2F 0D C9 CB 05 00     - comiss xmm1,[gameoverlayrenderer64.dll+10D2BC]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - jae gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
 }
 </AssemblerScript>
       <Hotkeys>
@@ -245,41 +247,49 @@ gameoverlayrenderer64.dll+8B727: 80 7F 6B 00           - cmp byte ptr [rdi+6B],0
       <ID>55</ID>
       <Description>"热键说明"</Description>
       <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>60</ID>
           <Description>"Insert键激活/取消脚本"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>56</ID>
           <Description>"数字键1：精锐皇家骑士"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>57</ID>
           <Description>"数字键2：精锐条顿骑士"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>58</ID>
           <Description>"数字键3：精锐蒙古突骑"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>59</ID>
           <Description>"数字键4：精锐长弓兵"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>71</ID>
           <Description>"Ctrl+Alt+数字键1：研究反曲弓科技"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>72</ID>
           <Description>"Ctrl+Alt+数字键2：研究突厥骑射科技"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
       </CheatEntries>
@@ -288,11 +298,13 @@ gameoverlayrenderer64.dll+8B727: 80 7F 6B 00           - cmp byte ptr [rdi+6B],0
       <ID>74</ID>
       <Description>"修改备份"</Description>
       <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>54</ID>
           <Description>"单位触发Call备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -363,6 +375,7 @@ AoE2DE_s.exe+166B0C9: 85 C0              - test eax,eax
         <CheatEntry>
           <ID>63</ID>
           <Description>"科技触发Call备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -432,6 +445,7 @@ AoE2DE_s.exe+166AA52: 8B 56 38              - mov edx,[rsi+38]
         <CheatEntry>
           <ID>77</ID>
           <Description>"访问玩家备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -501,6 +515,7 @@ AoE2DE_s.exe+AC61A1: E8 DA DA CB FF                    - call AoE2DE_s.exe+783C8
         <CheatEntry>
           <ID>69</ID>
           <Description>"玩家基址备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -571,6 +586,7 @@ AoE2DE_s.exe+175BCA3: 84 C0                    - test al,al
         <CheatEntry>
           <ID>67</ID>
           <Description>"屏幕位置备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -641,6 +657,7 @@ AoE2DE_s.exe+AD5BF4: 48 8B CB                 - mov rcx,rbx
         <CheatEntry>
           <ID>83</ID>
           <Description>"Max Population"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
@@ -711,6 +728,7 @@ AoE2DE_s.exe+1337D3F: 48 89 45 C0           - mov [rbp-40],rax
             <CheatEntry>
               <ID>84</ID>
               <Description>"Edit Population"</Description>
+              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
