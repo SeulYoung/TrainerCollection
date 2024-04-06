@@ -5,34 +5,35 @@
       <ID>7</ID>
       <Description>"初始化"</Description>
       <Options moHideChildren="1"/>
-      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
 }
 
 [ENABLE]
-aobscanmodule(GetLocalPlayerBase,RelicCardinal.exe,48 83 39 00 48 8B DA 48 8B F9 74 5E)
-define(GetLocalPlayer,GetLocalPlayerBase-1E)
+aobscanmodule(GetLocalPlayerBase,RelicCardinal.exe,E8 ? ? ? ? CC 48 8B ? ? ? ? ? 48 8B 89 18 03 00 00 E9 ? ? ? ? CC)
+define(GetLocalPlayer,GetLocalPlayerBase+6)
 
 aobscanmodule(GetSquadBlueprintBase,RelicCardinal.exe,4C 8D 44 24 20 BA 00 00 2E)
 define(GetSquadBlueprint,GetSquadBlueprintBase-35)
 
 aobscanmodule(CreateCache,RelicCardinal.exe,4C 63 C2 48 8B D1 48 8B)
-aobscanmodule(PrecacheBase,RelicCardinal.exe,40 5B C3 CC 48 83 EC 48 48 8B 44 24 78)
-define(Precache,PrecacheBase+04)
+aobscanmodule(PrecacheBase,RelicCardinal.exe,28 C3 48 83 EC 48 48 8B 44 24 78)
+define(Precache,PrecacheBase+02)
 
-aobscanmodule(CreateUnitBase,RelicCardinal.exe,28 C3 4C 8B DC 48 83 EC 68)
-define(CreateUnit,CreateUnitBase+02)
+aobscanmodule(CreateUnitBase,RelicCardinal.exe,CC 4C 8B DC 48 83 EC 68 48 8B 41 08 49 8D 4B E8 49)
+define(CreateUnit,CreateUnitBase+01)
 
-define(GetUpgradeBlueprint,RelicCardinal.exe+D71400)
+aobscanmodule(GetUpgradeBlueprintBase,RelicCardinal.exe,4C 8D 44 24 20 BA 00 00 34)
+define(GetUpgradeBlueprint,GetUpgradeBlueprintBase-35)
+
 aobscanmodule(UpgradeTech,RelicCardinal.exe,40 55 48 8B EC 48 81 EC 80 00 00 00 45)
 
-aobscanmodule(INJECT,RelicCardinal.exe,10 48 2B 18 48 8B 46 18 48 83 EB 10 48 C1 FB 04 FF D0 48 63 C8 48 8B 47 10) // should be unique
+aobscanmodule(INJECT,gameoverlayrenderer64.dll,0F 57 C9 F2 0F 5A C8 F3 0F 11 8B) // should be unique
 alloc(newmem,$1000,INJECT)
 alloc(param,$C0,INJECT)
 
@@ -42,7 +43,7 @@ define(Player,param+88)
 define(CacheName,param+90)
 define(PrecacheSource,param+98)
 define(PrecacheId,param+A0)
-define(Pos,RelicCardinal.exe+79C41C0)
+define(PosBase,RelicCardinal.exe+07B82BD8)
 
 label(unit)
 label(tech)
@@ -63,72 +64,58 @@ unit:
   push r8
   push r9
   push r10
+  // [gs:[58]]+28, TLS Var
+  mov rax,gs:[58]
+  mov rax,[rax]
+  mov [rax+28],0
+  // GetLocalPlayer
+  sub rsp,28
+  call GetLocalPlayer
+  mov [Player],rax
   // GetSquadBlueprint
-  sub rsp,38
+  sub rsp,40
   lea rcx,[rsp+20]
   lea rdx,[unitParam]
   call GetSquadBlueprint
   mov rdi,rax
-  // GetLocalPlayer
-  sub rsp,20
-  call GetLocalPlayer
-  mov [Player],rax
   // CreateCache
   sub rsp,20
-  mov edx,6
-  mov rcx,0000000074696E75
-  mov [CacheName],rcx // "unit" (ASCII CODE)
+  mov [CacheName],0000000074696E75 // "unit" (ASCII CODE)
   lea rcx,[CacheName]
-  mov rbx,2
+  mov rdx,6
   call CreateCache
   // Precache
   sub rsp,40
   mov rcx,rdi
-  mov edx,1
+  mov rdx,1
   mov r8,[Player]
   lea r9,[CacheName]
-  mov rbx,0000007461656863
-  mov [PrecacheSource],rbx // "cheat" (ASCII CODE)
+  mov [PrecacheSource],0000007461656863 // "cheat" (ASCII CODE)
   lea rbx,[PrecacheSource]
-  mov [rsp+28],rbx
-  mov [PrecacheId],1
+  mov [rsp+20],rbx
+  mov [PrecacheId],31
   lea rbx,[PrecacheId]
-  mov [rsp+30],rbx
-  mov rbx,6
+  mov [rsp+28],rbx
   call Precache
   // CreateUnit
-  lea rbp,[rsp-7]
-  sub rsp,60
-  mov rdx,[Player] // rdx, player
-  lea r9,qword ptr ss:[rbp-19]
-  lea rcx,qword ptr ss:[rbp-9]
-  mov rax,[rdi+8] // unit
+  sub rsp,40
+  mov r9,PosBase
+  mov r9,[r9]
+  mov r9,[r9+28]
+  mov r9,[r9+20]
+  mov r9,[r9]
+  mov r9,[r9+8]
+  lea r9,[r9+84] // Pos
+  mov rcx,rdi
+  mov rdx,[Player]
   mov r8,0
-  mov qword ptr ss:[rbp-1],rax
-  mov r10,[Pos]
-  mov r10,[r10+10]
-  mov r10,[r10+10]
-  mov r10,[r10]
-  mov r10,[r10+8]
-  mov r10,[r10+8]
-  lea r10,[r10+84]
-  mov eax,[r10+8]
-  mov dword ptr ss:[rbp-11],eax // pos
-  mov r10,[r10]
-  mov qword ptr ss:[rbp-19],r10 // r9
-  mov dword ptr ss:[rbp-21],0
-  mov qword ptr ss:[rbp-29],0
-  lea rax,qword ptr ss:[rbp-29]
-  mov qword ptr ss:[rsp+20],rax // 5th param
-  mov rbx,5
-  mov r10,[rdi]
-  mov qword ptr ss:[rbp-9],r10 // rcx
+  mov [rsp+20],r9
   call CreateUnit
-  add rsp,60
+  add rsp,40
   add rsp,40
   add rsp,20
-  add rsp,20
-  add rsp,38
+  add rsp,40
+  add rsp,28
   pop r10
   pop r9
   pop r8
@@ -152,32 +139,30 @@ tech:
   push r8
   push r9
   push r10
+  // [gs:[58]]+28, TLS Var
+  mov rax,gs:[58]
+  mov rax,[rax]
+  mov [rax+28],0
+  // GetLocalPlayer
+  sub rsp,28
+  call GetLocalPlayer
+  mov [Player],rax
   // GetUpgradeBlueprint
-  sub rsp,38
+  sub rsp,40
   lea rcx,[rsp+20]
   lea rdx,[techParam]
   call GetUpgradeBlueprint
   mov rdi,rax
-  // GetLocalPlayer
-  sub rsp,20
-  call GetLocalPlayer
-  mov [Player],rax
   // PlayerUpgrade
-  mov rbp,rsp
-  sub rsp,60
-  lea rdx,qword ptr ss:[rbp-30]
-  mov r9,0
+  sub rsp,30
   mov r8,1
-  mov rax,[rdi+8]
+  mov r9,0
   mov rcx,[Player]
-  mov rbx,4
-  mov qword ptr ss:[rbp-28],rax
-  mov rax,[rdi]
-  mov qword ptr ss:[rbp-30],rax
+  mov rdx,rdi
   call UpgradeTech
-  add rsp,60
-  add rsp,20
-  add rsp,38
+  add rsp,30
+  add rsp,40
+  add rsp,28
   pop r10
   pop r9
   pop r8
@@ -190,11 +175,11 @@ tech:
   mov dword ptr ds:[techParam],0
 
 code:
-  movsxd  rcx,eax
-  mov rax,[rdi+10]
+  xorps xmm1,xmm1
+  cvtsd2ss xmm1,xmm0
   jmp return
 
-INJECT+12:
+INJECT:
   jmp newmem
   nop 2
 return:
@@ -203,8 +188,8 @@ registersymbol(param)
 
 [DISABLE]
 
-INJECT+12:
-  db 48 63 C8 48 8B 47 10
+INJECT:
+  db 0F 57 C9 F2 0F 5A C8
 
 unregistersymbol(INJECT)
 dealloc(newmem)
@@ -212,31 +197,31 @@ unregistersymbol(param)
 dealloc(param)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+FCAEF2
+// ORIGINAL CODE - INJECTION POINT: gameoverlayrenderer64.SteamOverlayIsUsingMouse+F564
 
-RelicCardinal.exe+FCAECB: 48 8B 4C 24 58        - mov rcx,[rsp+58]
-RelicCardinal.exe+FCAED0: 48 85 C9              - test rcx,rcx
-RelicCardinal.exe+FCAED3: 0F 84 50 F3 38 02     - je RelicCardinal.exe+335A229
-RelicCardinal.exe+FCAED9: 48 8B 47 20           - mov rax,[rdi+20]
-RelicCardinal.exe+FCAEDD: 48 8B 5F 10           - mov rbx,[rdi+10]
-RelicCardinal.exe+FCAEE1: 48 2B 18              - sub rbx,[rax]
-RelicCardinal.exe+FCAEE4: 48 8B 46 18           - mov rax,[rsi+18]
-RelicCardinal.exe+FCAEE8: 48 83 EB 10           - sub rbx,10
-RelicCardinal.exe+FCAEEC: 48 C1 FB 04           - sar rbx,04
-RelicCardinal.exe+FCAEF0: FF D0                 - call rax
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F543: 56                       - push rsi
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F544: 57                       - push rdi
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F545: 41 54                    - push r12
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F547: 41 55                    - push r13
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F549: 41 56                    - push r14
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F54B: 41 57                    - push r15
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F54D: 48 8D AC 24 18 F9 FF FF  - lea rbp,[rsp-000006E8]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F555: 48 81 EC E8 07 00 00     - sub rsp,000007E8
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F55C: 48 8B D9                 - mov rbx,rcx
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F55F: E8 CC 9D FF FF           - call gameoverlayrenderer64.SteamOverlayIsUsingMouse+9330
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+FCAEF2: 48 63 C8              - movsxd  rcx,eax
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F564: 0F 57 C9                 - xorps xmm1,xmm1
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+FCAEF5: 48 8B 47 10           - mov rax,[rdi+10]
-RelicCardinal.exe+FCAEF9: 48 89 08              - mov [rax],rcx
-RelicCardinal.exe+FCAEFC: C7 40 08 13 00 00 00  - mov [rax+08],00000013
-RelicCardinal.exe+FCAF03: 48 83 47 10 10        - add qword ptr [rdi+10],10
-RelicCardinal.exe+FCAF08: 48 8B 47 20           - mov rax,[rdi+20]
-RelicCardinal.exe+FCAF0C: 48 8B 4F 10           - mov rcx,[rdi+10]
-RelicCardinal.exe+FCAF10: 48 2B 08              - sub rcx,[rax]
-RelicCardinal.exe+FCAF13: 8D 43 01              - lea eax,[rbx+01]
-RelicCardinal.exe+FCAF16: 48 83 E9 10           - sub rcx,10
-RelicCardinal.exe+FCAF1A: 48 C1 F9 04           - sar rcx,04
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F567: F2 0F 5A C8              - cvtsd2ss xmm1,xmm0
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F56B: F3 0F 11 8B AC 00 00 00  - movss [rbx+000000AC],xmm1
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F573: 48 8B 05 9E 1C 0C 00     - mov rax,[gameoverlayrenderer64.dll+172378]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57A: 48 85 C0                 - test rax,rax
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57D: 74 2B                    - je gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57F: 48 3B C3                 - cmp rax,rbx
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F582: 74 26                    - je gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F584: F3 0F 5C 0D 98 1C 0C 00  - subss xmm1,[gameoverlayrenderer64.dll+172384]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F58C: 0F 2F 0D C9 CB 05 00     - comiss xmm1,[gameoverlayrenderer64.dll+10D2BC]
+gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - jae gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
 }
 </AssemblerScript>
       <Hotkeys>
@@ -362,31 +347,26 @@ RelicCardinal.exe+FCAF1A: 48 C1 F9 04           - sar rcx,04
       <ID>8</ID>
       <Description>"热键说明"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>16</ID>
           <Description>"Num1：骑士"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>26</ID>
           <Description>"Num2：火枪塔象"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>25</ID>
           <Description>"Num3：战象"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>22</ID>
           <Description>"Ctrl+Alt+Num1-5：象科技"</Description>
-          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
       </CheatEntries>
@@ -395,25 +375,23 @@ RelicCardinal.exe+FCAF1A: 48 C1 F9 04           - sar rcx,04
       <ID>9</ID>
       <Description>"备份（无用）"</Description>
       <Options moHideChildren="1"/>
-      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>27</ID>
           <Description>"GetLocalPlayer"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
 }
 
 [ENABLE]
-
-aobscanmodule(INJECT,RelicCardinal.exe,48 83 39 00 48 8B DA 48 8B F9 74 5E) // should be unique
+E8 ? ? ? ? CC 48 8B ? ? ? ? ? 48 8B 89 18 03 00 00 E9 ? ? ? ? CC
+aobscanmodule(INJECT,RelicCardinal.exe,48 8B 0D E1 F3 DF 06) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -422,8 +400,7 @@ label(return)
 newmem:
 
 code:
-  cmp qword ptr [rcx],00
-  mov rbx,rdx
+  mov rcx,[RelicCardinal.exe+7B829F0]
   jmp return
 
 INJECT:
@@ -435,56 +412,55 @@ registersymbol(INJECT)
 [DISABLE]
 
 INJECT:
-  db 48 83 39 00 48 8B DA
+  db 48 8B 0D E1 F3 DF 06
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+570EC6
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+D83608
 
-RelicCardinal.exe+570EA5: C3                    - ret
-RelicCardinal.exe+570EA6: CC                    - int 3
-RelicCardinal.exe+570EA7: CC                    - int 3
-RelicCardinal.exe+570EA8: 48 8B 0D 71 EF 44 07  - mov rcx,[RelicCardinal.exe+79BFE20]
-RelicCardinal.exe+570EAF: 48 8B 89 30 02 00 00  - mov rcx,[rcx+00000230]
-RelicCardinal.exe+570EB6: E9 79 5A 40 00        - jmp RelicCardinal.exe+976934
-RelicCardinal.exe+570EBB: CC                    - int 3
-RelicCardinal.exe+570EBC: 48 89 5C 24 08        - mov [rsp+08],rbx
-RelicCardinal.exe+570EC1: 57                    - push rdi
-RelicCardinal.exe+570EC2: 48 83 EC 20           - sub rsp,20
+RelicCardinal.exe+D835E4: 75 15                 - jne RelicCardinal.exe+D835FB
+RelicCardinal.exe+D835E6: B8 01 00 00 00        - mov eax,00000001
+RelicCardinal.exe+D835EB: 48 8B 5C 24 48        - mov rbx,[rsp+48]
+RelicCardinal.exe+D835F0: 48 8B 74 24 50        - mov rsi,[rsp+50]
+RelicCardinal.exe+D835F5: 48 83 C4 30           - add rsp,30
+RelicCardinal.exe+D835F9: 5F                    - pop rdi
+RelicCardinal.exe+D835FA: C3                    - ret
+RelicCardinal.exe+D835FB: 48 8D 0D 56 BC EB 04  - lea rcx,[RelicCardinal.exe+5C3F258]
+RelicCardinal.exe+D83602: E8 21 3D 4D 02        - call RelicCardinal.exe+3257328
+RelicCardinal.exe+D83607: CC                    - int 3
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+570EC6: 48 83 39 00           - cmp qword ptr [rcx],00
+RelicCardinal.exe+D83608: 48 8B 0D E1 F3 DF 06  - mov rcx,[RelicCardinal.exe+7B829F0]
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+570ECA: 48 8B DA              - mov rbx,rdx
-RelicCardinal.exe+570ECD: 48 8B F9              - mov rdi,rcx
-RelicCardinal.exe+570ED0: 74 5E                 - je RelicCardinal.exe+570F30
-RelicCardinal.exe+570ED2: 45 33 C0              - xor r8d,r8d
-RelicCardinal.exe+570ED5: 33 D2                 - xor edx,edx
-RelicCardinal.exe+570ED7: 48 8B CB              - mov rcx,rbx
-RelicCardinal.exe+570EDA: E8 C9 D6 08 00        - call RelicCardinal.exe+5FE5A8
-RelicCardinal.exe+570EDF: 41 B8 72 79 6C 70     - mov r8d,706C7972
-RelicCardinal.exe+570EE5: 83 CA FF              - or edx,-01
-RelicCardinal.exe+570EE8: 48 8B CB              - mov rcx,rbx
+RelicCardinal.exe+D8360F: 48 8B 89 18 03 00 00  - mov rcx,[rcx+00000318]
+RelicCardinal.exe+D83616: E9 45 1B A9 FF        - jmp RelicCardinal.exe+815160
+RelicCardinal.exe+D8361B: CC                    - int 3
+RelicCardinal.exe+D8361C: 48 89 5C 24 08        - mov [rsp+08],rbx
+RelicCardinal.exe+D83621: 57                    - push rdi
+RelicCardinal.exe+D83622: 48 83 EC 20           - sub rsp,20
+RelicCardinal.exe+D83626: 48 83 39 00           - cmp qword ptr [rcx],00
+RelicCardinal.exe+D8362A: 48 8B DA              - mov rbx,rdx
+RelicCardinal.exe+D8362D: 48 8B F9              - mov rdi,rcx
+RelicCardinal.exe+D83630: 74 5E                 - je RelicCardinal.exe+D83690
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>10</ID>
           <Description>"SBP CALL"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
 }
 
 [ENABLE]
-
-aobscanmodule(INJECT,RelicCardinal.exe,4C 8D 44 24 20 BA 00 00 2E) // should be unique
+4C 8D 44 24 20 BA 00 00 2E
+aobscanmodule(INJECT,RelicCardinal.exe,ERROR: Could not find unique AOB, tried code "40 53 48 83 EC 20") // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -493,59 +469,60 @@ label(return)
 newmem:
 
 code:
-  lea r8,[rsp+20]
+  push rbx
+  sub rsp,20
   jmp return
 
 INJECT:
   jmp newmem
+  nop
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
 INJECT:
-  db 4C 8D 44 24 20
+  db 40 53 48 83 EC 20
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+8EC175
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+6F6A48
 
-RelicCardinal.exe+8EC151: 48 83 C4 20           - add rsp,20
-RelicCardinal.exe+8EC155: 5B                    - pop rbx
-RelicCardinal.exe+8EC156: C3                    - ret
-RelicCardinal.exe+8EC157: CC                    - int 3
-RelicCardinal.exe+8EC158: 40 53                 - push rbx
-RelicCardinal.exe+8EC15A: 48 81 EC 30 01 00 00  - sub rsp,00000130
-RelicCardinal.exe+8EC161: 48 8B D9              - mov rbx,rcx
-RelicCardinal.exe+8EC164: 48 8D 4C 24 20        - lea rcx,[rsp+20]
-RelicCardinal.exe+8EC169: E8 06 0E 00 00        - call RelicCardinal.exe+8ECF74
-RelicCardinal.exe+8EC16E: 48 8B 0D DB 1A 0D 07  - mov rcx,[RelicCardinal.exe+79BDC50]
+RelicCardinal.exe+6F6A24: 48 C1 F9 04           - sar rcx,04
+RelicCardinal.exe+6F6A28: 8D 47 01              - lea eax,[rdi+01]
+RelicCardinal.exe+6F6A2B: 3B C1                 - cmp eax,ecx
+RelicCardinal.exe+6F6A2D: 0F 85 99 ED F5 02     - jne RelicCardinal.exe+36557CC
+RelicCardinal.exe+6F6A33: B8 01 00 00 00        - mov eax,00000001
+RelicCardinal.exe+6F6A38: 48 8B 5C 24 58        - mov rbx,[rsp+58]
+RelicCardinal.exe+6F6A3D: 48 8B 74 24 60        - mov rsi,[rsp+60]
+RelicCardinal.exe+6F6A42: 48 83 C4 40           - add rsp,40
+RelicCardinal.exe+6F6A46: 5F                    - pop rdi
+RelicCardinal.exe+6F6A47: C3                    - ret
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+8EC175: 4C 8D 44 24 20        - lea r8,[rsp+20]
+RelicCardinal.exe+6F6A48: 40 53                 - push rbx
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+8EC17A: BA 00 00 2E 00        - mov edx,002E0000
-RelicCardinal.exe+8EC17F: E8 60 92 BF FF        - call RelicCardinal.exe+4E53E4
-RelicCardinal.exe+8EC184: 48 85 C0              - test rax,rax
-RelicCardinal.exe+8EC187: 0F 84 8D 09 97 02     - je RelicCardinal.exe+325CB1A
-RelicCardinal.exe+8EC18D: 8B 50 68              - mov edx,[rax+68]
-RelicCardinal.exe+8EC190: B9 FF FF FF 7F        - mov ecx,7FFFFFFF
-RelicCardinal.exe+8EC195: 2B D1                 - sub edx,ecx
-RelicCardinal.exe+8EC197: 3B D1                 - cmp edx,ecx
-RelicCardinal.exe+8EC199: 0F 86 7B 09 97 02     - jbe RelicCardinal.exe+325CB1A
-RelicCardinal.exe+8EC19F: 48 89 43 08           - mov [rbx+08],rax
+RelicCardinal.exe+6F6A4A: 48 83 EC 20           - sub rsp,20
+RelicCardinal.exe+6F6A4E: 48 8B D9              - mov rbx,rcx
+RelicCardinal.exe+6F6A51: E8 0A 00 00 00        - call RelicCardinal.exe+6F6A60
+RelicCardinal.exe+6F6A56: 48 8B C3              - mov rax,rbx
+RelicCardinal.exe+6F6A59: 48 83 C4 20           - add rsp,20
+RelicCardinal.exe+6F6A5D: 5B                    - pop rbx
+RelicCardinal.exe+6F6A5E: C3                    - ret
+RelicCardinal.exe+6F6A5F: CC                    - int 3
+RelicCardinal.exe+6F6A60: 40 53                 - push rbx
+RelicCardinal.exe+6F6A62: 48 81 EC 30 01 00 00  - sub rsp,00000130
 }
 </AssemblerScript>
           <CheatEntries>
             <CheatEntry>
               <ID>23</ID>
               <Description>"CreateCache CALL"</Description>
-              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
@@ -581,42 +558,41 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4C57EF8
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4139A0C
 
-RelicCardinal.exe+4C57EE4: C2 00 00              - ret 0000
-RelicCardinal.exe+4C57EE7: CC                    - int 3
-RelicCardinal.exe+4C57EE8: C2 00 00              - ret 0000
-RelicCardinal.exe+4C57EEB: CC                    - int 3
-RelicCardinal.exe+4C57EEC: C2 00 00              - ret 0000
-RelicCardinal.exe+4C57EEF: CC                    - int 3
-RelicCardinal.exe+4C57EF0: C2 00 00              - ret 0000
-RelicCardinal.exe+4C57EF3: CC                    - int 3
-RelicCardinal.exe+4C57EF4: C2 00 00              - ret 0000
-RelicCardinal.exe+4C57EF7: CC                    - int 3
+RelicCardinal.exe+41399F8: C2 00 00              - ret 0000
+RelicCardinal.exe+41399FB: CC                    - int 3
+RelicCardinal.exe+41399FC: C2 00 00              - ret 0000
+RelicCardinal.exe+41399FF: CC                    - int 3
+RelicCardinal.exe+4139A00: C2 00 00              - ret 0000
+RelicCardinal.exe+4139A03: CC                    - int 3
+RelicCardinal.exe+4139A04: C2 00 00              - ret 0000
+RelicCardinal.exe+4139A07: CC                    - int 3
+RelicCardinal.exe+4139A08: C2 00 00              - ret 0000
+RelicCardinal.exe+4139A0B: CC                    - int 3
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+4C57EF8: 4C 63 C2              - movsxd  r8,edx
+RelicCardinal.exe+4139A0C: 4C 63 C2              - movsxd  r8,edx
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+4C57EFB: 48 8B D1              - mov rdx,rcx
-RelicCardinal.exe+4C57EFE: 48 8B 0D BB 9B 7A 03  - mov rcx,[RelicCardinal.exe+8401AC0]
-RelicCardinal.exe+4C57F05: 48 8B 09              - mov rcx,[rcx]
-RelicCardinal.exe+4C57F08: E9 2F 79 C7 FE        - jmp RelicCardinal.exe+38CF83C
-RelicCardinal.exe+4C57F0D: CC                    - int 3
-RelicCardinal.exe+4C57F0E: CC                    - int 3
-RelicCardinal.exe+4C57F0F: CC                    - int 3
-RelicCardinal.exe+4C57F10: 88 91 9C 03 00 00     - mov [rcx+0000039C],dl
-RelicCardinal.exe+4C57F16: C3                    - ret
-RelicCardinal.exe+4C57F17: CC                    - int 3
+RelicCardinal.exe+4139A0F: 48 8B D1              - mov rdx,rcx
+RelicCardinal.exe+4139A12: 48 8B 0D 4F 52 47 04  - mov rcx,[RelicCardinal.exe+85AEC68]
+RelicCardinal.exe+4139A19: 48 8B 09              - mov rcx,[rcx]
+RelicCardinal.exe+4139A1C: E9 D3 A5 22 01        - jmp RelicCardinal.exe+5363FF4
+RelicCardinal.exe+4139A21: CC                    - int 3
+RelicCardinal.exe+4139A22: CC                    - int 3
+RelicCardinal.exe+4139A23: CC                    - int 3
+RelicCardinal.exe+4139A24: 88 91 B4 03 00 00     - mov [rcx+000003B4],dl
+RelicCardinal.exe+4139A2A: C3                    - ret
+RelicCardinal.exe+4139A2B: CC                    - int 3
 }
 </AssemblerScript>
             </CheatEntry>
             <CheatEntry>
               <ID>24</ID>
               <Description>"Precache CALL"</Description>
-              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
@@ -624,7 +600,7 @@ RelicCardinal.exe+4C57F17: CC                    - int 3
 
 [ENABLE]
 
-aobscanmodule(INJECT,RelicCardinal.exe,40 5B C3 CC 48 83 EC 48 48 8B 44 24 78) // should be unique
+aobscanmodule(INJECT,RelicCardinal.exe,CC 48 83 EC 58 4C 8B 59 18 48) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -633,132 +609,62 @@ label(return)
 newmem:
 
 code:
-  sub rsp,48
-  mov rax,[rsp+78]
+  sub rsp,58
+  mov r11,[rcx+18]
   jmp return
 
-INJECT+04:
+INJECT+01:
   jmp newmem
-  nop 4
+  nop 3
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
-INJECT+04:
-  db 48 83 EC 48 48 8B 44 24 78
+INJECT+01:
+  db 48 83 EC 58 4C 8B 59 18
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4C580D4
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4135F28
 
-RelicCardinal.exe+4C580B1: 48 89 5C 24 58           - mov [rsp+58],rbx
-RelicCardinal.exe+4C580B6: 48 89 44 24 28           - mov [rsp+28],rax
-RelicCardinal.exe+4C580BB: 48 8D 54 24 20           - lea rdx,[rsp+20]
-RelicCardinal.exe+4C580C0: 48 8B 01                 - mov rax,[rcx]
-RelicCardinal.exe+4C580C3: C7 44 24 20 D1 8E C4 A1  - mov [rsp+20],A1C48ED1
-RelicCardinal.exe+4C580CB: FF 10                    - call qword ptr [rax]
-RelicCardinal.exe+4C580CD: 48 83 C4 40              - add rsp,40
-RelicCardinal.exe+4C580D1: 5B                       - pop rbx
-RelicCardinal.exe+4C580D2: C3                       - ret
-RelicCardinal.exe+4C580D3: CC                       - int 3
+RelicCardinal.exe+4135F06: 4C 8B 42 18           - mov r8,[rdx+18]
+RelicCardinal.exe+4135F0A: 8B 52 20              - mov edx,[rdx+20]
+RelicCardinal.exe+4135F0D: 48 8D 4C 24 30        - lea rcx,[rsp+30]
+RelicCardinal.exe+4135F12: 41 FF D3              - call r11
+RelicCardinal.exe+4135F15: 90                    - nop
+RelicCardinal.exe+4135F16: 48 83 C4 58           - add rsp,58
+RelicCardinal.exe+4135F1A: C3                    - ret
+RelicCardinal.exe+4135F1B: 48 8D 8A 40 00 00 00  - lea rcx,[rdx+00000040]
+RelicCardinal.exe+4135F22: E9 39 BA 15 FD        - jmp RelicCardinal.exe+1291960
+RelicCardinal.exe+4135F27: CC                    - int 3
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+4C580D4: 48 83 EC 48              - sub rsp,48
+RelicCardinal.exe+4135F28: 48 83 EC 58           - sub rsp,58
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+4C580D8: 48 8B 44 24 78           - mov rax,[rsp+78]
-RelicCardinal.exe+4C580DD: 48 8B 49 08              - mov rcx,[rcx+08]
-RelicCardinal.exe+4C580E1: 48 89 44 24 30           - mov [rsp+30],rax
-RelicCardinal.exe+4C580E6: 48 8B 44 24 70           - mov rax,[rsp+70]
-RelicCardinal.exe+4C580EB: 48 89 44 24 28           - mov [rsp+28],rax
-RelicCardinal.exe+4C580F0: 4C 89 4C 24 20           - mov [rsp+20],r9
-RelicCardinal.exe+4C580F5: 4D 8B C8                 - mov r9,r8
-RelicCardinal.exe+4C580F8: 44 8B C2                 - mov r8d,edx
-RelicCardinal.exe+4C580FB: E8 58 DD FF FF           - call RelicCardinal.exe+4C55E58
-RelicCardinal.exe+4C58100: 48 83 C4 48              - add rsp,48
+RelicCardinal.exe+4135F2C: 4C 8B 59 18           - mov r11,[rcx+18]
+RelicCardinal.exe+4135F30: 48 8B 0A              - mov rcx,[rdx]
+RelicCardinal.exe+4135F33: 4C 8B 52 08           - mov r10,[rdx+08]
+RelicCardinal.exe+4135F37: 48 8B 42 30           - mov rax,[rdx+30]
+RelicCardinal.exe+4135F3B: 48 89 44 24 38        - mov [rsp+38],rax
+RelicCardinal.exe+4135F40: 48 8D 05 89 B2 42 01  - lea rax,[RelicCardinal.exe+55611D0]
+RelicCardinal.exe+4135F47: 48 89 44 24 30        - mov [rsp+30],rax
+RelicCardinal.exe+4135F4C: 48 89 4C 24 28        - mov [rsp+28],rcx
+RelicCardinal.exe+4135F51: 4C 89 54 24 20        - mov [rsp+20],r10
+RelicCardinal.exe+4135F56: 4C 8B 4A 10           - mov r9,[rdx+10]
 }
 </AssemblerScript>
             </CheatEntry>
           </CheatEntries>
         </CheatEntry>
         <CheatEntry>
-          <ID>18</ID>
-          <Description>"UBP CALL"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : RelicCardinal.exe
-  Version:
-  Date   : 2023-05-21
-  Author : 94817
-
-  This script does blah blah blah
-}
-
-[ENABLE]
-// 2 address after scan, the first one is UBP CALL
-aobscanmodule(INJECT,RelicCardinal.exe,4C 8D 44 24 20 BA 00 00 34 00 E8 ? ? ? ? 48 85 C0) // should be unique
-alloc(newmem,$1000,INJECT)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  lea r8,[rsp+20]
-  jmp return
-
-INJECT:
-  jmp newmem
-return:
-registersymbol(INJECT)
-
-[DISABLE]
-
-INJECT:
-  db 4C 8D 44 24 20
-
-unregistersymbol(INJECT)
-dealloc(newmem)
-
-{
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+D7141D
-
-RelicCardinal.exe+D713FC: C3                    - ret
-RelicCardinal.exe+D713FD: CC                    - int 3
-RelicCardinal.exe+D713FE: CC                    - int 3
-RelicCardinal.exe+D713FF: CC                    - int 3
-RelicCardinal.exe+D71400: 40 53                 - push rbx
-RelicCardinal.exe+D71402: 48 81 EC 30 01 00 00  - sub rsp,00000130
-RelicCardinal.exe+D71409: 48 8B D9              - mov rbx,rcx
-RelicCardinal.exe+D7140C: 48 8D 4C 24 20        - lea rcx,[rsp+20]
-RelicCardinal.exe+D71411: E8 5E BB B7 FF        - call RelicCardinal.exe+8ECF74
-RelicCardinal.exe+D71416: 48 8B 0D 33 C8 C4 06  - mov rcx,[RelicCardinal.exe+79BDC50]
-// ---------- INJECTING HERE ----------
-RelicCardinal.exe+D7141D: 4C 8D 44 24 20        - lea r8,[rsp+20]
-// ---------- DONE INJECTING  ----------
-RelicCardinal.exe+D71422: BA 00 00 34 00        - mov edx,00340000
-RelicCardinal.exe+D71427: E8 B8 3F 77 FF        - call RelicCardinal.exe+4E53E4
-RelicCardinal.exe+D7142C: 48 85 C0              - test rax,rax
-RelicCardinal.exe+D7142F: 0F 84 7B 08 5A 02     - je RelicCardinal.exe+3311CB0
-RelicCardinal.exe+D71435: 8B 50 68              - mov edx,[rax+68]
-RelicCardinal.exe+D71438: B9 FF FF FF 7F        - mov ecx,7FFFFFFF
-RelicCardinal.exe+D7143D: 2B D1                 - sub edx,ecx
-RelicCardinal.exe+D7143F: 3B D1                 - cmp edx,ecx
-RelicCardinal.exe+D71441: 0F 86 69 08 5A 02     - jbe RelicCardinal.exe+3311CB0
-RelicCardinal.exe+D71447: 48 89 43 08           - mov [rbx+08],rax
-}
-</AssemblerScript>
-        </CheatEntry>
-        <CheatEntry>
           <ID>11</ID>
           <Description>"单位CALL"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
@@ -766,7 +672,7 @@ RelicCardinal.exe+D71447: 48 89 43 08           - mov [rbx+08],rax
 
 [ENABLE]
 
-aobscanmodule(INJECT,RelicCardinal.exe,48 C1 FB 04 4C 89 65 F7 F2 0F 11 45 E7 41 FF D2 48 8B D7) // should be unique
+aobscanmodule(INJECT,RelicCardinal.exe,41 FF D2 90 48 83 C4 78 C3 CC) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -775,8 +681,9 @@ label(return)
 newmem:
 
 code:
-  sar rbx,04
-  mov [rbp-09],r12
+  call r10
+  nop
+  add rsp,78
   jmp return
 
 INJECT:
@@ -788,56 +695,55 @@ registersymbol(INJECT)
 [DISABLE]
 
 INJECT:
-  db 48 C1 FB 04 4C 89 65 F7
+  db 41 FF D2 90 48 83 C4 78
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+8E977B
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+6F6999
 
-RelicCardinal.exe+8E9754: 48 8B 55 27     - mov rdx,[rbp+27]
-RelicCardinal.exe+8E9758: 48 89 45 FF     - mov [rbp-01],rax
-RelicCardinal.exe+8E975C: 8B 45 0F        - mov eax,[rbp+0F]
-RelicCardinal.exe+8E975F: 89 45 DF        - mov [rbp-21],eax
-RelicCardinal.exe+8E9762: 8B 45 1B        - mov eax,[rbp+1B]
-RelicCardinal.exe+8E9765: 89 45 EF        - mov [rbp-11],eax
-RelicCardinal.exe+8E9768: 48 8D 45 D7     - lea rax,[rbp-29]
-RelicCardinal.exe+8E976C: F2 0F 11 45 D7  - movsd [rbp-29],xmm0
-RelicCardinal.exe+8E9771: F2 0F 10 45 13  - movsd xmm0,[rbp+13]
-RelicCardinal.exe+8E9776: 48 89 44 24 20  - mov [rsp+20],rax
+RelicCardinal.exe+6F696F: F2 0F 10 42 0C     - movsd xmm0,[rdx+0C]
+RelicCardinal.exe+6F6974: F2 0F 11 44 24 40  - movsd [rsp+40],xmm0
+RelicCardinal.exe+6F697A: 8B 42 14           - mov eax,[rdx+14]
+RelicCardinal.exe+6F697D: 89 44 24 48        - mov [rsp+48],eax
+RelicCardinal.exe+6F6981: 49 8D 43 B8        - lea rax,[r11-48]
+RelicCardinal.exe+6F6985: 49 89 43 A8        - mov [r11-58],rax
+RelicCardinal.exe+6F6989: 4D 8D 4B C8        - lea r9,[r11-38]
+RelicCardinal.exe+6F698D: 4C 8B 42 18        - mov r8,[rdx+18]
+RelicCardinal.exe+6F6991: 48 8B 52 20        - mov rdx,[rdx+20]
+RelicCardinal.exe+6F6995: 49 8D 4B D8        - lea rcx,[r11-28]
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+8E977B: 48 C1 FB 04     - sar rbx,04
+RelicCardinal.exe+6F6999: 41 FF D2           - call r10
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+8E977F: 4C 89 65 F7     - mov [rbp-09],r12
-RelicCardinal.exe+8E9783: F2 0F 11 45 E7  - movsd [rbp-19],xmm0
-RelicCardinal.exe+8E9788: 41 FF D2        - call r10
-RelicCardinal.exe+8E978B: 48 8B D7        - mov rdx,rdi
-RelicCardinal.exe+8E978E: 48 89 45 7F     - mov [rbp+7F],rax
-RelicCardinal.exe+8E9792: 48 8D 4D 7F     - lea rcx,[rbp+7F]
-RelicCardinal.exe+8E9796: E8 4D E9 C4 FF  - call RelicCardinal.exe+5380E8
-RelicCardinal.exe+8E979B: 48 8B 47 20     - mov rax,[rdi+20]
-RelicCardinal.exe+8E979F: 48 8B 4F 10     - mov rcx,[rdi+10]
-RelicCardinal.exe+8E97A3: 48 2B 08        - sub rcx,[rax]
+RelicCardinal.exe+6F699C: 90                 - nop
+RelicCardinal.exe+6F699D: 48 83 C4 78        - add rsp,78
+RelicCardinal.exe+6F69A1: C3                 - ret
+RelicCardinal.exe+6F69A2: CC                 - int 3
+RelicCardinal.exe+6F69A3: CC                 - int 3
+RelicCardinal.exe+6F69A4: E9 03 00 00 00     - jmp RelicCardinal.exe+6F69AC
+RelicCardinal.exe+6F69A9: CC                 - int 3
+RelicCardinal.exe+6F69AA: CC                 - int 3
+RelicCardinal.exe+6F69AB: CC                 - int 3
+RelicCardinal.exe+6F69AC: 48 89 5C 24 10     - mov [rsp+10],rbx
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
-          <ID>20</ID>
-          <Description>"科技CALL"</Description>
-          <LastState/>
+          <ID>18</ID>
+          <Description>"UBP CALL"</Description>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
 }
 
 [ENABLE]
-
-aobscanmodule(INJECT,RelicCardinal.exe,F8 48 C1 FB 04 48 89 45 D8 4C 89 7D D0 FF 56 18 48 8B 47 20) // should be unique
+4C 8D 44 24 20 BA 00 00 34
+aobscanmodule(INJECT,RelicCardinal.exe,ERROR: Could not find unique AOB, tried code "40 53 48 83 EC 20") // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -846,61 +752,60 @@ label(return)
 newmem:
 
 code:
-  call qword ptr [rsi+18]
-  mov rax,[rdi+20]
+  push rbx
+  sub rsp,20
   jmp return
 
-INJECT+0D:
+INJECT:
   jmp newmem
-  nop 2
+  nop
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
-INJECT+0D:
-  db FF 56 18 48 8B 47 20
+INJECT:
+  db 40 53 48 83 EC 20
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+BCA410
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+8DD944
 
-RelicCardinal.exe+BCA3E9: 48 8B 5F 10        - mov rbx,[rdi+10]
-RelicCardinal.exe+BCA3ED: 44 8A 4D E0        - mov r9b,[rbp-20]
-RelicCardinal.exe+BCA3F1: 44 8A 45 E1        - mov r8b,[rbp-1F]
-RelicCardinal.exe+BCA3F5: 48 2B 18           - sub rbx,[rax]
-RelicCardinal.exe+BCA3F8: 48 8B 45 F0        - mov rax,[rbp-10]
-RelicCardinal.exe+BCA3FC: 48 83 EB 10        - sub rbx,10
-RelicCardinal.exe+BCA400: 48 8B 4D F8        - mov rcx,[rbp-08]
-RelicCardinal.exe+BCA404: 48 C1 FB 04        - sar rbx,04
-RelicCardinal.exe+BCA408: 48 89 45 D8        - mov [rbp-28],rax
-RelicCardinal.exe+BCA40C: 4C 89 7D D0        - mov [rbp-30],r15
+RelicCardinal.exe+8DD920: 48 C1 F9 04           - sar rcx,04
+RelicCardinal.exe+8DD924: 8D 47 01              - lea eax,[rdi+01]
+RelicCardinal.exe+8DD927: 3B C1                 - cmp eax,ecx
+RelicCardinal.exe+8DD929: 0F 85 15 02 DA 02     - jne RelicCardinal.exe+367DB44
+RelicCardinal.exe+8DD92F: B8 01 00 00 00        - mov eax,00000001
+RelicCardinal.exe+8DD934: 48 8B 5C 24 58        - mov rbx,[rsp+58]
+RelicCardinal.exe+8DD939: 48 8B 74 24 60        - mov rsi,[rsp+60]
+RelicCardinal.exe+8DD93E: 48 83 C4 40           - add rsp,40
+RelicCardinal.exe+8DD942: 5F                    - pop rdi
+RelicCardinal.exe+8DD943: C3                    - ret
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+BCA410: FF 56 18           - call qword ptr [rsi+18]
+RelicCardinal.exe+8DD944: 40 53                 - push rbx
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+BCA413: 48 8B 47 20        - mov rax,[rdi+20]
-RelicCardinal.exe+BCA417: 48 8B 4F 10        - mov rcx,[rdi+10]
-RelicCardinal.exe+BCA41B: 48 2B 08           - sub rcx,[rax]
-RelicCardinal.exe+BCA41E: 48 83 E9 10        - sub rcx,10
-RelicCardinal.exe+BCA422: 48 C1 F9 04        - sar rcx,04
-RelicCardinal.exe+BCA426: 3B D9              - cmp ebx,ecx
-RelicCardinal.exe+BCA428: 0F 85 15 02 70 02  - jne RelicCardinal.exe+32CA643
-RelicCardinal.exe+BCA42E: 4C 8D 5C 24 60     - lea r11,[rsp+60]
-RelicCardinal.exe+BCA433: 33 C0              - xor eax,eax
-RelicCardinal.exe+BCA435: 49 8B 5B 10        - mov rbx,[r11+10]
+RelicCardinal.exe+8DD946: 48 83 EC 20           - sub rsp,20
+RelicCardinal.exe+8DD94A: 48 8B D9              - mov rbx,rcx
+RelicCardinal.exe+8DD94D: E8 0A 00 00 00        - call RelicCardinal.exe+8DD95C
+RelicCardinal.exe+8DD952: 48 8B C3              - mov rax,rbx
+RelicCardinal.exe+8DD955: 48 83 C4 20           - add rsp,20
+RelicCardinal.exe+8DD959: 5B                    - pop rbx
+RelicCardinal.exe+8DD95A: C3                    - ret
+RelicCardinal.exe+8DD95B: CC                    - int 3
+RelicCardinal.exe+8DD95C: 40 53                 - push rbx
+RelicCardinal.exe+8DD95E: 48 81 EC 30 01 00 00  - sub rsp,00000130
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
-          <ID>12</ID>
-          <Description>"位置备份"</Description>
-          <LastState/>
+          <ID>20</ID>
+          <Description>"科技CALL"</Description>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-03-30
   Author : 94817
 
   This script does blah blah blah
@@ -908,7 +813,78 @@ RelicCardinal.exe+BCA435: 49 8B 5B 10        - mov rbx,[r11+10]
 
 [ENABLE]
 
-aobscanmodule(INJECT,RelicCardinal.exe,F2 0F 11 47 6C 48) // should be unique
+aobscanmodule(INJECT,RelicCardinal.exe,41 FF D3 90 48 83 C4 48 C3 CC CC CC) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  call r11
+  nop
+  add rsp,48
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop 3
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 41 FF D3 90 48 83 C4 48
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+BAB31C
+
+RelicCardinal.exe+BAB2F0: 4C 8B D2              - mov r10,rdx
+RelicCardinal.exe+BAB2F3: 4C 8B 59 18           - mov r11,[rcx+18]
+RelicCardinal.exe+BAB2F7: 48 8B 42 10           - mov rax,[rdx+10]
+RelicCardinal.exe+BAB2FB: 48 89 44 24 28        - mov [rsp+28],rax
+RelicCardinal.exe+BAB300: 48 8D 05 11 6A 9C 04  - lea rax,[RelicCardinal.exe+5571D18]
+RelicCardinal.exe+BAB307: 48 89 44 24 20        - mov [rsp+20],rax
+RelicCardinal.exe+BAB30C: 44 8A 0A              - mov r9b,[rdx]
+RelicCardinal.exe+BAB30F: 44 8A 42 01           - mov r8b,[rdx+01]
+RelicCardinal.exe+BAB313: 48 8D 54 24 20        - lea rdx,[rsp+20]
+RelicCardinal.exe+BAB318: 49 8B 4A 18           - mov rcx,[r10+18]
+// ---------- INJECTING HERE ----------
+RelicCardinal.exe+BAB31C: 41 FF D3              - call r11
+// ---------- DONE INJECTING  ----------
+RelicCardinal.exe+BAB31F: 90                    - nop
+RelicCardinal.exe+BAB320: 48 83 C4 48           - add rsp,48
+RelicCardinal.exe+BAB324: C3                    - ret
+RelicCardinal.exe+BAB325: CC                    - int 3
+RelicCardinal.exe+BAB326: CC                    - int 3
+RelicCardinal.exe+BAB327: CC                    - int 3
+RelicCardinal.exe+BAB328: 40 55                 - push rbp
+RelicCardinal.exe+BAB32A: 48 8B EC              - mov rbp,rsp
+RelicCardinal.exe+BAB32D: 48 81 EC 80 00 00 00  - sub rsp,00000080
+RelicCardinal.exe+BAB334: 45 8A D9              - mov r11b,r9b
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12</ID>
+          <Description>"位置备份"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : RelicCardinal.exe
+  Version:
+  Date   : 2024-03-30
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,RelicCardinal.exe,F2 0F 11 47 6C 48 8D) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -934,42 +910,41 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+72F54D
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+5B92F5
 
-RelicCardinal.exe+72F524: F2 0F 10 45 F7     - movsd xmm0,[rbp-09]
-RelicCardinal.exe+72F529: 48 8D 4D E7        - lea rcx,[rbp-19]
-RelicCardinal.exe+72F52D: 8B 45 FF           - mov eax,[rbp-01]
-RelicCardinal.exe+72F530: F2 0F 11 45 E7     - movsd [rbp-19],xmm0
-RelicCardinal.exe+72F535: 89 45 EF           - mov [rbp-11],eax
-RelicCardinal.exe+72F538: E8 93 08 00 00     - call RelicCardinal.exe+72FDD0
-RelicCardinal.exe+72F53D: 84 C0              - test al,al
-RelicCardinal.exe+72F53F: 0F 85 AF 1D AE 02  - jne RelicCardinal.exe+32112F4
-RelicCardinal.exe+72F545: F2 0F 10 45 F7     - movsd xmm0,[rbp-09]
-RelicCardinal.exe+72F54A: 8B 45 FF           - mov eax,[rbp-01]
+RelicCardinal.exe+5B92CC: F2 0F 10 45 F7     - movsd xmm0,[rbp-09]
+RelicCardinal.exe+5B92D1: 48 8D 4D E7        - lea rcx,[rbp-19]
+RelicCardinal.exe+5B92D5: 8B 45 FF           - mov eax,[rbp-01]
+RelicCardinal.exe+5B92D8: F2 0F 11 45 E7     - movsd [rbp-19],xmm0
+RelicCardinal.exe+5B92DD: 89 45 EF           - mov [rbp-11],eax
+RelicCardinal.exe+5B92E0: E8 9F 0B 00 00     - call RelicCardinal.exe+5B9E84
+RelicCardinal.exe+5B92E5: 84 C0              - test al,al
+RelicCardinal.exe+5B92E7: 0F 85 D9 BA 07 03  - jne RelicCardinal.exe+3634DC6
+RelicCardinal.exe+5B92ED: F2 0F 10 45 F7     - movsd xmm0,[rbp-09]
+RelicCardinal.exe+5B92F2: 8B 45 FF           - mov eax,[rbp-01]
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+72F54D: F2 0F 11 47 6C     - movsd [rdi+6C],xmm0
+RelicCardinal.exe+5B92F5: F2 0F 11 47 6C     - movsd [rdi+6C],xmm0
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+72F552: 48 8D 4D E7        - lea rcx,[rbp-19]
-RelicCardinal.exe+72F556: F2 0F 10 45 03     - movsd xmm0,[rbp+03]
-RelicCardinal.exe+72F55B: 89 47 74           - mov [rdi+74],eax
-RelicCardinal.exe+72F55E: 8B 45 0B           - mov eax,[rbp+0B]
-RelicCardinal.exe+72F561: F2 0F 11 45 E7     - movsd [rbp-19],xmm0
-RelicCardinal.exe+72F566: 89 45 EF           - mov [rbp-11],eax
-RelicCardinal.exe+72F569: E8 62 08 00 00     - call RelicCardinal.exe+72FDD0
-RelicCardinal.exe+72F56E: 84 C0              - test al,al
-RelicCardinal.exe+72F570: 0F 85 8B 1D AE 02  - jne RelicCardinal.exe+3211301
-RelicCardinal.exe+72F576: 8B 45 0B           - mov eax,[rbp+0B]
+RelicCardinal.exe+5B92FA: 48 8D 4D E7        - lea rcx,[rbp-19]
+RelicCardinal.exe+5B92FE: F2 0F 10 45 03     - movsd xmm0,[rbp+03]
+RelicCardinal.exe+5B9303: 89 47 74           - mov [rdi+74],eax
+RelicCardinal.exe+5B9306: 8B 45 0B           - mov eax,[rbp+0B]
+RelicCardinal.exe+5B9309: F2 0F 11 45 E7     - movsd [rbp-19],xmm0
+RelicCardinal.exe+5B930E: 89 45 EF           - mov [rbp-11],eax
+RelicCardinal.exe+5B9311: E8 6E 0B 00 00     - call RelicCardinal.exe+5B9E84
+RelicCardinal.exe+5B9316: 84 C0              - test al,al
+RelicCardinal.exe+5B9318: 0F 85 B5 BA 07 03  - jne RelicCardinal.exe+3634DD3
+RelicCardinal.exe+5B931E: 8B 45 0B           - mov eax,[rbp+0B]
 }
 </AssemblerScript>
         </CheatEntry>
         <CheatEntry>
           <ID>15</ID>
           <Description>"位置基址"</Description>
-          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2023-05-21
+  Date   : 2024-04-06
   Author : 94817
 
   This script does blah blah blah
@@ -977,7 +952,7 @@ RelicCardinal.exe+72F576: 8B 45 0B           - mov eax,[rbp+0B]
 
 [ENABLE]
 
-aobscanmodule(INJECT,RelicCardinal.exe,F3 0F 59 F0 F3 0F 11 74 24 58) // should be unique
+aobscanmodule(INJECT,RelicCardinal.exe,48 8D 5C 24 50 4C 8B F1) // should be unique
 alloc(newmem,$1000,INJECT)
 
 label(code)
@@ -986,50 +961,118 @@ label(return)
 newmem:
 
 code:
-  mulss xmm6,xmm0
-  movss [rsp+58],xmm6
+  lea rbx,[rsp+50]
   jmp return
 
 INJECT:
   jmp newmem
-  nop 5
 return:
 registersymbol(INJECT)
 
 [DISABLE]
 
 INJECT:
-  db F3 0F 59 F0 F3 0F 11 74 24 58
+  db 48 8D 5C 24 50
 
 unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4FB581
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+55163B
 
-RelicCardinal.exe+4FB550: 83 E7 01                       - and edi,01
-RelicCardinal.exe+4FB553: 48 0B C7                       - or rax,rdi
-RelicCardinal.exe+4FB556: F3 48 0F 2A C8                 - cvtsi2ss xmm1,rax
-RelicCardinal.exe+4FB55B: F3 0F 58 C9                    - addss xmm1,xmm1
-RelicCardinal.exe+4FB55F: F3 0F 10 05 E9 40 34 06        - movss xmm0,[RelicCardinal.exe+683F650]
-RelicCardinal.exe+4FB567: F3 0F 5E C1                    - divss xmm0,xmm1
-RelicCardinal.exe+4FB56B: F3 44 0F 59 C0                 - mulss xmm8,xmm0
-RelicCardinal.exe+4FB570: F3 44 0F 11 44 24 50           - movss [rsp+50],xmm8
-RelicCardinal.exe+4FB577: F3 0F 59 F8                    - mulss xmm7,xmm0
-RelicCardinal.exe+4FB57B: F3 0F 11 7C 24 54              - movss [rsp+54],xmm7
+RelicCardinal.exe+551620: 40 53                 - push rbx
+RelicCardinal.exe+551622: 55                    - push rbp
+RelicCardinal.exe+551623: 56                    - push rsi
+RelicCardinal.exe+551624: 57                    - push rdi
+RelicCardinal.exe+551625: 41 54                 - push r12
+RelicCardinal.exe+551627: 41 55                 - push r13
+RelicCardinal.exe+551629: 41 56                 - push r14
+RelicCardinal.exe+55162B: 41 57                 - push r15
+RelicCardinal.exe+55162D: 48 81 EC D8 01 00 00  - sub rsp,000001D8
+RelicCardinal.exe+551634: 48 8B 35 9D 15 63 07  - mov rsi,[RelicCardinal.exe+7B82BD8]
 // ---------- INJECTING HERE ----------
-RelicCardinal.exe+4FB581: F3 0F 59 F0                    - mulss xmm6,xmm0
+RelicCardinal.exe+55163B: 48 8D 5C 24 50        - lea rbx,[rsp+50]
 // ---------- DONE INJECTING  ----------
-RelicCardinal.exe+4FB585: F3 0F 11 74 24 58              - movss [rsp+58],xmm6
-RelicCardinal.exe+4FB58B: 48 8B 35 2E 8C 4C 07           - mov rsi,[RelicCardinal.exe+79C41C0]
-RelicCardinal.exe+4FB592: 48 8B 3D B7 26 4C 07           - mov rdi,[RelicCardinal.exe+79BDC50]
-RelicCardinal.exe+4FB599: 41 BE 00 01 4E 00              - mov r14d,004E0100
-RelicCardinal.exe+4FB59F: 44 89 74 24 68                 - mov [rsp+68],r14d
-RelicCardinal.exe+4FB5A4: 49 BF 25 23 22 84 E4 9C F2 CB  - mov r15,CBF29CE484222325
-RelicCardinal.exe+4FB5AE: 49 8B D7                       - mov rdx,r15
-RelicCardinal.exe+4FB5B1: 33 C9                          - xor ecx,ecx
-RelicCardinal.exe+4FB5B3: 49 B9 B3 01 00 00 00 01 00 00  - mov r9,00000100000001B3
-RelicCardinal.exe+4FB5BD: 0F B6 44 0C 68                 - movzx eax,byte ptr [rsp+rcx+68]
+RelicCardinal.exe+551640: 4C 8B F1              - mov r14,rcx
+RelicCardinal.exe+551643: BF 06 00 00 00        - mov edi,00000006
+RelicCardinal.exe+551648: 48 8B CB              - mov rcx,rbx
+RelicCardinal.exe+55164B: E8 20 D6 E8 FF        - call RelicCardinal.exe+3DEC70
+RelicCardinal.exe+551650: 48 83 C3 40           - add rbx,40
+RelicCardinal.exe+551654: 48 83 EF 01           - sub rdi,01
+RelicCardinal.exe+551658: 75 EE                 - jne RelicCardinal.exe+551648
+RelicCardinal.exe+55165A: 0F 28 05 5F 5E 8B 05  - movaps xmm0,[RelicCardinal.exe+5E074C0]
+RelicCardinal.exe+551661: 4C 8D 44 24 20        - lea r8,[rsp+20]
+RelicCardinal.exe+551666: 48 8D 54 24 50        - lea rdx,[rsp+50]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>28</ID>
+          <Description>"分发脚本函数地址"</Description>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : RelicCardinal.exe
+  Version:
+  Date   : 2024-03-30
+  Author : 94817
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,RelicCardinal.exe,48 8B D3 48 8B CF 41 FF D0 8B F0) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  mov rdx,rbx
+  mov rcx,rdi
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 48 8B D3 48 8B CF
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4A6324
+
+RelicCardinal.exe+4A630B: 49 8B E3              - mov rsp,r11
+RelicCardinal.exe+4A630E: 41 5F                 - pop r15
+RelicCardinal.exe+4A6310: 41 5E                 - pop r14
+RelicCardinal.exe+4A6312: 41 5D                 - pop r13
+RelicCardinal.exe+4A6314: 41 5C                 - pop r12
+RelicCardinal.exe+4A6316: 5F                    - pop rdi
+RelicCardinal.exe+4A6317: C3                    - ret
+RelicCardinal.exe+4A6318: 48 8D 05 7D E0 57 00  - lea rax,[RelicCardinal.exe+A2439C]
+RelicCardinal.exe+4A631F: 4C 3B C0              - cmp r8,rax
+RelicCardinal.exe+4A6322: 74 0D                 - je RelicCardinal.exe+4A6331
+// ---------- INJECTING HERE ----------
+RelicCardinal.exe+4A6324: 48 8B D3              - mov rdx,rbx
+// ---------- DONE INJECTING  ----------
+RelicCardinal.exe+4A6327: 48 8B CF              - mov rcx,rdi
+RelicCardinal.exe+4A632A: 41 FF D0              - call r8
+RelicCardinal.exe+4A632D: 8B F0                 - mov esi,eax
+RelicCardinal.exe+4A632F: EB C7                 - jmp RelicCardinal.exe+4A62F8
+RelicCardinal.exe+4A6331: BA 02 00 00 00        - mov edx,00000002
+RelicCardinal.exe+4A6336: 48 8B CB              - mov rcx,rbx
+RelicCardinal.exe+4A6339: E8 8A EF FF FF        - call RelicCardinal.exe+4A52C8
+RelicCardinal.exe+4A633E: 4C 89 74 24 28        - mov [rsp+28],r14
+RelicCardinal.exe+4A6343: 44 89 74 24 30        - mov [rsp+30],r14d
+RelicCardinal.exe+4A6348: 4C 8D 44 24 28        - lea r8,[rsp+28]
 }
 </AssemblerScript>
         </CheatEntry>
