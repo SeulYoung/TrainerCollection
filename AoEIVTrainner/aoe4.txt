@@ -1,37 +1,25 @@
-upgrade_cavalry_bloodline_fre
-upgrade_cavalry_cantled_saddle_fre
-upgrade_cavalry_chivalry_fre
-upgrade_cavalry_grapered_lance_fre
+upgrade_cavalry_hp_rus 贵族铁骑的坚毅
+upgrade_cavalry_melee_damage_rus 骑士长柄斧
 
-upgrade_knight_barding_hre
+// upgrade_improved_swords_sul 珩磨剑刃
 
+upgrade_knight_barding_hre 钢制马甲
+upgrade_knight_war_horses_hre_ha_01 战马
+
+upgrade_weapon_fire_damage_improved_mon 更多火炬
 upgrade_cavalry_barding_improved_mon
-upgrade_cavalry_barding_mon
 upgrade_cavalry_grapered_lance_improved_mon
-upgrade_cavalry_grapered_lance_mon
 
-upgrade_cavalry_hp_rus
-upgrade_cavalry_melee_damage_rus
+upgrade_cavalry_bloodline_fre 皇室血统
+upgrade_tech_university_biology_improved_mon 强化生物学
+upgrade_tech_university_biology_improved_merc_byz
 
-upgrade_cavalry_barding_sul
-upgrade_cavalry_grapered_lance_sul
-// upgrade_improved_swords_sul
-
-upgrade_tech_university_biology
 --------------------------------------------------------
+upgrade_landmark_siege_elephant_sul 象轿
+upgrade_landmark_siege_elephant_merc_byz
+
+upgrade_siege_chemistry_sul
+
+--------------------------------------------------------
+unit_war_elephant_tower_4_sul
 unit_war_elephant_tower2_4_sul
-
-upgrade_cavalry_bloodline_fre
-upgrade_tech_university_biology_improved_mon
-upgrade_cavalry_barding_improved_mon
-upgrade_landmark_siege_elephant_sul
-//upgrade_age3_war_elephant_elite_sul
-upgrade_landmark_elephant_caravan_sul
-
-upgrade_siege_chemistry_mon
-
-upgrade_gunpowder_damage_chi
-upgrade_siege_corned_gunpowder_sul
-
-upgrade_ranged_armor_iii_improved_mon
-upgrade_melee_armor_iii_improved_mon

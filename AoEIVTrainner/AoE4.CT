@@ -5,10 +5,11 @@
       <ID>7</ID>
       <Description>"初始化"</Description>
       <Options moHideChildren="1"/>
+      <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
-  Date   : 2024-03-30
+  Date   : 2024-04-14
   Author : 94817
 
   This script does blah blah blah
@@ -33,7 +34,7 @@ define(GetUpgradeBlueprint,GetUpgradeBlueprintBase-35)
 
 aobscanmodule(UpgradeTech,RelicCardinal.exe,40 55 48 8B EC 48 81 EC 80 00 00 00 45)
 
-aobscanmodule(INJECT,gameoverlayrenderer64.dll,0F 57 C9 F2 0F 5A C8 F3 0F 11 8B) // should be unique
+aobscanmodule(INJECT,RelicCardinal.exe,48 8B D3 48 8B CF 41 FF D0 8B F0) // should be unique
 alloc(newmem,$1000,INJECT)
 alloc(param,$C0,INJECT)
 
@@ -51,6 +52,13 @@ label(code)
 label(return)
 
 newmem:
+  push rax
+  mov rax,gs:[58]
+  mov rax,[rax]
+  mov rax,[rax+28]
+  cmp rax,0
+  pop rax
+  jne code
 
 unit:
   cmp byte ptr ds:[unitParam],0
@@ -64,12 +72,10 @@ unit:
   push r8
   push r9
   push r10
-  // [gs:[58]]+28, TLS Var
-  mov rax,gs:[58]
-  mov rax,[rax]
-  mov [rax+28],0
+  push r11
+  // [[gs:[58]]+28]=0, TLS Var
   // GetLocalPlayer
-  sub rsp,28
+  sub rsp,20
   call GetLocalPlayer
   mov [Player],rax
   // GetSquadBlueprint
@@ -115,7 +121,8 @@ unit:
   add rsp,40
   add rsp,20
   add rsp,40
-  add rsp,28
+  add rsp,20
+  pop r11
   pop r10
   pop r9
   pop r8
@@ -139,12 +146,9 @@ tech:
   push r8
   push r9
   push r10
-  // [gs:[58]]+28, TLS Var
-  mov rax,gs:[58]
-  mov rax,[rax]
-  mov [rax+28],0
+  push r11
   // GetLocalPlayer
-  sub rsp,28
+  sub rsp,20
   call GetLocalPlayer
   mov [Player],rax
   // GetUpgradeBlueprint
@@ -162,7 +166,8 @@ tech:
   call UpgradeTech
   add rsp,30
   add rsp,40
-  add rsp,28
+  add rsp,20
+  pop r11
   pop r10
   pop r9
   pop r8
@@ -175,13 +180,13 @@ tech:
   mov dword ptr ds:[techParam],0
 
 code:
-  xorps xmm1,xmm1
-  cvtsd2ss xmm1,xmm0
+  mov rdx,rbx
+  mov rcx,rdi
   jmp return
 
 INJECT:
   jmp newmem
-  nop 2
+  nop
 return:
 registersymbol(INJECT)
 registersymbol(param)
@@ -189,7 +194,7 @@ registersymbol(param)
 [DISABLE]
 
 INJECT:
-  db 0F 57 C9 F2 0F 5A C8
+  db 48 8B D3 48 8B CF
 
 unregistersymbol(INJECT)
 dealloc(newmem)
@@ -197,31 +202,31 @@ unregistersymbol(param)
 dealloc(param)
 
 {
-// ORIGINAL CODE - INJECTION POINT: gameoverlayrenderer64.SteamOverlayIsUsingMouse+F564
+// ORIGINAL CODE - INJECTION POINT: RelicCardinal.exe+4A6324
 
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F543: 56                       - push rsi
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F544: 57                       - push rdi
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F545: 41 54                    - push r12
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F547: 41 55                    - push r13
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F549: 41 56                    - push r14
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F54B: 41 57                    - push r15
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F54D: 48 8D AC 24 18 F9 FF FF  - lea rbp,[rsp-000006E8]
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F555: 48 81 EC E8 07 00 00     - sub rsp,000007E8
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F55C: 48 8B D9                 - mov rbx,rcx
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F55F: E8 CC 9D FF FF           - call gameoverlayrenderer64.SteamOverlayIsUsingMouse+9330
+RelicCardinal.exe+4A630B: 49 8B E3              - mov rsp,r11
+RelicCardinal.exe+4A630E: 41 5F                 - pop r15
+RelicCardinal.exe+4A6310: 41 5E                 - pop r14
+RelicCardinal.exe+4A6312: 41 5D                 - pop r13
+RelicCardinal.exe+4A6314: 41 5C                 - pop r12
+RelicCardinal.exe+4A6316: 5F                    - pop rdi
+RelicCardinal.exe+4A6317: C3                    - ret
+RelicCardinal.exe+4A6318: 48 8D 05 7D E0 57 00  - lea rax,[RelicCardinal.exe+A2439C]
+RelicCardinal.exe+4A631F: 4C 3B C0              - cmp r8,rax
+RelicCardinal.exe+4A6322: 74 0D                 - je RelicCardinal.exe+4A6331
 // ---------- INJECTING HERE ----------
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F564: 0F 57 C9                 - xorps xmm1,xmm1
+RelicCardinal.exe+4A6324: 48 8B D3              - mov rdx,rbx
 // ---------- DONE INJECTING  ----------
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F567: F2 0F 5A C8              - cvtsd2ss xmm1,xmm0
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F56B: F3 0F 11 8B AC 00 00 00  - movss [rbx+000000AC],xmm1
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F573: 48 8B 05 9E 1C 0C 00     - mov rax,[gameoverlayrenderer64.dll+172378]
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57A: 48 85 C0                 - test rax,rax
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57D: 74 2B                    - je gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F57F: 48 3B C3                 - cmp rax,rbx
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F582: 74 26                    - je gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F584: F3 0F 5C 0D 98 1C 0C 00  - subss xmm1,[gameoverlayrenderer64.dll+172384]
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F58C: 0F 2F 0D C9 CB 05 00     - comiss xmm1,[gameoverlayrenderer64.dll+10D2BC]
-gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - jae gameoverlayrenderer64.SteamOverlayIsUsingMouse+F5AA
+RelicCardinal.exe+4A6327: 48 8B CF              - mov rcx,rdi
+RelicCardinal.exe+4A632A: 41 FF D0              - call r8
+RelicCardinal.exe+4A632D: 8B F0                 - mov esi,eax
+RelicCardinal.exe+4A632F: EB C7                 - jmp RelicCardinal.exe+4A62F8
+RelicCardinal.exe+4A6331: BA 02 00 00 00        - mov edx,00000002
+RelicCardinal.exe+4A6336: 48 8B CB              - mov rcx,rbx
+RelicCardinal.exe+4A6339: E8 8A EF FF FF        - call RelicCardinal.exe+4A52C8
+RelicCardinal.exe+4A633E: 4C 89 74 24 28        - mov [rsp+28],r14
+RelicCardinal.exe+4A6343: 44 89 74 24 30        - mov [rsp+30],r14d
+RelicCardinal.exe+4A6348: 4C 8D 44 24 28        - lea r8,[rsp+28]
 }
 </AssemblerScript>
       <Hotkeys>
@@ -252,7 +257,7 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
               <Keys>
                 <Key>97</Key>
               </Keys>
-              <Value>unit_knight_4</Value>
+              <Value>unit_knight_4_hre_ha_01</Value>
               <ID>0</ID>
             </Hotkey>
             <Hotkey>
@@ -268,8 +273,16 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
               <Keys>
                 <Key>99</Key>
               </Keys>
-              <Value>unit_war_elephant_3_sul</Value>
+              <Value>unit_holy_order_templar_master_cru</Value>
               <ID>2</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>100</Key>
+              </Keys>
+              <Value>unit_war_elephant_tower_4_sul</Value>
+              <ID>3</ID>
             </Hotkey>
           </Hotkeys>
         </CheatEntry>
@@ -291,7 +304,7 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
                 <Key>18</Key>
                 <Key>97</Key>
               </Keys>
-              <Value>upgrade_cavalry_bloodline_fre</Value>
+              <Value>upgrade_cavalry_barding_improved_mon</Value>
               <ID>0</ID>
               <ActivateSound TTS="EN">Tech 1</ActivateSound>
             </Hotkey>
@@ -302,7 +315,7 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
                 <Key>18</Key>
                 <Key>98</Key>
               </Keys>
-              <Value>upgrade_tech_university_biology_improved_mon</Value>
+              <Value>upgrade_weapon_fire_damage_improved_mon</Value>
               <ID>1</ID>
               <ActivateSound TTS="EN">Tech 2</ActivateSound>
             </Hotkey>
@@ -313,7 +326,7 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
                 <Key>18</Key>
                 <Key>99</Key>
               </Keys>
-              <Value>upgrade_cavalry_barding_improved_mon</Value>
+              <Value>upgrade_landmark_siege_elephant_sul</Value>
               <ID>5</ID>
               <ActivateSound TTS="EN">Tech 3</ActivateSound>
             </Hotkey>
@@ -324,7 +337,7 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
                 <Key>18</Key>
                 <Key>100</Key>
               </Keys>
-              <Value>upgrade_landmark_siege_elephant_sul</Value>
+              <Value>upgrade_landmark_siege_elephant_merc_byz</Value>
               <ID>6</ID>
               <ActivateSound TTS="EN">Tech 4</ActivateSound>
             </Hotkey>
@@ -335,9 +348,41 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
                 <Key>18</Key>
                 <Key>101</Key>
               </Keys>
-              <Value>upgrade_landmark_elephant_caravan_sul</Value>
+              <Value>upgrade_siege_chemistry_sul</Value>
               <ID>2</ID>
               <ActivateSound TTS="EN">Tech 5</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>102</Key>
+              </Keys>
+              <ID>3</ID>
+              <ActivateSound TTS="EN">Tech 6</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>103</Key>
+              </Keys>
+              <Value>upgrade_cavalry_bloodline_fre</Value>
+              <ID>4</ID>
+              <ActivateSound TTS="EN">Tech 7</ActivateSound>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>17</Key>
+                <Key>18</Key>
+                <Key>104</Key>
+              </Keys>
+              <Value>upgrade_tech_university_biology_improved_mon</Value>
+              <ID>7</ID>
+              <ActivateSound TTS="EN">Tech 8</ActivateSound>
             </Hotkey>
           </Hotkeys>
         </CheatEntry>
@@ -347,26 +392,31 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
       <ID>8</ID>
       <Description>"热键说明"</Description>
       <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>16</ID>
-          <Description>"Num1：骑士"</Description>
+          <Description>"Num1：镀金骑士"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>26</ID>
           <Description>"Num2：火枪塔象"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>25</ID>
-          <Description>"Num3：战象"</Description>
+          <Description>"Num3：圣殿骑士团长"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
         <CheatEntry>
           <ID>22</ID>
-          <Description>"Ctrl+Alt+Num1-5：象科技"</Description>
+          <Description>"Ctrl+Alt+Num1-8：骑士科技"</Description>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
         </CheatEntry>
       </CheatEntries>
@@ -375,11 +425,13 @@ gameoverlayrenderer64.SteamOverlayIsUsingMouse+F593: 73 15                    - 
       <ID>9</ID>
       <Description>"备份（无用）"</Description>
       <Options moHideChildren="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>27</ID>
           <Description>"GetLocalPlayer"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -449,6 +501,7 @@ RelicCardinal.exe+D83630: 74 5E                 - je RelicCardinal.exe+D83690
         <CheatEntry>
           <ID>10</ID>
           <Description>"SBP CALL"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -519,6 +572,7 @@ RelicCardinal.exe+6F6A62: 48 81 EC 30 01 00 00  - sub rsp,00000130
             <CheatEntry>
               <ID>23</ID>
               <Description>"CreateCache CALL"</Description>
+              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -589,6 +643,7 @@ RelicCardinal.exe+4139A2B: CC                    - int 3
             <CheatEntry>
               <ID>24</ID>
               <Description>"Precache CALL"</Description>
+              <LastState/>
               <VariableType>Auto Assembler Script</VariableType>
               <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -661,6 +716,7 @@ RelicCardinal.exe+4135F56: 4C 8B 4A 10           - mov r9,[rdx+10]
         <CheatEntry>
           <ID>11</ID>
           <Description>"单位CALL"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -732,6 +788,7 @@ RelicCardinal.exe+6F69AC: 48 89 5C 24 10     - mov [rsp+10],rbx
         <CheatEntry>
           <ID>18</ID>
           <Description>"UBP CALL"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -802,6 +859,7 @@ RelicCardinal.exe+8DD95E: 48 81 EC 30 01 00 00  - sub rsp,00000130
         <CheatEntry>
           <ID>20</ID>
           <Description>"科技CALL"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -873,6 +931,7 @@ RelicCardinal.exe+BAB334: 45 8A D9              - mov r11b,r9b
         <CheatEntry>
           <ID>12</ID>
           <Description>"位置备份"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -941,6 +1000,7 @@ RelicCardinal.exe+5B931E: 8B 45 0B           - mov eax,[rbp+0B]
         <CheatEntry>
           <ID>15</ID>
           <Description>"位置基址"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
@@ -1009,6 +1069,7 @@ RelicCardinal.exe+551666: 48 8D 54 24 50        - lea rdx,[rsp+50]
         <CheatEntry>
           <ID>28</ID>
           <Description>"分发脚本函数地址"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : RelicCardinal.exe
   Version:
