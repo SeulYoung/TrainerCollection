@@ -27,9 +27,9 @@ alloc(Param,$20,INJECT)
 define(UnitParam,Param)
 define(TechParam,Param+8)
 define(LocalParam,Param+10)
-define(PlayerBase,AoE2DE_s.exe+41BE510)
-define(PosX,AoE2DE_s.exe+40EAA68)
-define(PosY,AoE2DE_s.exe+40EAA6C)
+define(PlayerBase,AoE2DE_s.exe+41BE530)
+define(PosX,AoE2DE_s.exe+40EAA88)
+define(PosY,AoE2DE_s.exe+40EAA8C)
 
 label(unit)
 label(tech)
@@ -518,7 +518,7 @@ AoE2DE_s.exe+BA57E8: 44 89 74 24 48           - mov [rsp+48],r14d
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2024-05-04
+  Date   : 2024-05-18
   Author : 94817
 
   This script does blah blah blah
@@ -554,31 +554,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+1862FEE
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+186333E
 
-AoE2DE_s.exe+1862FBB: 48 8B 45 80              - mov rax,[rbp-80]
-AoE2DE_s.exe+1862FBF: 49 33 C6                 - xor rax,r14
-AoE2DE_s.exe+1862FC2: 48 89 45 80              - mov [rbp-80],rax
-AoE2DE_s.exe+1862FC6: 48 8B 45 80              - mov rax,[rbp-80]
-AoE2DE_s.exe+1862FCA: F3 0F 10 80 A8 06 00 00  - movss xmm0,[rax+000006A8]
-AoE2DE_s.exe+1862FD2: 48 8B 87 A8 05 00 00     - mov rax,[rdi+000005A8]
-AoE2DE_s.exe+1862FD9: F3 0F 11 40 38           - movss [rax+38],xmm0
-AoE2DE_s.exe+1862FDE: 8B 05 C8 16 88 02        - mov eax,[AoE2DE_s.exe+40E46AC]
-AoE2DE_s.exe+1862FE4: 45 8B CF                 - mov r9d,r15d
-AoE2DE_s.exe+1862FE7: 48 8B 0D 22 B5 95 02     - mov rcx,[AoE2DE_s.exe+41BE510]
+AoE2DE_s.exe+186330B: 48 8B 45 80              - mov rax,[rbp-80]
+AoE2DE_s.exe+186330F: 49 33 C6                 - xor rax,r14
+AoE2DE_s.exe+1863312: 48 89 45 80              - mov [rbp-80],rax
+AoE2DE_s.exe+1863316: 48 8B 45 80              - mov rax,[rbp-80]
+AoE2DE_s.exe+186331A: F3 0F 10 80 A8 06 00 00  - movss xmm0,[rax+000006A8]
+AoE2DE_s.exe+1863322: 48 8B 87 A8 05 00 00     - mov rax,[rdi+000005A8]
+AoE2DE_s.exe+1863329: F3 0F 11 40 38           - movss [rax+38],xmm0
+AoE2DE_s.exe+186332E: 8B 05 78 13 88 02        - mov eax,[AoE2DE_s.exe+40E46AC]
+AoE2DE_s.exe+1863334: 45 8B CF                 - mov r9d,r15d
+AoE2DE_s.exe+1863337: 48 8B 0D F2 B1 95 02     - mov rcx,[AoE2DE_s.exe+41BE530]
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+1862FEE: 89 54 24 30              - mov [rsp+30],edx
+AoE2DE_s.exe+186333E: 89 54 24 30              - mov [rsp+30],edx
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+1862FF2: 89 54 24 28              - mov [rsp+28],edx
-AoE2DE_s.exe+1862FF6: 48 8B 97 A8 05 00 00     - mov rdx,[rdi+000005A8]
-AoE2DE_s.exe+1862FFD: 41 0F BF DD              - movsx ebx,r13w
-AoE2DE_s.exe+1863001: 44 8B C3                 - mov r8d,ebx
-AoE2DE_s.exe+1863004: 89 44 24 20              - mov [rsp+20],eax
-AoE2DE_s.exe+1863008: E8 E3 E0 E7 FF           - call AoE2DE_s.exe+16E10F0
-AoE2DE_s.exe+186300D: 48 8B 0D D4 D0 87 02     - mov rcx,[AoE2DE_s.exe+40E00E8]
-AoE2DE_s.exe+1863014: E8 B7 B0 5C FF           - call AoE2DE_s.exe+E2E0D0
-AoE2DE_s.exe+1863019: 44 0F B6 0D 40 7A 88 02  - movzx r9d,byte ptr [AoE2DE_s.exe+40EAA61]
-AoE2DE_s.exe+1863021: 84 C0                    - test al,al
+AoE2DE_s.exe+1863342: 89 54 24 28              - mov [rsp+28],edx
+AoE2DE_s.exe+1863346: 48 8B 97 A8 05 00 00     - mov rdx,[rdi+000005A8]
+AoE2DE_s.exe+186334D: 41 0F BF DD              - movsx ebx,r13w
+AoE2DE_s.exe+1863351: 44 8B C3                 - mov r8d,ebx
+AoE2DE_s.exe+1863354: 89 44 24 20              - mov [rsp+20],eax
+AoE2DE_s.exe+1863358: E8 E3 E0 E7 FF           - call AoE2DE_s.exe+16E1440
+AoE2DE_s.exe+186335D: 48 8B 0D 84 CD 87 02     - mov rcx,[AoE2DE_s.exe+40E00E8]
+AoE2DE_s.exe+1863364: E8 87 AE 5C FF           - call AoE2DE_s.exe+E2E1F0
+AoE2DE_s.exe+1863369: 44 0F B6 0D 10 77 88 02  - movzx r9d,byte ptr [AoE2DE_s.exe+40EAA81]
+AoE2DE_s.exe+1863371: 84 C0                    - test al,al
 }
 </AssemblerScript>
         </CheatEntry>
@@ -589,7 +589,7 @@ AoE2DE_s.exe+1863021: 84 C0                    - test al,al
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : AoE2DE_s.exe
   Version:
-  Date   : 2024-05-04
+  Date   : 2024-05-18
   Author : 94817
 
   This script does blah blah blah
@@ -625,31 +625,31 @@ unregistersymbol(INJECT)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+BB9975
+// ORIGINAL CODE - INJECTION POINT: AoE2DE_s.exe+BB9A95
 
-AoE2DE_s.exe+BB9943: 48 8B D8                 - mov rbx,rax
-AoE2DE_s.exe+BB9946: 48 85 C0                 - test rax,rax
-AoE2DE_s.exe+BB9949: 0F 84 C2 00 00 00        - je AoE2DE_s.exe+BB9A11
-AoE2DE_s.exe+BB994F: 0F 29 7C 24 50           - movaps [rsp+50],xmm7
-AoE2DE_s.exe+BB9954: 49 8B CD                 - mov rcx,r13
-AoE2DE_s.exe+BB9957: 44 0F 29 44 24 40        - movaps [rsp+40],xmm8
-AoE2DE_s.exe+BB995D: E8 5E AE FE FF           - call AoE2DE_s.exe+BA47C0
-AoE2DE_s.exe+BB9962: 48 8B 0D 7F 67 52 03     - mov rcx,[AoE2DE_s.exe+40E00E8]
-AoE2DE_s.exe+BB9969: E8 F2 3E 27 00           - call AoE2DE_s.exe+E2D860
-AoE2DE_s.exe+BB996E: 49 8B 8D 50 01 00 00     - mov rcx,[r13+00000150]
+AoE2DE_s.exe+BB9A63: 48 8B D8                 - mov rbx,rax
+AoE2DE_s.exe+BB9A66: 48 85 C0                 - test rax,rax
+AoE2DE_s.exe+BB9A69: 0F 84 C2 00 00 00        - je AoE2DE_s.exe+BB9B31
+AoE2DE_s.exe+BB9A6F: 0F 29 7C 24 50           - movaps [rsp+50],xmm7
+AoE2DE_s.exe+BB9A74: 49 8B CD                 - mov rcx,r13
+AoE2DE_s.exe+BB9A77: 44 0F 29 44 24 40        - movaps [rsp+40],xmm8
+AoE2DE_s.exe+BB9A7D: E8 5E AE FE FF           - call AoE2DE_s.exe+BA48E0
+AoE2DE_s.exe+BB9A82: 48 8B 0D 5F 66 52 03     - mov rcx,[AoE2DE_s.exe+40E00E8]
+AoE2DE_s.exe+BB9A89: E8 F2 3E 27 00           - call AoE2DE_s.exe+E2D980
+AoE2DE_s.exe+BB9A8E: 49 8B 8D 50 01 00 00     - mov rcx,[r13+00000150]
 // ---------- INJECTING HERE ----------
-AoE2DE_s.exe+BB9975: 44 0F 28 C0              - movaps xmm8,xmm0
+AoE2DE_s.exe+BB9A95: 44 0F 28 C0              - movaps xmm8,xmm0
 // ---------- DONE INJECTING  ----------
-AoE2DE_s.exe+BB9979: F3 0F 10 B1 F0 02 00 00  - movss xmm6,[rcx+000002F0]
-AoE2DE_s.exe+BB9981: F3 0F 10 B9 F4 02 00 00  - movss xmm7,[rcx+000002F4]
-AoE2DE_s.exe+BB9989: F3 0F 11 35 D7 10 53 03  - movss [AoE2DE_s.exe+40EAA68],xmm6
-AoE2DE_s.exe+BB9991: F3 0F 11 3D D3 10 53 03  - movss [AoE2DE_s.exe+40EAA6C],xmm7
-AoE2DE_s.exe+BB9999: 41 8B 8D 94 01 00 00     - mov ecx,[r13+00000194]
-AoE2DE_s.exe+BB99A0: 45 8B 8D 90 01 00 00     - mov r9d,[r13+00000190]
-AoE2DE_s.exe+BB99A7: 45 8B 85 84 01 00 00     - mov r8d,[r13+00000184]
-AoE2DE_s.exe+BB99AE: 41 8B 95 80 01 00 00     - mov edx,[r13+00000180]
-AoE2DE_s.exe+BB99B5: 89 4C 24 20              - mov [rsp+20],ecx
-AoE2DE_s.exe+BB99B9: 48 8B CB                 - mov rcx,rbx
+AoE2DE_s.exe+BB9A99: F3 0F 10 B1 F0 02 00 00  - movss xmm6,[rcx+000002F0]
+AoE2DE_s.exe+BB9AA1: F3 0F 10 B9 F4 02 00 00  - movss xmm7,[rcx+000002F4]
+AoE2DE_s.exe+BB9AA9: F3 0F 11 35 D7 0F 53 03  - movss [AoE2DE_s.exe+40EAA88],xmm6
+AoE2DE_s.exe+BB9AB1: F3 0F 11 3D D3 0F 53 03  - movss [AoE2DE_s.exe+40EAA8C],xmm7
+AoE2DE_s.exe+BB9AB9: 41 8B 8D 94 01 00 00     - mov ecx,[r13+00000194]
+AoE2DE_s.exe+BB9AC0: 45 8B 8D 90 01 00 00     - mov r9d,[r13+00000190]
+AoE2DE_s.exe+BB9AC7: 45 8B 85 84 01 00 00     - mov r8d,[r13+00000184]
+AoE2DE_s.exe+BB9ACE: 41 8B 95 80 01 00 00     - mov edx,[r13+00000180]
+AoE2DE_s.exe+BB9AD5: 89 4C 24 20              - mov [rsp+20],ecx
+AoE2DE_s.exe+BB9AD9: 48 8B CB                 - mov rcx,rbx
 }
 </AssemblerScript>
         </CheatEntry>
